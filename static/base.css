@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+body {
+    font-family: Arial, sans-serif;
+  }
+
+  .navigation {
+    margin: -5px auto 0;
+    width: 100%;
+    background-color: transparsent;
+    height: 300px;
+    border-radius: 20px;
+    background-image: url("./anvi.png");
+    background-attachment: fixed;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    color: #fff;
+}
+
+  .search-container {
+    display: flex;
+    justify-content: center; /* 在水平方向上居中 */
+    align-items: center; /* 在垂直方向上居中 */
+    margin-top: 20px; /* 调整搜索栏距离上方的间距，根据需要调整 */
+  }
+ 
+  .search-box {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 65%;
+    left:5%;
+    border-radius: 40px;
+    font-size: 20px; 
+    background-image: linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%), linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%);
+    background-size: 10px 100%, 10px 100%; 
+    background-position: 5% center;
+  }
+  .magnifying-glass {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l-4-4"/><circle cx="8" cy="8" r="5"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 10px center; 
+    padding-left: 50px; 
+    background-size: 6%; 
+  }
+
+  
+  .search-button {
+    background-color: #ffffff;
+    color: #11396E;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 150px;
+    height:50px;
+    font-size: 20px;
+  }
+  
+  .search-button:hover {
+    background-color:  #F4D690;
+    color:#fdfbe3;
+  }
+
+
+.content {
+    padding: 30px;
+}
+
+.post {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    width: 70%;
+    height: 100px;
+    left: 20%;
+    position: relative;
+    overflow: hidden;
+    outline: 2px solid #154360;
+    margin-bottom: 20px;
+}
+
+.post::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--arc-size, 30px);
+    height: var(--arc-size, 30px);
+    background-color: #154360;
+    border-radius: 0 0 10px 0;
+}
+
+.post h2 {
+    margin: 0;
+    margin-left: 40px;
+}
+.post p {
+    margin: 5px 0 0 0;
+    margin-left: 40px;
+}
+.pagination {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: transparent;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pagination button {
+    padding: 10px 15px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.15);
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+}

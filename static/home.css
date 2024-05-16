@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    background-color: #11396E;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo{
+    font-size: 2em;
+    color: #fdfbe3;
+    user-select: none; 
+    margin-left: 20px; 
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+ 
+  .search-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 450px;
+    border-radius: 40px;
+    font-size: 20px; 
+    background-image: linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%), linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%);
+    background-size: 10px 100%, 10px 100%; 
+    background-position: 5% center;
+  }
+   
+  .magnifying-glass {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l-4-4"/><circle cx="8" cy="8" r="5"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 9px center; 
+    padding-left: 50px; 
+    background-size: 10%; 
+  }
+
+  
+  .search-button {
+    background-color: #ffffff;
+    color: #11396E;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 150px;
+    height:50px;
+    font-size: 20px;
+  }
+  
+  .search-button:hover {
+    background-color:  #F4D690;
+    color:#fdfbe3;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+  }
+  .user-avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    margin-top: 50px;
+    box-shadow: 0 0 0 2px white;
+  }
+  .card {
+    border: 2px solid #11396E;
+    padding: 15px;
+    width: 390px;
+    height: 500px;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 30px;
+    position: relative; /* 添加相对定位 */
+    overflow: hidden; /* 隐藏溢出内容 */
+}
+
+.card:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(240, 234, 234, 0.3); /* 半透明黑色蒙版 */
+    z-index: 1; /* 确保蒙版在内容之上 */
+}
+
+.card-title {
+    color: #11396E;
+    font-weight: bold;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 35px; /* 文字变大 */
+    transition: all 0.3s; /* 添加过渡效果 */
+}
+
+.card:hover .card-title {
+  color: #c1dcff;
+  top: 50%; /* 鼠标移开后文字回到卡片的最上方 */
+  font-size: 40px; /* 文字大小恢复 */
+}
+
+  .card.word {
+    background-color: #e6f2ff;
+    background-image: url('word.png');
+    background-size: cover;
+  }
+  
+  .card.read {
+    background-color: #fff2e6;
+    background-image: url('read.png');
+    background-size: cover;
+  }
+  
+  .card.forum {
+    background-color: #fffde6;
+    background-image: url('forum.png');
+    background-size: cover;
+  }
+.card.word .card-title {
+    color: #5967ed; /* 设置.word类型卡片标题颜色为橙色 */
+}
+
+.card.read .card-title {
+    color: #b53238; /* 设置.read类型卡片标题颜色为蓝色 */
+}
+
+.card.forum .card-title {
+    color: #fbe9b7; /* 设置.forum类型卡片标题颜色为绿色 */
+}

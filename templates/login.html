@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <script src="https://kit.fontawesome.com/1a8c6dd550.js" crossorigin="anonymous"></script>
+    <title>@Syntax Station Dev Login</title>
+    <link rel="stylesheet" href="../static/login.css">
+</head>
+
+<body>
+    <header>
+        <h2 class="logo">WordTongji</h2>
+
+    </header>
+
+
+    <div class="form">
+        <h2>Log in</h2>
+        <form id="loginForm" action="/login" method="POST">
+            <div class="input-field">
+                <input type="text" placeholder="用户名" name="username" required />
+                <i class="fa-regular fa-user"></i>
+            </div>
+            <div class="input-field">
+                <input type="password" placeholder="密码" id="password" required />
+                <i class="fa-regular fa-eye-slash showHidePassword" style="margin-left: 315px;"></i>
+                <i class="uil uil-lock icon"></i>
+            </div>
+            <div class="input-field button">
+                <button type="submit">Log in</button>
+            </div>
+
+            <div class="login-signup">
+                <p>还没有账号?  <a href="register" style="margin-left: 190px;">点击注册</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('.button button').addEventListener('click', function(event) {
+    event.preventDefault(); // 阻止按钮默认提交行为
+
+    const username = document.querySelector('input[name="username"]').value;
+    const password = document.getElementById('password').value;
+
+    if (username === '' || password === '') {
+        alert('请填写用户名和密码');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+
+    fetch('/login', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json(); // 将响应数据转换为JSON格式
+        } else {
+            console.error('登录失败');
+            throw new Error('登录失败');
+        }
+    })
+    .then(data => {
+        if (data.error) {
+            alert(data.error); // 弹出后端返回的错误信息
+        } else {
+            console.log('登录成功！');
+            alert(data.message);
+            window.location.href = '/home'; // 跳转到home页面
+        }
+    })
+    .catch(error => {
+        console.error('发生错误:', error);
+    });
+});
+        const password = document.getElementById('password');
+        const showHidePassword = document.querySelector('.showHidePassword');
+
+        showHidePassword.addEventListener('click', () => {
+            if (password.type === 'password') {
+                password.type = 'text';
+                showHidePassword.classList.remove('fa-eye-slash');
+                showHidePassword.classList.add('fa-eye');
+            } else {
+                password.type = 'password';
+                showHidePassword.classList.remove('fa-eye');
+                showHidePassword.classList.add('fa-eye-slash');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
