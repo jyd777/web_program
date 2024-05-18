@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample Article and Comments</title>
+  <link rel="stylesheet" href="../static/blog_info.css">
+  <link rel="stylesheet" href="../static/readingWelcomeNav.css">
+  <!-- Ant Design CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.16.8/antd.min.css" integrity="sha512-8+K0a4chENL2ZXXCmJJ3zZgtFVn5+0YyfRm0dgd11aY5UyvMbgmwxS8jK6pQ4ry9wVKzHs6TVNm6Yx4u0XvJPg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="forum-wrapper">
+    <div class="side-image left-image"></div>
+    <div class="forum-container">
+      <div class="content">
+        <div class="section">
+          <img class="user-avatar" src="../static/user.jpg" alt="用户头像">
+          <h2 class="user-name">lena777</h2>
+          <div id="articleContent" class="article-text"></div>
+          <div class="icon-container">
+            <i class="fa-regular fa-heart heart-regular" onclick="changeHeart(this)"></i>
+            <i class="fa-solid fa-heart heart-solid" onclick="changeHeart(this)" style="display: none;"></i>
+            <i class="fa-sharp fa-regular fa-comment"></i>
+          </div>
+          <img src="../static/1.png" alt="描述图片的文字">
+        </div>
+        <div class="comment-section">
+          <h2>评论区</h2>
+          <div id="commentList" class="comment-list"></div>
+          <textarea id="commentTextArea" class="comment-input" rows="5" placeholder="请写下你的评论..."></textarea>
+          <button id="submitCommentBtn" class="submit-btn">发表评论</button>
+        </div>
+      </div>
+    </div>
+    <div class="side-image right-image"></div>
+  </div>
+
+
+
+  <nav class="menu">
+    <div class="actionsBar">
+        <div>
+            <button id="menuBtn" type="button">
+                <i class="fa-solid fa-list iconstyle"></i>
+            </button>
+            <h3 class="menuText">Hello!</h3>
+        </div>
+    </div>
+    <ul class="optionsBar">
+        <li class="menuItem">
+            <a href="#" class="menuOption">
+                <i class="fa-solid fa-house iconstyle"></i>
+                <h5 class="menuText">主页</h5>
+            </a>
+        </li>
+        <li class="menuBreak">
+            <hr>
+        </li>
+        <li class="menuItem">
+            <a href="#" class="menuOption" type="button">
+                <i class="fa-regular fa-user iconstyle"></i>
+                <h5 class="menuText">我的温馨小家</h5>
+            </a>
+        </li>
+        <li class="menuItem">
+            <a href="#" class="menuOption" type="button">
+                <i class="fa-solid fa-arrow-up iconstyle"></i>
+                <h5 class="menuText">回到顶部</h5>
+            </a>
+        </li>
+    </ul>
+    <div class="about" id="about"></div>
+    <div class="menuUser">
+        <a href="#">
+            <div>
+                <img src="../static/logo.png" alt="">
+            </div>
+            <h5 class="Username menuText">Casaruma</h5>
+            <p class="menuText">
+                <i class="fa-solid fa-arrow-right iconstyle"></i>
+            </p>
+        </a>
+    </div>
+    <div class="themeBar">
+        <div>
+            <button type="button">
+                <i class="fa-solid fa-share iconstyle"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+  <!-- Ant Design JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.16.8/antd.min.js" integrity="sha512-L8pJr2FgwIhKwv9HGMzA3dbsAsECbl8oRtftJix/5Fuxw9LR+zmOcK1y6kRkDehplJK7cCkbZzUypKmXTrxJ3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    // Sample article content
+    const articleContent = "<p>今天是web技术的中期答辩,这里是我们的帖子展示。</p>";
+    
+    // Sample comments
+    const commentList = [
+      { uploader: "胡老师", uploadTime: "2024-05-16", content: "做得真好！给你点个赞！", commentScore: 4 },
+      { uploader: "蚊子国王", uploadTime: "2024-05-15", content: "嗡嗡嗡嗡嗡~", commentScore: 2 }
+    ];
+
+    // Function to render article content
+    const renderArticleContent = () => {
+      document.getElementById('articleContent').innerHTML = articleContent;
+    };
+
+    // Function to render comment list
+    const renderCommentList = () => {
+      const commentListDiv = document.getElementById('commentList');
+      commentListDiv.innerHTML = '';
+      commentList.forEach(comment => {
+        const icon = comment.commentScore < 2 ? '<i class="anticon anticon-meh" style="color: gray;"></i>' : '<i class="anticon anticon-smile" style="color: green;"></i>';
+        const commentHTML = `
+          <div class="comment-item">
+            ${icon}
+            <span class="comment-uploader"span style='color: #2b466b; font-weight: bold;margin-left:5px' >${comment.uploader} (${comment.uploadTime}):</span>
+            <div class="comment-text" style='margin-left:5px'>${comment.content}</div>
+          </div>
+        `;
+        commentListDiv.innerHTML += commentHTML;
+      });
+    };
+    function changeHeart(element) {
+    if (element.classList.contains('heart-regular')) {
+      element.style.display = 'none';
+      element.nextElementSibling.style.display = 'inline';
+    } else {
+      element.style.display = 'none';
+      element.previousElementSibling.style.display = 'inline';
+    }
+  }
+    // Function to submit a comment
+    const submitComment = () => {
+      const commentTextArea = document.getElementById('commentTextArea');
+      const newComment = {
+        uploader: "蒋老师", // Replace with actual uploader
+        uploadTime: new Date().toISOString().slice(0, 10), // Current date
+        content: commentTextArea.value,
+        commentScore: 0 // Default score
+      };
+      commentList.push(newComment);
+      renderCommentList(); // Re-render comment list
+      commentTextArea.value = ''; // Clear text area
+    };
+
+    // Call renderArticleContent and renderCommentList on page load
+    window.onload = function () {
+      renderArticleContent();
+      renderCommentList();
+    };
+
+    // Event listener for submit comment button
+    document.getElementById('submitCommentBtn').addEventListener('click', submitComment);
+  </script>
+  <script type="text/javascript" src="../static/readingWelcomeNav.js"></script>
+</body>
+</html>
