@@ -6,284 +6,253 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!--针对IE的兼容设置 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--适配移动端-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="../static/personal.css" rel="stylesheet" />
+    <link href="../static/person.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do List With Local Storage</title>
 
     <title>Here is Title</title>
 </head>
-
-<body>
-    <div class="init-margin"></div>
-
-    <!-- 主要页面 -->
-    <div class="box">
-
-        <!-- 导航头图 -->
-        <div class="navigation">
-            <div class="nav-titleBox co zz">
-                <!-- 占位符 -->
+<div class="container">
+    <div class="user-profile">
+        <input type="file" id="imagechange" style="display: none;">
+        <img id="curimage" src="" onclick="confirmChangeImage()" alt="img" class="avatar">
+        <h3><span id="name"></span></h3>
+    </div>
+    <div class="navigation">
+        <!-- 导航内容 -->
+    </div>
+    <div class="info-box">
+        <div class="personal-info">
+<div>
+    <i class="fa-solid fa-circle-user" style="color: white; margin-right: 5px;"></i>
+    <span class="mecarbottm-value" id="info1"><span id="sex"></span></span>
+</div>
+<div>
+    <i class="fa-solid fa-square-poll-horizontal" style="color: white; margin-right: 5px;margin-top:10px"></i>
+    <span class="mecarbottm-value" id="info3"><span id="signature"></span></span>
+</div>
+        </div>
+        <div class="stats">
+            <div class="article-count">收藏文章：10</div>
+            <div class="word-count"style="margin-top:10px">已背单词：100</div>
+        </div>
+        <div class="button-container" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <a class="btn" href="/home"><i class="fas fa-home"></i></a>
+            <div class="btn" onclick="confirmChangeBGImage()">
+                <i class="fas fa-image"></i>
             </div>
-        </div>
-        <!-- 主要内容 -->
-        <div class="content zz">
-            <!-- 占位符 -->
-            <div class="co-left">
-                <!-- 简历吸盘 -->
-                <div class="me-card carbox borderbefore" id="mycard">
-                    <div class="mecar-title">
-                        <div class="me-image">
-                            <span class="status">
-                                <i>WordTj</i>
-                            </span>
-                            <input type="file" id="imagechange" style="display: none;">
-                            <img id="curimage" src="" onclick="confirmChangeImage()" alt="img">
-                        </div>
-                        <h3><span id="name"></span>的个人主页</h3>
-                        <p class="me-hover">
-                            <span>WordTongji</span>
-                        </p>
-                    </div>
-
-                    <div class="borderbotm"></div>
-
-                    <div class="mecar-bottm">
-                        <div>
-                            <span class="mecarbottm-key">性别</span>
-                            <span class="mecarbottm-value"  id="info1"><span id="sex"></span></span>
-                        </div>
-                        <div>
-                            <span class="mecarbottm-key">个性签名</span>
-                            <span class="mecarbottm-value" id="info3"><span id="signature"></span></span>
-                        </div>
-                    </div>
-
-                    <div class="borderbotm"></div>
-
-                    <div class="button-container" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <a class="button" href="/home">回到主页</a>
-                        <button class="button" style="font-family: Arial, sans-serif; " onclick="editAllInfo()">修改信息</button>
-                        <button class="button" style="font-family: Arial, sans-serif; display:none;" id="saveButton" onclick="saveAllInfo()">保存修改</button>
-                    </div>
-                    <div class="word-box">
-                        <div class="icon-container">
-                          <i class="fas fa-pen"></i> 
-                          <span class="word-label">已背单词</span>
-                          <span class="word-count">100</span>
-                        
-                        </div>
-                        <div class="icon-container">
-                          <i class="fas fa-star"></i> <!-- 星星图标 -->
-                          <span class="word-label">收藏文章</span>
-                          <span class="star-count">100</span>
-                          
-                        </div>
-                      </div>
-                      <div class="calendar-wrapper">
-                        <div class="calendar">
-                            <div class="left">
-                                <p id="date">01</p>
-                                <p id="day">SUnday</p>
-                            </div>
-                            <div class="right">
-                                <p id="month">January</p>
-                                <p id="year">2023</p>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                       
-                </div>
-            </div>
-
-        </div>
-        <div class="post">
-            <h2 class="post-title">帖子标题</h2>
-            <p>帖子内容</p>
-        </div>
-        <div class="post">
-            <h2 class="post-title">帖子标题</h2>
-            <p>帖子内容</p>
-        </div>
-        <div class="post">
-            <h2 class="post-title">帖子标题</h2>
-            <p>帖子内容</p>
+            <button class="btn" onclick="editAllInfo()">修改信息</button>
+            <button class="btn" style="display:none;" id="saveButton" onclick="saveAllInfo()">保存修改</button>
         </div>
     </div>
-
-</body>
-</html>
-
+        <input type="file" id="imagebgchange" style="display: none;">
+        <img id="curbgimage" src="" alt="img" class="background-image">
+    <div class="post">
+        <h2 class="post-title">帖子标题</h2>
+        <p>帖子内容</p>
+    </div>
+    <div class="post">
+        <h2 class="post-title">帖子标题</h2>
+        <p>帖子内容</p>
+    </div>
+    <div class="post">
+        <h2 class="post-title">帖子标题</h2>
+        <p>帖子内容</p>
+    </div>
+</div>
+</div>
 <script>
-
-// 日历的实现
-// 先得到当前的日期：年、月、日
-const date = document.getElementById('date'),
-      day = document.getElementById('day'),
-      month = document.getElementById('month'),
-      year = document.getElementById('year'),
-      today = new Date();
-// 两个数组，存放所有的星期和月份
-// 在展示的时候用的是英语 这里改成了中文
-const weekDays = ['星期日', '星期一', '星期二','星期三', '星期四', '星期五', '星期六']
-const allMonths = ['一月', '二月','三月', '四月', '五月', '六月', '七月', '八月', '九月','十月', '十一月', '十二月']
-
-//显示日期
-date.innerHTML = (today.getDate() < 10 ? '0' : '') + today.getDate()// 如果是1 则会填充为01
-day.innerHTML = weekDays[today.getDay()]
-month.innerHTML = allMonths[today.getMonth()]
-year.innerHTML = today.getFullYear()
-  const postTitle = document.querySelector('.post-title');
-    const postContainer = document.querySelector('.post');
-
-    const titleLength = postTitle.textContent.length;
-    const arcSize = Math.max(30, titleLength * 10); // 根据标题长度计算圆弧形矩形的大小，最小为30px
-
-    postContainer.style.setProperty('--arc-size', `${arcSize}px`);
-// 询问用户是否确认更新头像
-function confirmChangeImage() {
-  var confirmChange = confirm("确定要更换头像吗？");
-  if (confirmChange){
-     var curImage = document.getElementById("curimage");//获得当前图片元素
-     var imageChangeInput = document.getElementById("imagechange");//获取文件选择框
-     imageChangeInput.value = ""; //清空文件选择框，这样用户可以选择同一张图片·
-     imageChangeInput.click();//模拟点击文件选择框，这样会弹出文件选择对话框，让用户选择
-     // change事件监听器，用户选择文件后，开始执行函数
-     imageChangeInput.addEventListener("change", function(event) {
-     var imagefile = event.target.files[0];//获得用户选择的第一个文件
-     if (imagefile.type.startsWith("image/")) {
-        var readimage = new FileReader(); // 读取用户选择的图片内容（其实是文件内容）
-        readimage.onload = function(e) { // 文件读取完了，开始执行
-          curImage.src = e.target.result; // 更新数据
-        };
-        readimage.readAsDataURL(imagefile);
-        uploadImage(imagefile);
-      } else {
-        alert("上传文件格式错误，请选择图片文件！");
+    // 询问用户是否确认更新头像
+    function confirmChangeImage() {
+        var confirmChange = confirm("确定要更换头像吗？");
+        if (confirmChange) {
+            var curImage = document.getElementById("curimage");//获得当前图片元素
+            var imageChangeInput = document.getElementById("imagechange");//获取文件选择框
+            imageChangeInput.value = ""; //清空文件选择框，这样用户可以选择同一张图片·
+            imageChangeInput.click();//模拟点击文件选择框，这样会弹出文件选择对话框，让用户选择
+            // change事件监听器，用户选择文件后，开始执行函数
+            imageChangeInput.addEventListener("change", function (event) {
+                var imagefile = event.target.files[0];//获得用户选择的第一个文件
+                if (imagefile.type.startsWith("image/")) {
+                    var readimage = new FileReader(); // 读取用户选择的图片内容（其实是文件内容）
+                    readimage.onload = function (e) { // 文件读取完了，开始执行
+                        curImage.src = e.target.result; // 更新数据
+                    };
+                    readimage.readAsDataURL(imagefile);
+                    uploadImage(imagefile);
+                } else {
+                    alert("上传文件格式错误，请选择图片文件！");
+                }
+            });
+        }
+    }
+    // 用户更新头像完后 实现头像保存 也就是数据回传到后端 保存到数据库中
+    function uploadImage(imageFile) {
+        var username = document.getElementById("name").innerText;
+        console.log(username);
+        console.log(imageFile);
+        var formData = new FormData(); // 创建一个FormData对象
+        formData.append("image", imageFile); // 将图片文件添加到FormData对象中，使用 "image" 作为键名
+        formData.append("username", username);
+        fetch('/uploadimage', {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                // 错误处理
+                console.error(error);
+            });
+    }
+   // 询问用户是否确认更新背景
+   function confirmChangeBGImage() {
+      var confirmChange = confirm("确定要更换背景吗？");
+      if (confirmChange){
+         var curImage = document.getElementById("curbgimage");//获得当前图片元素
+         var imageChangeInput = document.getElementById("imagebgchange");//获取文件选择框
+         imageChangeInput.value = ""; //清空文件选择框，这样用户可以选择同一张图片·
+         imageChangeInput.click();//模拟点击文件选择框，这样会弹出文件选择对话框，让用户选择
+         // change事件监听器，用户选择文件后，开始执行函数
+         imageChangeInput.addEventListener("change", function(event) {
+         var imagefile = event.target.files[0];//获得用户选择的第一个文件
+         if (imagefile.type.startsWith("image/")) {
+            var readimage = new FileReader(); // 读取用户选择的图片内容（其实是文件内容）
+            readimage.onload = function(e) { // 文件读取完了，开始执行
+              curImage.src = e.target.result; // 更新数据
+            };
+            readimage.readAsDataURL(imagefile);
+            uploadbgImage(imagefile);
+          } else {
+            alert("上传文件格式错误，请选择图片文件！");
+          }
+      });
       }
-  });
-  }
-}
-// 用户更新头像完后 实现头像保存 也就是数据回传到后端 保存到数据库中
-function uploadImage(imageFile) {
-  var username = document.getElementById("name").innerText;
-  console.log(username);
-  console.log(imageFile);
-  var formData = new FormData(); // 创建一个FormData对象
-  formData.append("image", imageFile); // 将图片文件添加到FormData对象中，使用 "image" 作为键名
-  formData.append("username", username);
-  fetch('/uploadimage', {
-    method: "POST",
-    body: formData
-  })
-  .then(response => response.text())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    // 错误处理
-    console.error(error);
-  });
-}
-// 用户修改个人信息
-function editAllInfo() {
-    // 获取得到用户个人信息
-    const info1Element = document.getElementById("info1");
-    const info3Element = document.getElementById("info3");
-    // 所有的个人信息均可修改
-    enableEditing(info1Element);
-    enableEditing(info3Element);
-    //修改的时候 底下会出现保存修改的按钮
-    document.getElementById("saveButton").style.display = "block";
-}
+    }
+    // 用户更新背景完后 实现头像保存 也就是数据回传到后端 保存到数据库中
+    function uploadbgImage(imageFile) {
+      var username = document.getElementById("name").innerText;
+      console.log(username);
+      console.log(imageFile);
+      var formData = new FormData(); // 创建一个FormData对象
+      formData.append("image", imageFile); // 将图片文件添加到FormData对象中，使用 "image" 作为键名
+      formData.append("username", username);
+      fetch('/uploadbgimage', {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        // 错误处理
+        console.error(error);
+      });
+    }
+    // 用户修改个人信息
+    function editAllInfo() {
+        // 获取得到用户个人信息
+        const info1Element = document.getElementById("info1");
+        const info3Element = document.getElementById("info3");
+        // 所有的个人信息均可修改
+        enableEditing(info1Element);
+        enableEditing(info3Element);
+        //修改的时候 底下会出现保存修改的按钮
+        document.getElementById("saveButton").style.display = "block";
+    }
 
-//修改一下原本显示用户个人信息的界面为用户修改个人信息的输入框
-function enableEditing(element) {
-    const currentText = element.innerText;
-    // 创建可供用户修改的输入框
-    const inputElement = document.createElement("input");
-    inputElement.value = currentText;
-    element.innerHTML = "";
-    element.appendChild(inputElement);
-}
+    //修改一下原本显示用户个人信息的界面为用户修改个人信息的输入框
+    function enableEditing(element) {
+        const currentText = element.innerText;
+        // 创建可供用户修改的输入框
+        const inputElement = document.createElement("input");
+        inputElement.value = currentText;
+        element.innerHTML = "";
+        element.appendChild(inputElement);
+    }
 
-// 用户修改完保存所有个人信息
-function saveAllInfo() {
-    // 得到用户修改完的个人信息
-    const info1Element = document.getElementById("info1");
-    const info3Element = document.getElementById("info3");
-    //得到用户的id
-    var username = document.getElementById("name").innerText;
-    //保存
-    saveInfo(info1Element);
-    saveInfo(info3Element);
-    // 创建数据对象 保存用户修改完后的所有信息
-    const data = {
-        username: username,
-        sex: info1Element.innerText,
-        signature: info3Element.innerText
-    };
-    //发送请求到后端 在数据库中更新数据
-     fetch('/update_data', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.text())
-    .then(result => {
-        console.log(result); // 输出更新成功的消息
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-    console.log("hi"); 
-    document.getElementById("saveButton").style.display = "none";
-}
-// 保存单个信息数据
-function saveInfo(element) {
-    const inputElement = element.querySelector("input");
-    element.innerHTML = inputElement.value;
-}
-
-// 从当前URL中提取用户名
-var url = window.location.href;
-var username = url.split('/').pop();
-
-// 发起请求以获取用户信息
-function updateUserInformation(username) {
-    fetch('/user_info/' + username)
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+    // 用户修改完保存所有个人信息
+    function saveAllInfo() {
+        // 得到用户修改完的个人信息
+        const info1Element = document.getElementById("info1");
+        const info3Element = document.getElementById("info3");
+        //得到用户的id
+        var username = document.getElementById("name").innerText;
+        //保存
+        saveInfo(info1Element);
+        saveInfo(info3Element);
+        // 创建数据对象 保存用户修改完后的所有信息
+        const data = {
+            username: username,
+            sex: info1Element.innerText,
+            signature: info3Element.innerText
+        };
+        //发送请求到后端 在数据库中更新数据
+        fetch('/update_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         })
-        .then(function(userObj) {
-            var nameElement = document.getElementById('name');
-            var sexElement = document.getElementById('sex');
-            var signatureElement = document.getElementById('signature');
-            var imageElement = document.getElementById('curimage');
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // 输出更新成功的消息
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        console.log("hi");
+        document.getElementById("saveButton").style.display = "none";
+    }
+    // 保存单个信息数据
+    function saveInfo(element) {
+        const inputElement = element.querySelector("input");
+        element.innerHTML = inputElement.value;
+    }
 
-            if (userObj && !userObj.error) {
-                nameElement.textContent = userObj.username;
-                sexElement.textContent = userObj.sex || 'N/A';
-                signatureElement.textContent = userObj.signature || 'N/A';
-                imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
-            }
-            else {
-                // 处理用户信息不存在的情况 也就是默认的值显示为啥
-                nameElement.textContent = 'N/A';
-                sexElement.textContent = 'N/A';
-                signatureElement.textContent = 'N/A';
-                imageElement.src = '../static/user.jpg';
-            }
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
-}
-updateUserInformation(username);
+    // 从当前URL中提取用户名
+    var url = window.location.href;
+    var username = url.split('/').pop();
+
+    // 发起请求以获取用户信息
+    function updateUserInformation(username) {
+        fetch('/user_info/' + username)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function (userObj) {
+                var nameElement = document.getElementById('name');
+                var sexElement = document.getElementById('sex');
+                var signatureElement = document.getElementById('signature');
+                var imageElement = document.getElementById('curimage');
+                var bgimageElement = document.getElementById('curbgimage');
+                if (userObj && !userObj.error) {
+                    nameElement.textContent = userObj.username;
+                    sexElement.textContent = userObj.sex || 'N/A';
+                    signatureElement.textContent = userObj.signature || 'N/A';
+                    imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
+                    bgimageElement.src = 'data:image/jpeg;base64,' + userObj.background;
+                }
+                else {
+                    // 处理用户信息不存在的情况 也就是默认的值显示为啥
+                    nameElement.textContent = 'N/A';
+                    sexElement.textContent = 'N/A';
+                    signatureElement.textContent = 'N/A';
+                    imageElement.src = '../static/user.jpg';
+                    bgimageElement.src = '../static/bg.jpg';
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+    }
+    updateUserInformation(username);
 
 </script>
