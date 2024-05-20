@@ -429,5 +429,26 @@ def get_word_details():
         return jsonify({'PT': word_PT[0],'expression': word_details[0], 'example_sentence': word_details[1], 'example_sentence_c': word_details[2]})
     else:
         return jsonify({'error': '未找到单词详细信息'}), 404
+
+#论坛的个人主页，显示所有帖子和文章阅读量等信息
+@app.route('/person',methods=['GET'])
+def person():
+    return render_template('person.html')
+
+#论坛的帖子详情页，显示该帖子的时间，内容，评论等信息，以及上传评论功能
+@app.route('/blog_info',methods=['GET','POST'])
+def blog_info():
+    return render_template('blog_info.html')
+
+#论坛的帖子发布页，上传帖子标题与内容还有时间
+@app.route('/upload_blog',methods=['POST'])
+def upload_blog():
+    return render_template('upload.html')
+
+#论坛首页，实现搜索功能和所有人的帖子展示
+@app.route('/all_blogs',methods=['GET','POST'])
+def all_blogs():
+    return render_template('base.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
