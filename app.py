@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
+from datetime import datetime
 import pymysql,base64,os
 
 app = Flask(__name__)
@@ -430,10 +431,26 @@ def get_word_details():
     else:
         return jsonify({'error': '未找到单词详细信息'}), 404
 
-#论坛的个人主页，显示所有帖子和文章阅读量等信息
+#论坛的个人主页，显示该用户所有帖子的信息
 @app.route('/person',methods=['GET'])
 def person():
-    return render_template('person.html')
+    user_info_dict = execute_user_info(session['username'])
+    # 连接本地的数据库
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="自己的密码",
+        database="web_program"
+    )
+    # 建立游标，用于后续的mysql操纵
+    cursor = connection.cursor()
+    query="SELECT title FROM blogs WHERE userid=%s"
+    cursor.execute(query, (user_info_dict['id'],))
+    result = cursor.fetchall()
+    # 关闭数据库连接
+    cursor.close()
+    connection.close()
+    return jsonify({'titles':result})
 
 #论坛的帖子详情页，显示该帖子的时间，内容，评论等信息，以及上传评论功能
 @app.route('/blog_info',methods=['GET','POST'])
@@ -443,11 +460,52 @@ def blog_info():
 #论坛的帖子发布页，上传帖子标题与内容还有时间
 @app.route('/upload_blog',methods=['POST'])
 def upload_blog():
+    user_info_dict = execute_user_info(session['username'])
+    title=request.form['title']
+    content=request.form['content']
+    now=datetime.now()
+    # 连接本地的数据库
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="自己的密码",
+        database="web_program"
+    )
+    # 建立游标，用于后续的mysql操纵
+    cursor = connection.cursor()
+    # 将帖子信息导入到数据库
+    query = "INSERT INTO blogs (title, content,userid,time) VALUES (%s, %s,%s,%s)"
+    cursor.execute(query, (title, content,user_info_dict['id'],now))
+    # 提交事务
+    connection.commit()
+    # 关闭数据库连接
+    cursor.close()
+    connection.close()
+    # 发布成功
+    return jsonify({'message': '发布成功'})
     return render_template('upload.html')
 
 #论坛首页，实现搜索功能和所有人的帖子展示
 @app.route('/all_blogs',methods=['GET','POST'])
 def all_blogs():
+    # 连接本地的数据库
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="自己的密码",
+        database="web_program"
+    )
+    # 建立游标，用于后续的mysql操纵
+    cursor = connection.cursor()
+    if request.method == 'GET':
+        query="SELECT title,username FROM blogs natural join users"
+        cursor.execute(query, ())
+        result = cursor.fetchall()
+    
+    # 关闭数据库连接
+    cursor.close()
+    connection.close()
+    return jsonify({'titles':result})
     return render_template('base.html')
 
 if __name__ == '__main__':
