@@ -498,8 +498,15 @@ def all_blogs():
     # 建立游标，用于后续的mysql操纵
     cursor = connection.cursor()
     if request.method == 'GET':
-        query="SELECT title,username FROM blogs natural join users"
-        cursor.execute(query, ())
+        query="SELECT blogs.title,users.username FROM blogs natural join users"
+        cursor.execute(query)
+        result = cursor.fetchall()
+    elif request.method == 'POST':
+        keyword=request.form['keyword']
+        # 在标题中搜索包含关键词的帖子  
+        query = "SELECT blogs.title, users.username FROM blogs natural join users WHERE blogs.title LIKE %s"  
+        # 使用%作为通配符来匹配任意字符  
+        cursor.execute(query, ('%{}%'.format(keyword),))  
         result = cursor.fetchall()
     
     # 关闭数据库连接
