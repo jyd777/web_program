@@ -434,7 +434,7 @@ def get_word_details():
 #论坛的个人主页，显示该用户所有帖子的信息
 @app.route('/person',methods=['GET'])
 def person():
-    user_info_dict = execute_user_info(session['username'])
+    user_info_dict = execute_user_info(session["username"])
     # 连接本地的数据库
     connection = pymysql.connect(
         host="localhost",
@@ -460,7 +460,7 @@ def blog_info():
 #论坛的帖子发布页，上传帖子标题与内容还有时间
 @app.route('/upload_blog',methods=['POST'])
 def upload_blog():
-    user_info_dict = execute_user_info(session['username'])
+    user_info_dict = execute_user_info(session["username"])
     title=request.form['title']
     content=request.form['content']
     now=datetime.now()
