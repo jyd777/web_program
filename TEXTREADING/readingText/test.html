@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Reader</title>
+    <!-- 导入图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="../readingWelcome/readingWelcomeNav.css">
+    <link rel="stylesheet" href="readingTextMain.css">
+    <link rel="stylesheet" href="readingTextHeader.css">
+</head>
+
+<body>
+    <div class="wrap" id="article-content"></div>
+
+    <script>
+        async function fetchArticle() {
+            const response = await fetch('http://localhost:5000/api/article');
+            const data = await response.json();
+            return data;
+        }
+
+        function createBox(englishText, chineseText, phrase, explanation, exampleEn, exampleCn) {
+            return `
+                <div class="box">
+                    <div class="left">
+                        <div class="text-english">${englishText}</div>
+                        <div class="text-chinese">${chineseText}</div>
+                    </div>
+                    <div class="center"></div>
+                    <div class="right">
+                        <div class="phrase">${phrase}</div>
+                        <div class="explain">${explanation}</div>
+                        <div class="example">
+                            <span>e.g.</span>
+                            <p>${exampleEn}</p>
+                            <p>${exampleCn}</p>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function createImageBox(imageSrc) {
+            return `<div class="image-inserted"><img src="${imageSrc}" alt="Inserted Image"></div>`;
+        }
+
+        async function populateArticle() {
+            const articleContent = document.getElementById('article-content');
+            const data = await fetchArticle();
+            const paragraphs = data.paragraphs;
+            const phrases = data.phrases;
+            const images = data.images;
+
+            paragraphs.forEach((para, index) => {
+                // Simplified for example; in practice, you'd parse the paragraphs to differentiate English and Chinese
+                const englishText = para;
+                const chineseText = para;
+
+                let phrase = "";
+                let explanation = "";
+                let exampleEn = "";
+                let exampleCn = "";
+
+                if (phrases[index]) {
+                    phrase = phrases[index].phrase || "";
+                    explanation = phrases[index].explanation || "";
+                    exampleEn = phrases[index].example_en || "";
+                    exampleCn = phrases[index].example_cn || "";
+                }
+
+                articleContent.innerHTML += createBox(englishText, chineseText, phrase, explanation, exampleEn, exampleCn);
+
+                if (index === 1 && images.length > 0) {
+                    articleContent.innerHTML += createImageBox(images[0]);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', populateArticle);
+    </script>
+</body>
+
+</html>

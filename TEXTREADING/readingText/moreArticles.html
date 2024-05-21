@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Gallery</title>
+    <!-- 引入Google Fonts中的Roboto字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 导入图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="./moreArticles.css">
+    <link rel="stylesheet" href="../musicPlayer/musicPlayer.css">
+    <link rel="stylesheet" href="../readingWelcome/readingWelcomeNav.css">
+</head>
+
+<body>
+    <nav class="menu">
+        <div class="actionsBar">
+            <div>
+                <button id="menuBtn" type="button">
+                    <i class="fa-solid fa-list iconstyle"></i>
+                </button>
+                <h3 class="menuText">Hello!</h3>
+            </div>
+        </div>
+        <ul class="optionsBar">
+            <li class="menuItem">
+                <a href="#" class="menuOption">
+                    <i class="fa-solid fa-house iconstyle"></i>
+                    <h5 class="menuText">主页</h5>
+                </a>
+            </li>
+            <li class="menuBreak">
+                <hr>
+            </li>
+            <li class="menuItem">
+                <a href="#" class="menuOption" type="button">
+                    <i class="fa-regular fa-user iconstyle"></i>
+                    <h5 class="menuText">我的温馨小家</h5>
+                </a>
+            </li>
+
+            <li class="menuItem">
+                <a href="#" class="menuOption" type="button">
+                    <i class="fa-solid fa-arrow-up iconstyle"></i>
+                    <h5 class="menuText">回到顶部</h5>
+                </a>
+            </li>
+
+            <li class="menuItem">
+                <a href="#" class="menuOption" type="button">
+                    <i class="fa-solid fa-plus iconstyle"></i>
+                    <h5 class="menuText">添加页面</h5>
+                </a>
+            </li>
+        </ul>
+        <div class="about" id="about"></div>
+        <div class="menuUser">
+            <a href="#">
+                <div>
+                    <img src="../TextImage/baciWelcome.jpg" alt="">
+                </div>
+                <h5 class="Username menuText">Casaruma</h5>
+                <p class="menuText">
+                    <i class="fa-solid fa-arrow-right iconstyle"></i>
+                </p>
+            </a>
+        </div>
+        <div class="themeBar">
+            <div>
+                <button type="button">
+                    <i class="fa-solid fa-share iconstyle"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主体 -->
+    <div class="container">
+        <h1 class="content-title">
+            <span>B</span><span>o</span><span>o</span><span>k</span>
+            <span>G</span><span>a</span><span>l</span><span>l</span><span>e</span><span>r</span><span>y</span>
+        </h1>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="search for more...">
+        </div>
+        <div class="category-filter">
+            <select id="category-select">
+                <option value="all">All Categories</option>
+                <option value="Economics">Economics</option>
+                <option value="Science">Science</option>
+                <option value="Psychology">Psychology</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+        <div class="book-gallery" id="book-gallery">
+            <!-- 书籍项会由JavaScript动态注入 -->
+        </div>
+        <div class="pagination" id="pagination">
+            <!-- 分页按钮会由JavaScript动态生成 -->
+        </div>
+
+        <!-- <div class="loader" id="loader"></div> 加载动画，已放弃 -->
+    </div>
+
+    <!-- 音乐播放器 -->
+    <div class="Music-Player">
+        <div class="music-container" id="music-container">
+            <!-- 音乐信息 -->
+            <div class="music-info">
+                <!-- 音乐标题 -->
+                <h4 id="music-title"></h4>
+                <!-- 音乐播放进度条 -->
+                <div class="progress-container" id="progress-container">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
+
+            <!-- 默认第一首音乐 -->
+            <audio src="../musicPlayer/MUSIC/打上花火.mp3" id="audio"></audio>
+
+            <!-- 音乐封面 -->
+            <div class="img-container">
+                <img src="../musicPlayer/IMG/打上花火.jpg" alt="music-cover" id="music-cover">
+            </div>
+            <!-- 播放控制 -->
+            <div class="music-navigation">
+                <button id="prev" class="action-btn">
+                    <i class="fas fa-backward"></i>
+                </button>
+                <button id="play" class="action-btn action-btn-big">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="next" class="action-btn">
+                    <i class="fas fa-forward"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../readingWelcome/readingWelcomeNav.js"></script>
+    <script src="../musicPlayer/musicPlayer.js"></script>
+    <script src="./moreArticles.js"></script>
+
+</body>
+
+</html>
