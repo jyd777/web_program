@@ -96,22 +96,22 @@
     // 检查标题和内容是否为空
     if (title && content) {
       // 发送POST请求到后端
-      fetch('/upload_blog', {
+      fetch('/upload', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify([title, content]) // 发送标题和内容
+        body: JSON.stringify({title:title, content:content}) // 发送标题和内容
       })
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          alert('上传成功');
+          alert(data.message);
           // 清空标题和内容输入框
           document.getElementById('title').value = '';
           document.getElementById('fileContent').value = '';
         } else {
-          alert('上传失败');
+          alert(data.message);
         }
       })
       .catch(error => {

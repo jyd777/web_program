@@ -22,7 +22,7 @@ def login():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="自己的密码",
+            password="Byj20040720",
             database="web_program"
         )
         print("hi")
@@ -67,7 +67,7 @@ def register():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="自己的密码",
+            password="Byj20040720",
             database="web_program"
         )
         # 建立游标，用于后续的mysql操纵
@@ -104,7 +104,7 @@ def execute_user_info(username):
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="自己的密码",
+        password="Byj20040720",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -156,7 +156,7 @@ def update_data():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="自己的密码",
+        password="Byj20040720",
         database="web_program"
     )
     cursor = connection.cursor()
@@ -182,7 +182,7 @@ def uploadimage():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="自己的密码",
+        password="Byj20040720",
         database="web_program"
     )
     username = request.form.get('username')
@@ -202,7 +202,7 @@ def upload_bg_image():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="自己的密码",
+        password="Byj20040720",
         database="web_program"
     )
     username = request.form.get('username')
@@ -220,7 +220,7 @@ def connect_db():
     return pymysql.connect(
         host="localhost",
         user="root",
-        password="自己的密码",  
+        password="Byj20040720",  
         database="web_program"
     )
 
@@ -439,7 +439,7 @@ def person():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="自己的密码",
+        password="Byj20040720",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -458,31 +458,34 @@ def blog_info():
     return render_template('blog_info.html')
 
 #论坛的帖子发布页，上传帖子标题与内容还有时间
-@app.route('/upload_blog',methods=['POST'])
-def upload_blog():
-    user_info_dict = execute_user_info(session["username"])
-    title=request.form['title']
-    content=request.form['content']
-    now=datetime.now()
-    # 连接本地的数据库
-    connection = pymysql.connect(
-        host="localhost",
-        user="root",
-        password="自己的密码",
-        database="web_program"
-    )
-    # 建立游标，用于后续的mysql操纵
-    cursor = connection.cursor()
-    # 将帖子信息导入到数据库
-    query = "INSERT INTO blogs (title, content,userid,time) VALUES (%s, %s,%s,%s)"
-    cursor.execute(query, (title, content,user_info_dict['id'],now))
-    # 提交事务
-    connection.commit()
-    # 关闭数据库连接
-    cursor.close()
-    connection.close()
-    # 发布成功
-    return jsonify({'message': '发布成功'})
+@app.route('/upload',methods=['GET','POST'])
+def upload():
+    if request.method=='POST':
+        if not session['username']:
+            return jsonify({'success': False, 'message': '未登录'})
+        user_info_dict = execute_user_info(session["username"])
+        title=request.json['title']
+        content=request.json['content']
+        now=datetime.now()
+        # 连接本地的数据库
+        connection = pymysql.connect(
+            host="localhost",
+            user="root",
+            password="Byj20040720",
+            database="web_program"
+        )
+        # 建立游标，用于后续的mysql操纵
+        cursor = connection.cursor()
+        # 将帖子信息导入到数据库
+        query = "INSERT INTO blogs (title, content,userid,time) VALUES (%s, %s,%s,%s)"
+        cursor.execute(query, (title, content,user_info_dict['id'],now))
+        # 提交事务
+        connection.commit()
+        # 关闭数据库连接
+        cursor.close()
+        connection.close()
+        # 发布成功
+        return jsonify({'success': True, 'message': '发布成功'}) 
     return render_template('upload.html')
 
 #论坛首页，实现搜索功能和所有人的帖子展示
@@ -492,7 +495,7 @@ def all_blogs():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="自己的密码",
+        password="Byj20040720",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -516,4 +519,4 @@ def all_blogs():
     return render_template('base.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
