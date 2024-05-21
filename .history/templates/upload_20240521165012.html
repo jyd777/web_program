@@ -20,7 +20,7 @@
       <input type="text" class="search-box magnifying-glass" placeholder="  请输入搜索内容">
     </div>
     <div style="float: right; margin-top: -50px; margin-right: 20px;">
-      <img id="curimage" src="../static/user.jpg" alt="img" class="user-avatar">
+      <img id="curimage"  src="../static/user.jpg" alt="img" class="user-avatar">
   </div>
   </div>
   <div class="background-container">  
@@ -66,64 +66,50 @@
     });
 
     document.body.appendChild(modal);
-  });
+});
+// 获取标题和内容输入框元素
+const titleInput = document.getElementById('title');
+const contentTextarea = document.getElementById('fileContent');
+const editorContainer = document.querySelector('.editor-container');
 
-  // 获取标题和内容输入框元素
-  const titleInput = document.getElementById('title');
-  const contentTextarea = document.getElementById('fileContent');
-  const editorContainer = document.querySelector('.editor-container');
+// 监听标题输入框的点击事件
+titleInput.addEventListener('click', function() {
+    editorContainer.classList.add('show-background');
+});
 
-  // 监听标题输入框的点击事件
-  titleInput.addEventListener('click', function() {
-      editorContainer.classList.add('show-background');
-  });
+// 监听内容输入框的点击事件
+contentTextarea.addEventListener('click', function() {
+    editorContainer.classList.add('show-background');
+});
 
-  // 监听内容输入框的点击事件
-  contentTextarea.addEventListener('click', function() {
-      editorContainer.classList.add('show-background');
-  });
-
-  // 监听鼠标移开事件
-  editorContainer.addEventListener('mouseleave', function() {
-      editorContainer.classList.remove('show-background');
-  });
-
-  // 发布文章函数
-  function uploadArticle() {
-    const title = document.getElementById('title').value;
-    const content = document.getElementById('fileContent').value; // 获取内容
-
-    // 检查标题和内容是否为空
-    if (title && content) {
-      // 发送POST请求到后端
-      fetch('/upload_blog', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify([title, content]) // 发送标题和内容
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('上传成功');
-          // 清空标题和内容输入框
-          document.getElementById('title').value = '';
-          document.getElementById('fileContent').value = '';
-        } else {
-          alert('上传失败');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('上传失败');
-      });
-    } else {
-      alert('请填写标题和内容');
+// 监听鼠标移开事件
+editorContainer.addEventListener('mouseleave', function() {
+    editorContainer.classList.remove('show-background');
+});
+    const { useState, useEffect } = React;
+    // Function to upload article (simulated for frontend)
+    function uploadArticle() {
+      const title = document.getElementById('title').value;
+      const html = editor.txt.html(); // Get HTML content from editor
+      // Simulated API call
+      if (title && html) {
+        // Perform upload action
+        alert('上传成功');
+        // Clear title and editor content after successful upload
+        document.getElementById('title').value = '';
+        editor.txt.clear();
+      } else {
+        alert('请填写标题和内容');
+      }
     }
-  }
 
-  function uploadImage(event) {
+    // Initialize WangEditor
+    let editor;
+    window.onload = function () {
+      editor = new wangEditor('#toolbar', '#editor');
+      editor.create();
+    };
+    function uploadImage(event) {
     var file = event.target.files[0];
     var imageType = /image.*/;
 
@@ -138,7 +124,7 @@
     } else {
         alert('请上传正确格式的图片文件');
     }
-  }
+}
   </script>
   <!-- WangEditor JS -->
   <script src="https://unpkg.com/@wangeditor/editor-for-react/dist/js/lib/wangEditor.min.js"></script>

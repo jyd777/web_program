@@ -16,15 +16,16 @@
     <div class="forum-container">
       <div class="content">
         <div class="section">
-          <img class="user-avatar" src="../static/user.jpg" alt="用户头像">
-          <h2 class="user-name">lena777</h2>
+          <img id="bloggerAvatar" class="user-avatar" src="../static/user.jpg" alt="用户头像">
+          <h2 id="bloggerName" class="user-name">lena777</h2>
+          <div id="articleTitle" class="article-title"></div>
           <div id="articleContent" class="article-text"></div>
           <div class="icon-container">
             <i class="fa-regular fa-heart heart-regular" onclick="changeHeart(this)"></i>
             <i class="fa-solid fa-heart heart-solid" onclick="changeHeart(this)" style="display: none;"></i>
             <i class="fa-sharp fa-regular fa-comment"></i>
           </div>
-          <img src="../static/1.png" alt="描述图片的文字">
+          <img id="articleImage" src="../static/1.png" alt="描述图片的文字">
         </div>
         <div class="comment-section">
           <h2>评论区</h2>
@@ -36,8 +37,6 @@
     </div>
     <div class="side-image right-image"></div>
   </div>
-
-
 
   <nav class="menu">
     <div class="actionsBar">
@@ -95,45 +94,53 @@
   <!-- Ant Design JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.16.8/antd.min.js" integrity="sha512-L8pJr2FgwIhKwv9HGMzA3dbsAsECbl8oRtftJix/5Fuxw9LR+zmOcK1y6kRkDehplJK7cCkbZzUypKmXTrxJ3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    // Sample article content
-    const articleContent = "<p>今天是web技术的中期答辩,这里是我们的帖子展示。</p>";
-    
-    // Sample comments
-    const commentList = [
-      { uploader: "胡老师", uploadTime: "2024-05-16", content: "做得真好！给你点个赞！", commentScore: 4 },
-      { uploader: "蚊子国王", uploadTime: "2024-05-15", content: "嗡嗡嗡嗡嗡~", commentScore: 2 }
-    ];
-
     // Function to render article content
-    const renderArticleContent = () => {
-      document.getElementById('articleContent').innerHTML = articleContent;
+    const renderArticleContent = (data) => {
+      document.getElementById('bloggerName').innerText = data[0][0];
+      document.getElementById('articleTitle').innerText = data[0][1];
+      document.getElementById('articleContent').innerText = data[0][2];
     };
 
     // Function to render comment list
-    const renderCommentList = () => {
+    const renderCommentList = (comments) => {
       const commentListDiv = document.getElementById('commentList');
       commentListDiv.innerHTML = '';
-      commentList.forEach(comment => {
-        const icon = comment.commentScore < 2 ? '<i class="anticon anticon-meh" style="color: gray;"></i>' : '<i class="anticon anticon-smile" style="color: green;"></i>';
+      comments.forEach(comment => {
         const commentHTML = `
           <div class="comment-item">
-            ${icon}
-            <span class="comment-uploader"span style='color: #2b466b; font-weight: bold;margin-left:5px' >${comment.uploader} (${comment.uploadTime}):</span>
-            <div class="comment-text" style='margin-left:5px'>${comment.content}</div>
+            <span class="comment-uploader" style='color: #2b466b; font-weight: bold;margin-left:5px'>${comment[0]}:</span>
+            <div class="comment-text" style='margin-left:5px'>${comment[1]}</div>
           </div>
         `;
         commentListDiv.innerHTML += commentHTML;
       });
     };
+
     function changeHeart(element) {
-    if (element.classList.contains('heart-regular')) {
-      element.style.display = 'none';
-      element.nextElementSibling.style.display = 'inline';
-    } else {
-      element.style.display = 'none';
-      element.previousElementSibling.style.display = 'inline';
+      if (element.classList.contains('heart-regular')) {
+        element.style.display = 'none';
+        element.nextElementSibling.style.display = 'inline';
+      } else {
+        element.style.display = 'none';
+        element.previousElementSibling.style.display = 'inline';
+      }
     }
-  }
+
+    // Fetch article and comments from backend
+    const fetchArticleAndComments = () => {
+      fetch('/blog_info', {
+        method: 'GET',
+      })
+      .then(response => response.json())
+      .then(data => {
+        renderArticleContent(data);
+        renderCommentList(data.slice(1)); // Skip the first element which is the article data
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    };
+
     // Function to submit a comment
     const submitComment = () => {
       const commentTextArea = document.getElementById('commentTextArea');
@@ -144,14 +151,13 @@
         commentScore: 0 // Default score
       };
       commentList.push(newComment);
-      renderCommentList(); // Re-render comment list
+      renderCommentList(commentList); // Re-render comment list
       commentTextArea.value = ''; // Clear text area
     };
 
-    // Call renderArticleContent and renderCommentList on page load
+    // Call fetchArticleAndComments on page load
     window.onload = function () {
-      renderArticleContent();
-      renderCommentList();
+      fetchArticleAndComments();
     };
 
     // Event listener for submit comment button
