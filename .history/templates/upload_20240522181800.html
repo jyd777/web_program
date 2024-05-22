@@ -46,7 +46,10 @@
             <i class="fa-regular fa-image"  style="font-size: 24px; vertical-align: middle;margin-right:5px"></i>
             上传图片
           </label>
-          <img id="uploadedImage" src="#" alt="Uploaded Image" style="display: none;">
+        </div>
+        <div class="image-preview" id="imagePreview" style="display: none;">
+          <img id="uploadedImage" src="#" alt="Uploaded Image">
+          <button class="delete-button" onclick="deleteImage()">删除</button>
         </div>
       </div>  
     </div>  
@@ -102,7 +105,7 @@
 
         // 检查是否选择了图片
         if (imageFile) {
-          formData.append('blogimage', blogimage);
+          formData.append('image', imageFile);
         }
 
         // 发送POST请求到后端
@@ -117,7 +120,7 @@
             // 清空标题和内容输入框
             document.getElementById('title').value = '';
             document.getElementById('fileContent').value = '';
-            document.getElementById('uploadedImage').style.display = 'none';
+            deleteImage(); // 清空图片预览
           } else {
             alert(data.message);
           }
@@ -136,16 +139,25 @@
       var imageType = /image.*/;
 
       if (file.type.match(imageType)) {
-          var reader = new FileReader();
-          reader.onload = function(e) {
-              var img = document.getElementById('uploadedImage');
-              img.src = e.target.result;
-              img.style.display = 'inline';
-          };
-          reader.readAsDataURL(file);
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var img = document.getElementById('uploadedImage');
+          img.src = e.target.result;
+          img.style.display = 'inline';
+          document.getElementById('imagePreview').style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
       } else {
-          alert('请上传正确格式的图片文件');
+        alert('请上传正确格式的图片文件');
       }
+    }
+
+    function deleteImage() {
+      var img = document.getElementById('uploadedImage');
+      img.src = '#';
+      img.style.display = 'none';
+      document.getElementById('imagePreview').style.display = 'none';
+      document.getElementById('fileUpload').value = ''; // 清空文件输入框
     }
   </script>
   <!-- WangEditor JS -->
