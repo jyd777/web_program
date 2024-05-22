@@ -464,8 +464,8 @@ def upload():
         if session.get('username') is None:
             return jsonify({'success': False, 'message': '未登录'}),401
         user_info_dict = execute_user_info(session["username"])
-        title=request.json['title']
-        content=request.json['content']
+        title=request.form['title']
+        content=request.form['content']
         now=datetime.now()
         # 连接本地的数据库
         connection = pymysql.connect(
@@ -477,8 +477,14 @@ def upload():
         # 建立游标，用于后续的mysql操纵
         cursor = connection.cursor()
         # 将帖子信息导入到数据库
-        query = "INSERT INTO blogs (title, content,userid,time) VALUES (%s, %s,%s,%s)"
-        cursor.execute(query, (title, content,user_info_dict['id'],now))
+        if request.files.get('blogimage'):
+            image_file=request.files['blogimage']
+            image=image_file.read()
+            query = "INSERT INTO blogs (title, content,userid,time,blogimage) VALUES (%s, %s,%s,%s,%s)"
+            cursor.execute(query, (title, content,user_info_dict['id'],now,image))
+        else:
+            query = "INSERT INTO blogs (title, content,userid,time) VALUES (%s, %s,%s,%s)"
+            cursor.execute(query, (title, content,user_info_dict['id'],now))
         # 提交事务
         connection.commit()
         # 关闭数据库连接
