@@ -461,8 +461,8 @@ def blog_info():
 @app.route('/upload',methods=['GET','POST'])
 def upload():
     if request.method=='POST':
-        if not session['username']:
-            return jsonify({'success': False, 'message': '未登录'})
+        if session.get('username') is None:
+            return jsonify({'success': False, 'message': '未登录'}),401
         user_info_dict = execute_user_info(session["username"])
         title=request.json['title']
         content=request.json['content']
@@ -485,7 +485,7 @@ def upload():
         cursor.close()
         connection.close()
         # 发布成功
-        return jsonify({'success': True, 'message': '发布成功'}) 
+        return jsonify({'success': True, 'message': '发布成功'}) ,200
     return render_template('upload.html')
 
 #论坛首页，实现搜索功能和所有人的帖子展示
