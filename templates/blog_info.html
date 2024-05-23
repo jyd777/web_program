@@ -125,15 +125,16 @@
     };
 
     //显示文章图片
-    const renderArticleImage = (imageUrl) => {
-      const articleImage = document.getElementById('articleImage');
-      if (imageUrl) {
-        articleImage.src = imageUrl;
-        articleImage.style.display = 'block'; // 显示图片
-      } else {
-        articleImage.style.display = 'none'; // 如果没有图片URL，则隐藏图片
-      }
-    };
+    const renderArticleImage = (imageBase64) => {
+    const articleImage = document.getElementById('articleImage');
+    if (imageBase64) {
+      articleImage.src = 'data:image/jpeg;base64,' + imageBase64; // 假设图片为JPEG格式，可根据实际情况调整
+      articleImage.style.display = 'block'; // 显示图片
+    } else {
+      articleImage.style.display = 'none'; // 如果没有图片数据，则隐藏图片
+    }
+  };
+
 
     // 渲染评论列表的函数
     const renderCommentList = (comments) => {
