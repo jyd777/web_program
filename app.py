@@ -497,7 +497,11 @@ def upload():
     return render_template('upload.html')
 
 #论坛首页，实现搜索功能和所有人的帖子展示
-@app.route('/base',methods=['GET','POST'])
+@app.route('/base')
+def baseinit():
+    return render_template('base.html')
+
+@app.route('/allblogs',methods=['GET','POST'])
 def all_blogs():
     if session.get('username') is None:
         return jsonify({'success': False, 'message': '未登录'}),401
@@ -517,18 +521,19 @@ def all_blogs():
         # 关闭数据库连接
         cursor.close()
         connection.close()
-        return jsonify({'allglogs':result})
+        return jsonify({'allblogs':result})
     elif request.method == 'POST':
-        keyword=request.form['keyword']
+        data = request.get_json()
+        search_word = data.get('keyword')
         # 在标题中搜索包含关键词的帖子  
         query = "SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs natural join users WHERE blogs.title LIKE %s"
         # 使用%作为通配符来匹配任意字符  
-        cursor.execute(query, ('%{}%'.format(keyword),))
+        cursor.execute(query, ('%{}%'.format(search_word),))
         result = cursor.fetchall()
         # 关闭数据库连接
         cursor.close()
         connection.close()
-        return jsonify({'allglogs':result})
+        return jsonify({'allblogs':result})
     return render_template('base.html')
 
 if __name__ == '__main__':

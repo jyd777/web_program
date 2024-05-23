@@ -93,7 +93,7 @@
 
         // 加载所有帖子
         const loadAllPosts = () => {
-            const endpoint = '/base'; // 后端接口地址
+            const endpoint = '/allblogs'; // 后端接口地址
 
             // 发送请求到后端获取所有帖子数据
             fetch(endpoint, {
@@ -104,7 +104,7 @@
             })
             .then(response => response.json()) // 解析JSON响应
             .then(data => {
-                allPosts = data; // 将所有帖子数据存储到allPosts数组中
+                allPosts = data.allblogs; // 将所有帖子数据存储到allPosts数组中
                 loadPosts(); // 加载当前页的帖子
             })
             .catch(error => console.error('Error:', error)); // 捕获并打印错误
@@ -154,7 +154,7 @@
                 const keyword = event.target.value; // 获取搜索框内容
 
                 // 向后端发送搜索请求
-                fetch('/search_blogs', {
+                fetch('/allblogs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -163,7 +163,7 @@
                 })
                 .then(response => response.json()) // 解析JSON响应
                 .then(data => {
-                    const filteredPosts = data; // 获取过滤后的帖子数据
+                    const filteredPosts = data.allblogs; // 获取过滤后的帖子数据
                     displayFilteredPosts(filteredPosts); // 显示过滤后的帖子
                 })
                 .catch(error => console.error('Error:', error)); // 捕获并打印错误
