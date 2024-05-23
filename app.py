@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
 import pymysql,base64,os,hashlib
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -496,8 +497,10 @@ def upload():
     return render_template('upload.html')
 
 #论坛首页，实现搜索功能和所有人的帖子展示
-@app.route('/all_blogs',methods=['GET','POST'])
+@app.route('/base',methods=['GET','POST'])
 def all_blogs():
+    if session.get('username') is None:
+        return jsonify({'success': False, 'message': '未登录'}),401
     # 连接本地的数据库
     connection = pymysql.connect(
         host="localhost",
@@ -508,21 +511,24 @@ def all_blogs():
     # 建立游标，用于后续的mysql操纵
     cursor = connection.cursor()
     if request.method == 'GET':
-        query="SELECT blogs.title,users.username FROM blogs natural join users"
+        query="SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs natural join users"
         cursor.execute(query)
         result = cursor.fetchall()
+        # 关闭数据库连接
+        cursor.close()
+        connection.close()
+        return jsonify({'allglogs':result})
     elif request.method == 'POST':
         keyword=request.form['keyword']
-        # 在标题中搜索包含关键词的帖子  
-        query = "SELECT blogs.title, users.username FROM blogs natural join users WHERE blogs.title LIKE %s"  
-        # 使用%作为通配符来匹配任意字符  
-        cursor.execute(query, ('%{}%'.format(keyword),))  
+        # 在标题中搜索包含关键词的帖子  
+        query = "SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs natural join users WHERE blogs.title LIKE %s"
+        # 使用%作为通配符来匹配任意字符  
+        cursor.execute(query, ('%{}%'.format(keyword),))
         result = cursor.fetchall()
-    
-    # 关闭数据库连接
-    cursor.close()
-    connection.close()
-    return jsonify({'titles':result})
+        # 关闭数据库连接
+        cursor.close()
+        connection.close()
+        return jsonify({'allglogs':result})
     return render_template('base.html')
 
 if __name__ == '__main__':
