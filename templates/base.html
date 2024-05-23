@@ -90,7 +90,7 @@
 
         // 加载所有帖子
         const loadAllPosts = () => {
-            const endpoint = '/all_blogs'; // 后端接口地址
+            const endpoint = '/base'; // 后端接口地址
 
             // 发送请求到后端获取所有帖子数据
             fetch(endpoint, {
@@ -101,7 +101,7 @@
             })
             .then(response => response.json()) // 解析JSON响应
             .then(data => {
-                allPosts = data.posts; // 将所有帖子数据存储到allPosts数组中
+                allPosts = data; // 将所有帖子数据存储到allPosts数组中
                 loadPosts(); // 加载当前页的帖子
             })
             .catch(error => console.error('Error:', error)); // 捕获并打印错误
@@ -121,7 +121,10 @@
             postsToDisplay.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
-                postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.username}</p>`; //显示每条帖子的标题和发帖人
+                postDiv.innerHTML = `<h2>${post[1]}</h2><p>${post[2]}</p><p>${post[3]}</p>`; //显示每条帖子的标题、发帖人和日期
+                postDiv.addEventListener('click', () => {
+                    window.location.href = `/blog_info?blog_id=${post[0]}`; // 跳转到帖子详情页，并传递blog_id
+                });
                 contentDiv.appendChild(postDiv);
             });
         };
@@ -157,7 +160,7 @@
                 })
                 .then(response => response.json()) // 解析JSON响应
                 .then(data => {
-                    const filteredPosts = data.posts; // 获取过滤后的帖子数据
+                    const filteredPosts = data; // 获取过滤后的帖子数据
                     displayFilteredPosts(filteredPosts); // 显示过滤后的帖子
                 })
                 .catch(error => console.error('Error:', error)); // 捕获并打印错误
@@ -173,7 +176,10 @@
             filteredPosts.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
-                postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.username}</p>`;
+                postDiv.innerHTML = `<h2>${post[1]}</h2><p>${post[2]}</p><p>${post[3]}</p>`;
+                postDiv.addEventListener('click', () => {
+                    window.location.href = `/blog_info?blog_id=${post[0]}`; // 跳转到帖子详情页，并传递blog_id
+                });
                 contentDiv.appendChild(postDiv);
             });
         };
