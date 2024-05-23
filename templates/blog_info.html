@@ -163,7 +163,7 @@
 
     // 从后端获取文章和评论数据
     const fetchArticleAndComments = (blog_id) => {
-      fetch(`/blog_info?blog_id=${blog_id}`, {  //向后端发送get请求，附带一个参数blog_id,端口为blog_info
+      fetch(`/bloginfo?blog_id=${blog_id}`, {  //向后端发送get请求，附带一个参数blog_id,端口为bloginfo
         method: 'GET',
       })
       .then(response => response.json())
