@@ -455,8 +455,13 @@ def person():
     return jsonify({'titles':result})
 
 #论坛的帖子详情页，显示该帖子的时间，内容，评论等信息，以及上传评论功能
-@app.route('/blog_info',methods=['GET','POST'])
+@app.route('/blog_info')
 def blog_info():
+    return render_template('blog_info.html')
+
+@app.route('/blogcomments',methods=['GET','POST'])
+def blogcomments():
+    
     return render_template('blog_info.html')
 
 #论坛的帖子发布页，上传帖子标题与内容还有时间
