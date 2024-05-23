@@ -459,9 +459,33 @@ def person():
 def blog_info():
     return render_template('blog_info.html')
 
-@app.route('/blogcomments',methods=['GET','POST'])
+@app.route('/bloginfo',methods=['GET','POST'])
 def blogcomments():
-    
+    if session.get('username') is None:
+        return jsonify({'success': False, 'message': '未登录'}),401
+    blog_id = request.args.get('blog_id')
+    # 连接本地的数据库
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="Byj20040720",
+        database="web_program"
+    )
+    if request.method=='GET':
+        # 建立游标，用于后续的mysql操纵
+        cursor = connection.cursor()
+        query = "SELECT blogger,title,content,blogimage FROM blogs WHERE blogid = %s"
+        cursor.execute(query, blog_id)
+        result=cursor.fetchall()
+        blog=(result[0][0],result[0][1],result[0][2],base64.b64encode(result[0][3]).decode('utf-8'))
+        query = "SELECT commenter,content FROM comments WHERE blogid = %s"
+        cursor.execute(query, blog_id)
+        comments=cursor.fetchall()
+        # 关闭数据库连接
+        cursor.close()
+        connection.close()
+        return jsonify({'blog':blog,'comments':comments})
+        
     return render_template('blog_info.html')
 
 #论坛的帖子发布页，上传帖子标题与内容还有时间
