@@ -2,27 +2,34 @@
 
 body {
     font-family: Arial, sans-serif;
-}
+  }
   
-.header {
+  .image-preview .delete-button {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .header {
     background-color: #11396E;
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.logo {
+  }
+  .logo{
     font-size: 2em;
     color: #fdfbe3;
     user-select: none; 
     margin-left: 20px; 
-}
-.search-container {
+  }
+  .search-container {
     display: flex;
     align-items: center;
-}
+  }
  
-.search-box {
+  .search-box {
     border: 1px solid #ccc;
     padding: 20px;
     width: 450px;
@@ -31,17 +38,18 @@ body {
     background-image: linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%), linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%);
     background-size: 10px 100%, 10px 100%; 
     background-position: 5% center;
-}
+  }
    
-.magnifying-glass {
+  .magnifying-glass {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l-4-4"/><circle cx="8" cy="8" r="5"/></svg>');
     background-repeat: no-repeat;
     background-position: 9px center; 
     padding-left: 50px; 
     background-size: 10%; 
-}
+  }
 
-.search-button {
+  
+  .search-button {
     background-color: #ffffff;
     color: #11396E;
     padding: 10px 20px;
@@ -53,26 +61,26 @@ body {
     width: 150px;
     height:50px;
     font-size: 20px;
-}
+  }
   
-.search-button:hover {
+  .search-button:hover {
     background-color:  #F4D690;
     color:#fdfbe3;
-}
+  }
   
-.card-container {
+  .card-container {
     display: flex;
     justify-content: space-around;
     margin-top: 50px;
-}
-.user-avatar {
+  }
+  .user-avatar {
     width: 65px;
     height: 65px;
     border-radius: 50%;
     margin-top: 50px;
     box-shadow: 0 0 0 2px white;
-}
-.editor-container {
+  }
+  .editor-container {
     margin-top: 50px;
     margin-left: 50px;
     width: 90%;
@@ -126,7 +134,7 @@ body {
     height: 300px; /* 调整高度 */
     resize: vertical; /* 允许垂直调整大小 */
 }
-.post-title {
+  .post-title {
     text-align: center;
     width: 80%; /* 扩宽标题区域 */
     margin: 0 auto; /* 居中标题区域 */
@@ -137,22 +145,22 @@ body {
     margin-top:20px;
     margin-bottom: 20px;
 }
-.discription {
+  .discription{
     color:#fdfbe3;
     text-align: center;
-}
-.content-container {  
+  }
+  .content-container {  
     position: relative; /* 相对于背景容器定位 */  
     z-index: 1; /* 确保内容在背景图片上方 */  
     padding: 20px; /* 添加一些内边距以防止内容紧贴边缘 */  
-} 
-.background-container {  
+  } 
+  .background-container {  
     /* 为元素设置宽度、高度和其他样式 */  
     position: relative;
     width: 100%;  
     height: 200%; /* 示例高度 */  
-}  
-.upload-button {
+  }  
+  .upload-button {
     margin-left:17px;
     margin-top: 17px;
     font-size:15px;
@@ -170,78 +178,45 @@ body {
     color: #ffffff;/* 设置鼠标悬停时的文字颜色 */
 }
 .upload-image-button {
-    margin-left:17px;
-    margin-top: 17px;
-    font-size:15px;
-    font-weight: bold; /* 设置文字粗细为粗体 */
-    color:#11396E;
-    text-align: center;
-    width: 10%;
-    border-radius: 20px; /* 设置圆角半径为按钮高度的一半，可根据需要调整 */
-    background-color: #ffffff; /* 设置背景颜色为白色 */
-    padding: 10px 20px; /* 设置内边距 */
-    border: 1px solid #ffffff; /* 设置边框为白色，与背景色相同，看起来就像是圆角矩形 */
-}
-
-.upload-image-button img {
-    margin-right: 5px;
-}
-#uploadedImage {
-    max-width: 50px; /* 设置图片最大宽度为50px */
-    max-height: 50px; /* 设置图片最大高度为50px */
-    margin-left:10px;
-    margin-top:10px;
-    box-shadow: 0 0 0 2px white;/* 添加5px的内边距，即白边 */
-}
-.delete-button {
-  display: flex;
-  flex-direction: row; /* 水平排列 */
-  align-items: center; /* 垂直居中 */
   margin-left:17px;
   margin-top: 17px;
   font-size:15px;
   font-weight: bold; /* 设置文字粗细为粗体 */
   color:#11396E;
   text-align: center;
-  width: 100px;
+  width: 10%;
   border-radius: 20px; /* 设置圆角半径为按钮高度的一半，可根据需要调整 */
   background-color: #ffffff; /* 设置背景颜色为白色 */
   padding: 10px 20px; /* 设置内边距 */
   border: 1px solid #ffffff; /* 设置边框为白色，与背景色相同，看起来就像是圆角矩形 */
 }
-/* .delete-button {
-    background-color: #ff4d4f;
-    color: #ffffff;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    width: 25px;
-    height: 25px;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10px;
-} */
-.delete-button:hover {
-  background-color: #abb7ca; /* 设置鼠标悬停时的背景颜色 */
-  color: #ffffff;/* 设置鼠标悬停时的文字颜色 */
+
+.upload-image-button img {
+  margin-right: 5px;
+}
+#uploadedImage {
+  max-width: 50px; /* 设置图片最大宽度为50px */
+  max-height: 50px; /* 设置图片最大高度为50px */
+  margin-left:10px;
+  margin-top:10px;
+  box-shadow: 0 0 0 2px white;/* 添加5px的内边距，即白边 */
 }
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
+
 .enlarged-image {
-    max-width: 90%;
-    max-height: 90%;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    cursor: zoom-out;
+  max-width: 90%;
+  max-height: 90%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  cursor: zoom-out;
 }

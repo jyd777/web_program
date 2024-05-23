@@ -194,16 +194,13 @@ body {
     box-shadow: 0 0 0 2px white;/* 添加5px的内边距，即白边 */
 }
 .delete-button {
-  display: flex;
-  flex-direction: row; /* 水平排列 */
-  align-items: center; /* 垂直居中 */
   margin-left:17px;
   margin-top: 17px;
   font-size:15px;
   font-weight: bold; /* 设置文字粗细为粗体 */
   color:#11396E;
   text-align: center;
-  width: 100px;
+  width: 20%;
   border-radius: 20px; /* 设置圆角半径为按钮高度的一半，可根据需要调整 */
   background-color: #ffffff; /* 设置背景颜色为白色 */
   padding: 10px 20px; /* 设置内边距 */
@@ -224,8 +221,7 @@ body {
     margin-left: 10px;
 } */
 .delete-button:hover {
-  background-color: #abb7ca; /* 设置鼠标悬停时的背景颜色 */
-  color: #ffffff;/* 设置鼠标悬停时的文字颜色 */
+    background-color: #11396E;
 }
 .modal {
     position: fixed;

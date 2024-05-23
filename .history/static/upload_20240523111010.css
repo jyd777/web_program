@@ -224,8 +224,7 @@ body {
     margin-left: 10px;
 } */
 .delete-button:hover {
-  background-color: #abb7ca; /* 设置鼠标悬停时的背景颜色 */
-  color: #ffffff;/* 设置鼠标悬停时的文字颜色 */
+    background-color: #11396E;
 }
 .modal {
     position: fixed;
