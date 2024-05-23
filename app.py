@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
-from datetime import datetime
-import pymysql,base64,os
+import pymysql,base64,os,hashlib
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -9,48 +8,51 @@ app.secret_key = '123'
 # 功能：输入密码和用户名，实现home页跳转；还未注册，则可跳转到注册页
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # 如果用户要登录输入了
     if request.method == 'POST':
-        # 输入用户名和密码
-        print("hi")
         username = request.form['username']
-        print(username)
-        print("hi")
         password = request.form['password']
-        print(password)
-        # 连接本地的数据库
+
         connection = pymysql.connect(
             host="localhost",
             user="root",
             password="Byj20040720",
             database="web_program"
         )
-        print("hi")
-        # 建立游标，用于后续的mysql操纵
         cursor = connection.cursor()
-        # 检查用户名和密码是否匹配
-        query = "SELECT * FROM users WHERE username=%s AND password=%s"
-        cursor.execute(query, (username, password))
-        # 如果在数据库里找不到满足用户名和密码都是这个的人，那么也就是说这个人不存在result=0，存在则为1
+
+        query = "SELECT * FROM users WHERE username=%s"
+        cursor.execute(query, (username,))
         result = cursor.fetchone()
-        # 关闭数据库连接
-        cursor.close()
-        connection.close()
-        # 根据找没找到这个人进行网页跳转与报错
+
         if result:
-            print("hi")
-            # 验证通过，跳转到home页
-            session["username"] = username
-            print("hi")
-            success="登录成功"
-            return jsonify({'message': '登录成功'})
+            # 获取数据库中存储的哈希密码
+            hashed_password = result[2]
+            print(result[2])
+            # 对用户输入的密码进行哈希处理
+            input_hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+            if hashed_password == input_hashed_password:
+                # 验证通过，跳转到home页
+                session["username"] = username
+                return jsonify({'message': '登录成功'})
+            else:
+                # 验证失败，返回登录页面并显示错误信息
+                error = "用户名或密码错误"
+                return jsonify({'error': error}) 
         else:
-            print("sad")
-            # 验证失败，返回登录页面并显示错误信息
+            # 用户不存在，返回登录页面并显示错误信息
             error = "用户名或密码错误"
             return jsonify({'error': error}) 
+
+        cursor.close()
+        connection.close()
+
     return render_template('login.html')
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('username', None)  # 清空会话中的用户名信息
+    return '退出登录成功'
 # 注册界面
 # 功能：输入用户的用户名、邮箱、密码和确认密码，对用户名是否存在、密码和确认密码是否匹配进行检查
 # 若均正确，则跳转到登录界面，否则报错，并停留在该界面
@@ -61,8 +63,7 @@ def register():
         # 用户输入用户名、邮箱、密码和确认密码
         username = request.form['username']
         password = request.form['password']
-        print(password)
-        print("hi")
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
         # 连接数据库
         connection = pymysql.connect(
             host="localhost",
@@ -82,7 +83,7 @@ def register():
             return jsonify({'error': error}) 
         # 将用户名和密码导入到数据库
         query = "INSERT INTO users (username, password) VALUES (%s, %s)"
-        cursor.execute(query, (username, password))
+        cursor.execute(query, (username, hashed_password))
         # 提交事务
         connection.commit()
         # 关闭数据库连接
@@ -430,7 +431,7 @@ def get_word_details():
         return jsonify({'PT': word_PT[0],'expression': word_details[0], 'example_sentence': word_details[1], 'example_sentence_c': word_details[2]})
     else:
         return jsonify({'error': '未找到单词详细信息'}), 404
-
+        
 #论坛的个人主页，显示该用户所有帖子的信息
 @app.route('/person',methods=['GET'])
 def person():
@@ -525,4 +526,4 @@ def all_blogs():
     return render_template('base.html')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
