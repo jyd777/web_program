@@ -525,29 +525,17 @@ def word_book_choose():
     return render_template('word_book_choose.html')
 
 #论坛的个人主页，显示该用户所有帖子的信息
-@app.route('/person',methods=['GET'])
-def person():
-    user_info_dict = execute_user_info(session["username"])
-    # 连接本地的数据库
-    connection = pymysql.connect(
-        host="localhost",
-        user="root",
-        password="Byj20040720",
-        database="web_program"
-    )
-    # 建立游标，用于后续的mysql操纵
-    cursor = connection.cursor()
-    query="SELECT title FROM blogs WHERE userid=%s"
-    cursor.execute(query, (user_info_dict['id'],))
-    result = cursor.fetchall()
-    # 关闭数据库连接
-    cursor.close()
-    connection.close()
-    return jsonify({'titles':result})
+@app.route('/person')
+def blog_info_init():
+    if session.get('username') is None:
+        return redirect(url_for('login'))
+    return render_template('person.html')
+
+
 
 #论坛的帖子详情页，显示该帖子的时间，内容，评论等信息，以及上传评论功能
 @app.route('/blog_info')
-def blog_info():
+def blog_info_init():
     if session.get('username') is None:
         return redirect(url_for('login'))
     return render_template('blog_info.html')
@@ -602,11 +590,15 @@ def blogcomments():
     return render_template('blog_info.html')
 
 #论坛的帖子发布页，上传帖子标题与内容还有时间
-@app.route('/upload',methods=['GET','POST'])
+@app.route('/upload')
+def uploadinit():
+    if session.get('username') is None:
+        return redirect(url_for('login'))
+    return render_template('upload.html')
+
+@app.route('/uploadblog',methods=['GET','POST'])
 def upload():
     if request.method=='POST':
-        if session.get('username') is None:
-            return jsonify({'success': False, 'message': '未登录'}),401
         title=request.form['title']
         content=request.form['content']
         now=datetime.now()
@@ -640,12 +632,12 @@ def upload():
 #论坛首页，实现搜索功能和所有人的帖子展示
 @app.route('/base')
 def baseinit():
+    if session.get('username') is None:
+        return redirect(url_for('login'))
     return render_template('base.html')
 
 @app.route('/allblogs',methods=['GET','POST'])
 def all_blogs():
-    if session.get('username') is None:
-        return jsonify({'success': False, 'message': '未登录'}),401
     # 连接本地的数据库
     connection = pymysql.connect(
         host="localhost",
