@@ -22,7 +22,7 @@
       <div class="content">
         <div class="section">
           <!-- 用户头像 -->
-          <img id="bloggerAvatar" class="user-avatar" src="../static/user.jpg" alt="用户头像">
+          <img id="bloggerAvatar" class="user-avatar" src="" alt="用户头像">
           
           <!-- 用户名将由JavaScript动态加载 -->
           <h2 id="bloggerName" class="user-name"></h2>
@@ -116,6 +116,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.16.8/antd.min.js" integrity="sha512-L8pJr2FgwIhKwv9HGMzA3dbsAsECbl8oRtftJix/5Fuxw9LR+zmOcK1y6kRkDehplJK7cCkbZzUypKmXTrxJ3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   
   <script>
+    //bloggerAvatar
+    document.getElementById('bloggerAvatar').addEventListener('click', function() {
+        window.location.href = "/personal_web/" + username;
+    });
+    // 发起请求以获取用户信息
+    function updateUserInformation(username) {
+        fetch('/user_info/' + username)
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(userObj) {
+                var imageElement = document.getElementById('bloggerAvatar');
+                console.log(imageElement);
+                if (userObj && !userObj.error) {
+                    imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
+                }
+                else {
+                    // 处理用户信息不存在的情况 也就是默认的值显示为啥
+                    imageElement.src = '../static/user.jpg';
+                }
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+            });
+    }
     // 渲染文章内容的函数
     const renderArticleContent = (blog) => {
       document.getElementById('bloggerName').innerText = blog.blogger; //发帖人
