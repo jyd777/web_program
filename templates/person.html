@@ -47,17 +47,8 @@
     </div>
         <input type="file" id="imagebgchange" style="display: none;">
         <img id="curbgimage" src="" alt="img" class="background-image">
-    <div class="post">
-        <h2 class="post-title">帖子标题</h2>
-        <p>帖子时间</p>
-    </div>
-    <div class="post">
-        <h2 class="post-title">帖子标题</h2>
-        <p>帖子时间</p>
-    </div>
-    <div class="post">
-        <h2 class="post-title">帖子标题</h2>
-        <p>帖子时间</p>
+    <div class="post" id="post">
+        <!-- 帖子内容将由JavaScript动态加载 -->
     </div>
 </div>
 </div>
@@ -254,5 +245,31 @@
             });
     }
     updateUserInformation(username);
+
+    // 加载论坛帖子
+    function loadForumPosts() {
+        fetch('/myblogs')
+            .then(response => response.json())
+            .then(data => {
+                const forumContainer = document.getElementById('post');
+                forumContainer.innerHTML = ''; // 清空当前内容
+                //data.myblogs(blogid,title,blogger,time)
+                data.myblogs.forEach(blog => {
+                    const postElement = document.createElement('div');
+                    postElement.className = 'post';
+                    postElement.innerHTML = `
+                        <h2>${blog[1]}</h2>
+                        <p>${blog[3]}</p>
+                    `;
+                    //点击跳转到blog_info页面并传送blogid
+                    postElement.onclick = function() {
+                        window.location.href = `/blog_info?blog_id=${blog[0]}`;
+                    };
+                    forumContainer.appendChild(postElement);
+                });
+            })
+            .catch(error => console.error('Error loading forum posts:', error));
+    }
+    loadForumPosts();
 
 </script>
