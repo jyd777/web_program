@@ -9,6 +9,17 @@ body {
   align-items: flex-start;
 }
 
+.back-arrow {
+  font-size: 2em; /* 增加图标大小 */
+  cursor: pointer;
+  margin-top:10px;
+  color: #11396E; /* 图标颜色，可根据需要调整 */
+}
+
+.back-arrow:hover {
+  color: #F4D690; /* 悬停时的图标颜色 */
+}
+
 .forum-wrapper {
   display: flex;
   align-items: flex-start;

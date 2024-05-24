@@ -33,6 +33,23 @@ body {
     background-position: 5% center;
 }
    
+.content-container {
+    display: flex;
+    padding: 20px; /* 根据需要调整内边距 */
+}
+
+.back-arrow {
+    font-size: 2em; /* 增加图标大小 */
+    cursor: pointer;
+    padding: 10px; /* 增加内边距，使图标周围有更多空间 */
+    margin-left:10px;
+    color: #11396E; /* 图标颜色，可根据需要调整 */
+}
+
+.back-arrow:hover {
+    color: #F4D690; /* 悬停时的图标颜色 */
+}
+
 .magnifying-glass {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l-4-4"/><circle cx="8" cy="8" r="5"/></svg>');
     background-repeat: no-repeat;
@@ -74,7 +91,7 @@ body {
 }
 .editor-container {
     margin-top: 50px;
-    margin-left: 50px;
+    margin-left: 20px;
     width: 90%;
     height:500px;
     padding: 10px;
@@ -209,20 +226,7 @@ body {
   padding: 10px 20px; /* 设置内边距 */
   border: 1px solid #ffffff; /* 设置边框为白色，与背景色相同，看起来就像是圆角矩形 */
 }
-/* .delete-button {
-    background-color: #ff4d4f;
-    color: #ffffff;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    width: 25px;
-    height: 25px;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10px;
-} */
+
 .delete-button:hover {
   background-color: #abb7ca; /* 设置鼠标悬停时的背景颜色 */
   color: #ffffff;/* 设置鼠标悬停时的文字颜色 */
