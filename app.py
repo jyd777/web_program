@@ -1,14 +1,72 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
-import pymysql,base64,os,hashlib,random
+import pymysql,base64,os,hashlib,random,json,time
 from datetime import datetime
+from web3 import Web3
 
 app = Flask(__name__)
 app.secret_key = '123'
+
+# 记录操作日志(两个区块链函数)
+# operation_type 操作类型 post_hash 文章哈希 comment_hash 评论哈希，不是评论操作为空
+def record_operation(operation_name, operation_type, post_hash, comment_hash):
+    tx_hash = session['contract'].functions.recordOperation(operation_type, post_hash, comment_hash).transact({
+        'from': operation_name #这里是操作者
+    })
+    receipt = session['web3'].eth.wait_for_transaction_receipt(tx_hash)
+    # print("Operation recorded:", receipt)
+
+# 查看操作日志
+def get_operations():
+    count = session['contract'].caller().getOperationsCount()
+    operations = []
+    for i in range(count):
+        operation = session['contract'].caller().getOperation(i)
+        operations.append({
+            'operator': operation[0],
+            'operation_type': operation[1],
+            'timestamp': time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(operation[2])),
+            'post_hash': operation[3],
+            'comment_hash': operation[4]
+        })
+    return operations
 
 # 登录界面
 # 功能：输入密码和用户名，实现home页跳转；还未注册，则可跳转到注册页
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """#区块链相关内容，登录界面执行一次即可
+    # 连接到本地以太坊节点
+    ganache_url = "http://127.0.0.1:7545"
+    web3 = Web3(Web3.HTTPProvider(ganache_url))
+
+    # 检查连接是否成功
+    if web3.is_connected():
+        print("Connected to Ethereum node")
+    else:
+        print("Failed to connect to Ethereum node")
+
+    # 设置默认账户
+    default_account = web3.eth.accounts[0]
+    web3.eth.defaultAccount = default_account
+
+    # 获取已部署合约的 ABI 和地址
+    with open('build/contracts/OperationLog.json') as f:
+        contract_data = json.load(f)
+
+    abi = contract_data['abi']
+    bytecode = contract_data['bytecode']
+    Example = web3.eth.contract(abi=abi, bytecode=bytecode)
+    hash = Example.constructor().transact({
+        'from': default_account
+    })
+    tx_receipt = web3.eth.wait_for_transaction_receipt(hash)
+
+    # contract_address = contract_data['networks']['5777']['address']
+    # contract = web3.eth.contract(address=contract_address, abi=abi)
+    contract = web3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
+    session['web3']=web3
+    session['contract']=contract
+    #区块链初始化结束"""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -546,7 +604,7 @@ def myblogs():
         query = "SELECT blogid,title,blogger,time FROM blogs where blogger = %s"
         cursor.execute(query,session['username'])
         result = cursor.fetchall()
-        return jsonify({'myblogs':result})
+        return jsonify({'myblogs':result}),201
     # 关闭数据库连接
     cursor.close()
     connection.close()
@@ -602,9 +660,17 @@ def blogcomments():
         query = "SELECT commenter,content FROM comments WHERE blogid = %s"
         cursor.execute(query, blog_id)
         comments=cursor.fetchall()
+        query = "SELECT content FROM blogs WHERE blogid = %s"
+        cursor.execute(query, blog_id)
+        blog_content=cursor.fetchall()
+        comment_id=cursor.lastrowid()
         # 关闭数据库连接
         cursor.close()
         connection.close()
+        # 记录上传操作
+        hashed_blog=hashlib.sha256((str(blog_id)+blog_content).encode()).hexdigest()
+        hashed_comment = hashlib.sha256((str(comment_id)+"&"+content).encode()).hexdigest()
+        #record_operation(session['username'], "upload", hashed_blog, hashed_comment)
         return jsonify({'comments':comments})
     return render_template('blog_info.html')
 
@@ -641,9 +707,13 @@ def upload():
             cursor.execute(query, (title, content,session['username'],now))
         # 提交事务
         connection.commit()
+        blog_id=cursor.lastrowid()
         # 关闭数据库连接
         cursor.close()
         connection.close()
+        # 记录上传操作
+        hashed_blog = hashlib.sha256((str(blog_id)+"&"+title+content).encode()).hexdigest()
+        #record_operation(session['username'], "upload", hashed_blog, "")
         # 发布成功
         return jsonify({'success': True, 'message': '发布成功'}) ,200
     return render_template('upload.html')
