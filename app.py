@@ -526,12 +526,31 @@ def word_book_choose():
 
 #论坛的个人主页，显示该用户所有帖子的信息
 @app.route('/person')
-def blog_info_init():
+def person_init():
     if session.get('username') is None:
         return redirect(url_for('login'))
     return render_template('person.html')
 
-
+@app.route('/myblogs',methods=['GET','POST'])
+def myblogs():
+    # 连接本地的数据库
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="Byj20040720",
+        database="web_program"
+    )
+    # 建立游标，用于后续的mysql操纵
+    cursor = connection.cursor()
+    if request.method == 'GET':
+        query = "SELECT blogid,title,blogger,time FROM blogs where blogger = %s"
+        cursor.execute(query,session['username'])
+        result = cursor.fetchall()
+        return jsonify({'myblogs':result})
+    # 关闭数据库连接
+    cursor.close()
+    connection.close()
+    return render_template('person.html')
 
 #论坛的帖子详情页，显示该帖子的时间，内容，评论等信息，以及上传评论功能
 @app.route('/blog_info')
@@ -648,7 +667,7 @@ def all_blogs():
     # 建立游标，用于后续的mysql操纵
     cursor = connection.cursor()
     if request.method == 'GET':
-        query = "SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs join users on users.username = blogs.blogger"
+        query = "SELECT blogid,title,blogger,time FROM blogs"
         cursor.execute(query)
         result = cursor.fetchall()
         # 关闭数据库连接
@@ -659,7 +678,7 @@ def all_blogs():
         data = request.get_json()
         search_word = data.get('keyword')
         # 在标题中搜索包含关键词的帖子  
-        query = "SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs join users on users.username = blogs.blogger WHERE blogs.title LIKE %s"
+        query = "SELECT blogid,title,blogger,time FROM blogs WHERE title LIKE %s"
         # 使用%作为通配符来匹配任意字符  
         cursor.execute(query, ('%{}%'.format(search_word),))
         result = cursor.fetchall()
