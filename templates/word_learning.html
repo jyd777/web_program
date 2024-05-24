@@ -6,74 +6,340 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
     <script src="https://kit.fontawesome.com/1a8c6dd550.js" crossorigin="anonymous"></script>
-    <title>@Syntax Station Dev Register</title>
+    <title>WordTongji</title>
     <link rel="stylesheet" href="../static/word_learning.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('../static/TJ.jpg') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(255, 255, 255, 0.8); /* 半透明背景色 */
+            background-blend-mode: lighten;
+        }
+        #start-learning {
+            position: absolute;
+            top: 50%;
+            left: 35%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: row;
+        }
+
+        #start-learning .button {
+            margin: 0 10px;
+        }
+        #wrongword {
+            position: absolute;
+            top: 50%;
+            left: 65%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: row;
+        }
+
+        #wrongword .button {
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="header">
   <h2 class="logo">WordTongji</h2>
   <button class="search-button">首页</button>
-  <button class="search-button">帮助</button>
+  <button class="search-button" onclick="window.location.href='/help'">帮助</button>
   <div class="search-container">
-    <input type="text" class="search-box magnifying-glass" placeholder="  请输入搜索内容">
+    <input type="text" class="search-box magnifying-glass" id="search-box" placeholder="  请输入搜索内容">
+    <button class="search-button" onclick="searchWord()">搜索</button>
   </div>
   <div style="float: right; margin-top: -50px; margin-right: 20px;">
-    <img id="curimage"  src="../static/user.jpg" alt="img" class="user-avatar">
+    <img id="curimage" src="../static/user.jpg" alt="img" class="user-avatar">
+  </div>
 </div>
-<body>
 
-    <div class="left-rectangle">
-        <div class="circle" id="circle1"></div>
-        <div class="circle" id="circle2"></div>
-        <div class="circle" id="circle3"></div>
-        <div class="centered-text">abandon</div>
+<div class="centered-container" id="start-learning">
+    <button class="start-button" onclick="startLearning()">开始背诵</button>
+</div>
+<div class="centered-container" id="wrongword">
+    <button class="start-button" onclick="wrongword()">错题本</button>
+</div>
+<div class="left-rectangle" id="learning-content" style="display: none;">
+    <div class="circle" id="circle1"></div>
+    <div class="circle" id="circle2"></div>
+    <div class="circle" id="circle3"></div>
+    <div class="centered-text" id="word-display"></div>
+</div>
+
+<div class="right-rectangle" id="learning-details" style="display: none;">
+    <div class="scrollable-text">
+        <div id="word-PT"></div>
+        <div id="word-meaning"></div>
+        <div id="word-example"></div>
+        <div id="word-example_c"></div>
     </div>
-    <div class="right-rectangle">
-        <div class="scrollable-text" style="display: none;">
-            1.<span class="highlight">~ sb (to sth)</span>to leave sb, especially sb you are responsible for, with no intention of returning（不顾责任、义务等）<span class="highlight">离弃，遗弃，抛弃</span><br>
-            <span class="example">• The baby had been abandoned by its mother.这个婴儿被母亲遗弃了。</span><br><br>
-            2<span class="highlight"> sth (to sb/sth)</span>to leave a thing or place, especially because it is impossible or dangerous to stay SYN leave（不得已而）<span class="highlight">舍弃，丢弃，离开</span><br>
-            <span class="example">• Snow forced many drivers to abandon their vehicles.大雪迫使许多驾驶者弃车步行。</span><br><br>
-            3.to stop supporting or helping sb; to stop believing in sth停止（支持或帮助）；放弃（信念）</span><br>
-            <span class="example">• By 1930 he had abandoned his Marxist principles.1930年时他已放弃了马克思主义信念。</span><br><br>
-            4.to stop doing sth, especially before it is finished; to stop having sth<span class="highlight">中止；放弃；不再有</span><br>
-            <span class="example">• She abandoned hope of any reconciliation.她对和解已不再抱有希望。</span><br><br>
-            5.<span class="highlight">~ yourself to sth</span>(literary) to feel an emotion so strongly that you can feel nothing else<span class="highlight">陷入，沉湎于（某种情感）</span><br>
-            <span class="example">• He abandoned himself to despair.他陷入绝望。</span>
-        </div>
-    </div>
-    
-    <a href="#" class="button button1" onclick="showText()">不认识</a>
-    <a href="#" class="button button2" onclick="showText()">不熟</a>
-    <a href="#" class="button button3" onclick="showText()">认识</a>
-    
-    <script>
-        function showText() {
-    var text = document.querySelector('.scrollable-text');
-    if (text.style.display === 'none') {
-        text.style.display = 'block';
+</div>
+
+<a href="#" id= "button1" class="button button1" onclick="updateFamiliarity(0)" style="display: none;"></a>
+<a href="#" id= "button2" class="button button2" onclick="updateFamiliarity(1)" style="display: none;"></a>
+<a href="#" id= "button3" class="button button3" onclick="updateFamiliarity(2)" style="display: none;"></a>
+<a href="#" class="button button4" id="next-word-button" onclick="loadNextWord()" style="display: none;">下一个词</a>
+
+<script>
+
+    function showText() {
+        var text = document.querySelector('.scrollable-text');
+        if (text.style.display === 'none') {
+            text.style.display = 'block';
+        }
     }
-}
-        const circle1 = document.getElementById('circle1');
-        const circle2 = document.getElementById('circle2');
-        const circle3 = document.getElementById('circle3');
-    
-        document.querySelector('.button1').addEventListener('click', function() {
-            circle1.style.backgroundColor = '#11396E';
-            circle2.style.backgroundColor = 'white';
-            circle3.style.backgroundColor = 'white';
+    let type=0;
+    let nowword = '';
+    function startLearning() {
+        type=0;
+        fetch('/start_learning', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    correctDefinition = data.correct_definition;
+                    updateCircles(data.familiarity) 
+                    correctDefinition = data.correct_definition;
+                    nowword=data.word;
+                    document.getElementById('button1').textContent = data.definitions[0];
+                    document.getElementById('button2').textContent = data.definitions[1];
+                    document.getElementById('button3').textContent = data.definitions[2];
+                    document.getElementById('word-display').textContent = data.word;
+                }
+                document.getElementById('start-learning').style.display = 'none';
+                document.getElementById('next-word-button').style.display = 'none';
+                document.getElementById('learning-content').style.display = 'inline-block';
+                document.getElementById('learning-details').style.display = 'inline-block';
+                document.getElementById('word-PT').textContent = '';
+                document.getElementById('word-meaning').textContent = '';
+                document.getElementById('word-example').textContent = '';
+                document.getElementById('word-example_c').textContent = '';
+                document.getElementsByClassName('button')[0].style.display = 'inline-block';
+                document.getElementsByClassName('button')[1].style.display = 'inline-block';
+                document.getElementsByClassName('button')[2].style.display = 'inline-block';
+            })
+            .catch(error => console.error('Error:', error));
+        
+    }
+    function wrongword() {
+        type=1;
+        fetch('/wrongword_db', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.word) {
+                    correctDefinition = data.correct_definition;
+                    updateCircles(data.familiarity) 
+                    nowword=data.word;
+                    correctDefinition = data.correct_definition;
+                    document.getElementById('button1').textContent = data.definitions[0];
+                    document.getElementById('button2').textContent = data.definitions[1];
+                    document.getElementById('button3').textContent = data.definitions[2];
+                    document.getElementById('word-display').textContent = data.word;
+                } else {
+                    document.getElementById('word-display').textContent = '';
+                    console.error(data.error);
+                    document.getElementsByClassName('button')[0].style.display = 'none';
+                    document.getElementsByClassName('button')[1].style.display = 'none';
+                    document.getElementsByClassName('button')[2].style.display = 'none';
+                    document.getElementById('word-PT').textContent = '';
+                    document.getElementById('word-meaning').textContent = data.error;
+                    document.getElementById('word-example').textContent = '';
+                    document.getElementById('word-example_c').textContent = '';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+            document.getElementById('next-word-button').style.display = 'none';
+            document.getElementById('learning-content').style.display = 'inline-block';
+            document.getElementById('learning-details').style.display = 'inline-block';
+            document.getElementById('word-PT').textContent = '';
+            document.getElementById('word-meaning').textContent = '';
+            document.getElementById('word-example').textContent = '';
+            document.getElementById('word-example_c').textContent = '';
+            document.getElementsByClassName('button')[0].style.display = 'inline-block';
+            document.getElementsByClassName('button')[1].style.display = 'inline-block';
+            document.getElementsByClassName('button')[2].style.display = 'inline-block';
+            document.getElementById('start-learning').style.display = 'none';
+        
+    }
+    const circle1 = document.getElementById('circle1');
+    const circle2 = document.getElementById('circle2');
+    const circle3 = document.getElementById('circle3');
+
+    function updateCircles(familiarity) {
+        circle1.style.backgroundColor = familiarity >= 0 ? '#11396E' : 'white';
+        circle2.style.backgroundColor = familiarity >= 1 ? '#11396E' : 'white';
+        circle3.style.backgroundColor = familiarity == 2 ? '#11396E' : 'white';
+    }
+    function updateFamiliarity(optionIndex) {
+        const selectedDefinition = document.querySelector(`.button${optionIndex+1}`).innerHTML;
+
+        fetch('/update_familiarity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                word: document.getElementById('word-display').innerHTML,
+                correct_definition: correctDefinition,
+                selected_definition: selectedDefinition
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                updateCircles(data.familiarity);
+                document.getElementsByClassName('button1')[0].style.display = 'none';
+                document.getElementsByClassName('button2')[0].style.display = 'none';
+                document.getElementsByClassName('button3')[0].style.display = 'none';
+                document.getElementById('next-word-button').style.display = 'inline-block';
+                fetchWordDetails(data.word)
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    function searchWord() {
+        const searchBox = document.getElementById('search-box');
+        const searchWord = searchBox.value;
+
+        fetch('/search_word', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({word: searchWord})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.word) {
+                document.getElementById('word-display').textContent = data.word;
+                updateCircles(data.familiarity);
+                fetchWordDetails(data.word);
+            } else {
+                // 如果未找到单词，显示提示信息
+                document.getElementById('word-display').textContent = '单词不存在';
+                document.getElementById('word-PT').textContent = '';
+                document.getElementById('word-meaning').textContent = '';
+                document.getElementById('word-example').textContent = '';
+                document.getElementById('word-example_c').textContent = '';
+                document.querySelector('.scrollable-text').style.display = 'none';
+            }
         });
-    
-        document.querySelector('.button2').addEventListener('click', function() {
-            circle1.style.backgroundColor = '#11396E';
-            circle2.style.backgroundColor = '#11396E';
-            circle3.style.backgroundColor = 'white';
+    }
+    document.getElementById('word-example').style.color = '#5c5757';
+    document.getElementById('word-example_c').style.color = '#df6464';
+    function fetchWordDetails(word) {
+        fetch(`/get_word_details?word=${word}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.PT && data.expression && data.example_sentence) {
+                document.getElementById('word-PT').textContent = data.PT;
+                document.getElementById('word-meaning').textContent = data.expression;
+                document.getElementById('word-example').textContent = data.example_sentence;
+                document.getElementById('word-example_c').textContent = data.example_sentence_c;
+                document.getElementById('word-example').style.color = '#5c5757'; 
+                document.getElementById('word-example_c').style.color = '#df6464'; 
+                showText(); 
+            } else {
+                document.getElementById('word-PT').textContent = '释义加载失败';
+                document.getElementById('word-meaning').textContent = '释义加载失败';
+                document.getElementById('word-example').textContent = '例句加载失败';
+                document.getElementById('word-example_c').textContent = '例句中文加载失败';
+            }
         });
-    
-        document.querySelector('.button3').addEventListener('click', function() {
-            circle1.style.backgroundColor = '#11396E';
-            circle2.style.backgroundColor = '#11396E';
-            circle3.style.backgroundColor = '#11396E';
-        });
-    </script>
+    }
+    function loadNextWord() {
+        if(type==0){
+            fetch('/next_word', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({word: nowword})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    correctDefinition = data.correct_definition;
+                    updateCircles(data.familiarity) 
+                    correctDefinition = data.correct_definition;
+                    document.getElementById('button1').textContent = data.definitions[0];
+                    document.getElementById('button2').textContent = data.definitions[1];
+                    document.getElementById('button3').textContent = data.definitions[2];
+                    document.getElementById('word-display').textContent = data.word;
+                    nowword=data.word;
+                }
+                document.getElementById('next-word-button').style.display = 'none';
+                document.getElementById('learning-content').style.display = 'inline-block';
+                document.getElementById('learning-details').style.display = 'inline-block';
+                document.getElementById('word-PT').textContent = '';
+                document.getElementById('word-meaning').textContent = '';
+                document.getElementById('word-example').textContent = '';
+                document.getElementById('word-example_c').textContent = '';
+                document.getElementsByClassName('button')[0].style.display = 'inline-block';
+                document.getElementsByClassName('button')[1].style.display = 'inline-block';
+                document.getElementsByClassName('button')[2].style.display = 'inline-block';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        else{
+            fetch('/nextwrongword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({word: nowword})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.word) {
+                    correctDefinition = data.correct_definition;
+                    updateCircles(data.familiarity) 
+                    correctDefinition = data.correct_definition;
+                    document.getElementById('button1').textContent = data.definitions[0];
+                    document.getElementById('button2').textContent = data.definitions[1];
+                    document.getElementById('button3').textContent = data.definitions[2];
+                    document.getElementById('word-display').textContent = data.word;
+                    document.getElementById('learning-content').style.display = 'inline-block';
+                    document.getElementById('learning-details').style.display = 'inline-block';
+                    document.getElementById('word-PT').textContent = '';
+                    document.getElementById('word-meaning').textContent = '';
+                    document.getElementById('word-example').textContent = '';
+                    document.getElementById('word-example_c').textContent = '';
+                    document.getElementsByClassName('button')[0].style.display = 'inline-block';
+                    document.getElementsByClassName('button')[1].style.display = 'inline-block';
+                    document.getElementsByClassName('button')[2].style.display = 'inline-block';
+                } else {
+                    document.getElementById('word-display').textContent = '';
+                    console.error(data.error);
+                    document.getElementsByClassName('button')[0].style.display = 'none';
+                    document.getElementsByClassName('button')[1].style.display = 'none';
+                    document.getElementsByClassName('button')[2].style.display = 'none';
+                    document.getElementById('word-PT').textContent = '';
+                    document.getElementById('word-meaning').textContent = data.error;
+                    document.getElementById('word-example').textContent = '';
+                    document.getElementById('word-example_c').textContent = '';
+
+                }
+            })
+            .catch(error => console.error('Error:', error));
+            document.getElementById('next-word-button').style.display = 'none';
+            
+        }
+    }
+
+</script>
+</body>
+</html>

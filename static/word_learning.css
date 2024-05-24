@@ -41,7 +41,16 @@ body {
     background-size: 10%; 
   }
 
-  
+  .centered-container {
+    width: 200px; /* 设置正方形的宽度 */
+    height: 200px; /* 设置正方形的高度 */
+    margin: 0 auto; /* 将正方形水平居中 */
+    text-align: center; /* 内容居中显示 */
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+}
+
   .search-button {
     background-color: #ffffff;
     color: #11396E;
@@ -74,9 +83,9 @@ body {
     box-shadow: 0 0 0 2px white;
   }
   .button {
-    position: fixed;
+    position: absolute;
     padding: 10px 20px;
-    width: 60px; /* 固定按钮宽度 */
+    width: auto; 
     height:30px;
     background-color: #11396E; /* 藏青色 */
     color: white;
@@ -98,18 +107,40 @@ body {
     border: 4px solid #11396E; /* 鼠标悬停时边框颜色变为藏青色 */
 }
 .button1 {
-    top: 71%;
+    top: 75%;
     left: 5%;
 }
 
 .button2 {
-    top: 71%;
-    left: 15%;
+    top: 85%;
+    left: 5%;
 }
 
 .button3 {
-    top: 71%;
-    left: 25%;
+    top: 95%;
+    left: 5%;
+}
+.button4 {
+  width: 80px;
+  top: 20%;
+  left: 5%;
+}
+.start-button {
+  width: 200px; /* 设置按钮的宽度 */
+  height: 200px; /* 设置按钮的高度 */
+  background-color: #11396E; /* 设置背景颜色 */
+  color: white; /* 设置文本颜色 */
+  font-size: 24px; /* 设置字体大小 */
+  border: none; /* 移除边框 */
+  cursor: pointer; /* 设置鼠标样式为手型 */
+  border-radius: 50%; /* 将按钮形状设置为圆形 */
+  outline: none; /* 移除点击时的外边框 */
+}
+
+.start-button:hover {
+    background-color: white; /* 鼠标悬停时背景变为白色 */
+    color: #11396E; /* 鼠标悬停时文字颜色变为藏青色 */
+    border: 4px solid #11396E; /* 鼠标悬停时边框颜色变为藏青色 */
 }
 
 .left-rectangle {
@@ -178,9 +209,7 @@ body {
     font-size: 18px;
     color: #000000;
 }
-.highlight {
-    color: #df6464; /* 设置为红色 */
-}
-.example{
-    color: #5c5757;
+#word-example,
+#word-example_c {
+  display: inline-block;
 }
