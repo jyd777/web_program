@@ -184,7 +184,7 @@
       document.getElementById('submitCommentBtn').addEventListener('click', () => {
         const commentText = document.getElementById('commentTextArea').value;
         if (commentText) {
-          fetch('/submit_comment', {  //向后端发送评论内容，端口为submit_comment
+          fetch('/bloginfo', {  //向后端发送评论内容，端口为boginfo
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

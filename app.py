@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
 import pymysql,base64,os,hashlib,random
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -15,7 +16,7 @@ def login():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="密码",
+            password="Byj20040720",
             database="web_program"
         )
         cursor = connection.cursor()
@@ -34,18 +35,21 @@ def login():
                 # 验证通过，跳转到home页
                 session["username"] = username
                 session["user_id"]=result[0]
+                cursor.close()
+                connection.close()
                 return jsonify({'message': '登录成功'})
             else:
                 # 验证失败，返回登录页面并显示错误信息
                 error = "用户名或密码错误"
+                cursor.close()
+                connection.close()
                 return jsonify({'error': error}) 
         else:
             # 用户不存在，返回登录页面并显示错误信息
             error = "用户名或密码错误"
+            cursor.close()
+            connection.close()
             return jsonify({'error': error}) 
-
-        cursor.close()
-        connection.close()
 
     return render_template('login.html')
 
@@ -69,7 +73,7 @@ def register():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="密码",
+            password="Byj20040720",
             database="web_program"
         )
         # 建立游标，用于后续的mysql操纵
@@ -114,7 +118,7 @@ def execute_user_info(username):
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",
+        password="Byj20040720",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -166,7 +170,7 @@ def update_data():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",
+        password="Byj20040720",
         database="web_program"
     )
     cursor = connection.cursor()
@@ -192,7 +196,7 @@ def uploadimage():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",
+        password="Byj20040720",
         database="web_program"
     )
     username = request.form.get('username')
@@ -212,7 +216,7 @@ def upload_bg_image():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",
+        password="Byj20040720",
         database="web_program"
     )
     username = request.form.get('username')
@@ -230,7 +234,7 @@ def connect_db():
     return pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",  
+        password="Byj20040720",  
         database="web_program"
     )
 
@@ -528,7 +532,7 @@ def person():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",
+        password="Byj20040720",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -544,27 +548,31 @@ def person():
 #论坛的帖子详情页，显示该帖子的时间，内容，评论等信息，以及上传评论功能
 @app.route('/blog_info')
 def blog_info():
+    if session.get('username') is None:
+        return redirect(url_for('login'))
     return render_template('blog_info.html')
 
 @app.route('/bloginfo',methods=['GET','POST'])
 def blogcomments():
-    if session.get('username') is None:
-        return jsonify({'success': False, 'message': '未登录'}),401
-    blog_id = request.args.get('blog_id')
+    now=datetime.now()
     # 连接本地的数据库
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",
+        password="Byj20040720",
         database="web_program"
     )
     if request.method=='GET':
+        blog_id = request.args.get('blog_id')
         # 建立游标，用于后续的mysql操纵
         cursor = connection.cursor()
         query = "SELECT blogger,title,content,blogimage FROM blogs WHERE blogid = %s"
         cursor.execute(query, blog_id)
-        result=cursor.fetchall()
-        blog=(result[0][0],result[0][1],result[0][2],base64.b64encode(result[0][3]).decode('utf-8'))
+        result=cursor.fetchone()
+        if not result[3]:
+            blog={'blogger':result[0],'title':result[1],'content':result[2]}
+        else:
+            blog={'blogger':result[0],'title':result[1],'content':result[2],'image':base64.b64encode(result[3]).decode('utf-8')}
         query = "SELECT commenter,content FROM comments WHERE blogid = %s"
         cursor.execute(query, blog_id)
         comments=cursor.fetchall()
@@ -572,7 +580,25 @@ def blogcomments():
         cursor.close()
         connection.close()
         return jsonify({'blog':blog,'comments':comments})
-        
+    elif request.method=='POST':
+        # 获取请求体中的数据（JSON 格式）  
+        data = request.get_json()  
+        # 从 JSON 数据中提取所需的字段  
+        blog_id = data.get('blog_id')  
+        content = data.get('comment')
+        # 建立游标，用于后续的mysql操纵
+        cursor = connection.cursor()
+        query = "INSERT INTO comments (content,commenter,blogid,time) VALUES (%s, %s,%s,%s)"
+        cursor.execute(query, (content,session['username'],blog_id,now))
+        # 提交事务
+        connection.commit()
+        query = "SELECT commenter,content FROM comments WHERE blogid = %s"
+        cursor.execute(query, blog_id)
+        comments=cursor.fetchall()
+        # 关闭数据库连接
+        cursor.close()
+        connection.close()
+        return jsonify({'comments':comments})
     return render_template('blog_info.html')
 
 #论坛的帖子发布页，上传帖子标题与内容还有时间
@@ -581,7 +607,6 @@ def upload():
     if request.method=='POST':
         if session.get('username') is None:
             return jsonify({'success': False, 'message': '未登录'}),401
-        user_info_dict = execute_user_info(session["username"])
         title=request.form['title']
         content=request.form['content']
         now=datetime.now()
@@ -589,7 +614,7 @@ def upload():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="密码",
+            password="Byj20040720",
             database="web_program"
         )
         # 建立游标，用于后续的mysql操纵
@@ -598,11 +623,11 @@ def upload():
         if request.files.get('blogimage'):
             image_file=request.files['blogimage']
             image=image_file.read()
-            query = "INSERT INTO blogs (title, content,userid,time,blogimage) VALUES (%s, %s,%s,%s,%s)"
-            cursor.execute(query, (title, content,user_info_dict['id'],now,image))
+            query = "INSERT INTO blogs (title, content,blogger,time,blogimage) VALUES (%s, %s,%s,%s,%s)"
+            cursor.execute(query, (title, content,session['username'],now,image))
         else:
-            query = "INSERT INTO blogs (title, content,userid,time) VALUES (%s, %s,%s,%s)"
-            cursor.execute(query, (title, content,user_info_dict['id'],now))
+            query = "INSERT INTO blogs (title, content,blogger,time) VALUES (%s, %s,%s,%s)"
+            cursor.execute(query, (title, content,session['username'],now))
         # 提交事务
         connection.commit()
         # 关闭数据库连接
@@ -625,13 +650,13 @@ def all_blogs():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="密码",
+        password="Byj20040720",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
     cursor = connection.cursor()
     if request.method == 'GET':
-        query="SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs natural join users"
+        query = "SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs join users on users.username = blogs.blogger"
         cursor.execute(query)
         result = cursor.fetchall()
         # 关闭数据库连接
@@ -642,7 +667,7 @@ def all_blogs():
         data = request.get_json()
         search_word = data.get('keyword')
         # 在标题中搜索包含关键词的帖子  
-        query = "SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs natural join users WHERE blogs.title LIKE %s"
+        query = "SELECT blogs.blogid,blogs.title,users.username,blogs.time FROM blogs join users on users.username = blogs.blogger WHERE blogs.title LIKE %s"
         # 使用%作为通配符来匹配任意字符  
         cursor.execute(query, ('%{}%'.format(search_word),))
         result = cursor.fetchall()
