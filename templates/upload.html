@@ -25,6 +25,9 @@
   </div>
   <div class="background-container">  
     <div class="content-container">
+      <div class="back-arrow" onclick="goToHomePage()">
+        <i class="fas fa-arrow-left"></i>
+      </div>
       <div class="editor-container">  
         <div>  
           <h2 class="post-title">帖子发布</h2>  
@@ -55,6 +58,11 @@
     </div>  
   </div>
   <script>
+
+    function goToHomePage() {
+      window.location.href = '/base';
+    }
+
     document.getElementById('uploadedImage').addEventListener('click', function() {
       var enlargedImage = document.createElement('img');
       enlargedImage.src = this.src;
@@ -109,7 +117,7 @@
         }
 
         // 发送POST请求到后端
-        fetch('/uploadblog', {
+        fetch('/upload', {
           method: 'POST',
           body: formData
         })

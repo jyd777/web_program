@@ -20,6 +20,10 @@
 
     <div class="forum-container">
       <div class="content">
+        <!--返回箭头-->
+        <div class="back-arrow" onclick="goToHomePage()">
+          <i class="fas fa-arrow-left"></i>
+        </div>
         <div class="section">
           <!-- 用户头像 -->
           <img id="bloggerAvatar" class="user-avatar" src="" alt="用户头像">
@@ -116,6 +120,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.16.8/antd.min.js" integrity="sha512-L8pJr2FgwIhKwv9HGMzA3dbsAsECbl8oRtftJix/5Fuxw9LR+zmOcK1y6kRkDehplJK7cCkbZzUypKmXTrxJ3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   
   <script>
+    function goToHomePage() {
+      window.location.href = '/base';
+    }
     function updateUserInformation(blogger) {
         fetch('/user_info/' + blogger)
             .then(function(response) {

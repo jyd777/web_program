@@ -19,6 +19,10 @@
     </div>
     <div class="search-container">
         <input type="text" id="search-box" class="search-box magnifying-glass" placeholder="  请输入搜索内容">
+        <!--发布帖子按钮-->
+        <button id="uploadButton" class="upload-button" type="button" onclick="uploadArticle()">
+            发布帖子
+        </button>
     </div>
 
     <div class="content" id="content">
@@ -86,6 +90,11 @@
 </html>
 <script type="text/javascript" src="../static/readingWelcomeNav.js"></script>
 <script type="text/javascript">
+    
+    function uploadArticle() {
+      window.location.href = '/upload';
+    }
+
     document.addEventListener('DOMContentLoaded', (event) => {
         let currentPage = 1; // 当前页码
         const postsPerPage = 10; // 每页显示的帖子数
