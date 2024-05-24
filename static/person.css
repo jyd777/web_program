@@ -117,7 +117,7 @@ body {
     /* 其他样式，如加粗、斜体等 */
 }
 
-.forum-container {
+.post {
     background-color: #ffffff;
     border-radius: 20px;
     padding: 20px;
@@ -131,7 +131,7 @@ body {
     transform: translateY(135px);
 }
 
-.forum-container::before {
+.post::before {
     content: "";
     position: absolute;
     top: 0;
@@ -143,16 +143,27 @@ body {
 }
 
 .forum-container-title {
-    color: #d77474;
-    font-weight: bold;
-    font-size: 18px;
-    margin-left: 40px;
-    line-height: 30px;
-    position: absolute;
-    top: 10px; /* 调整标题在伪元素内的垂直位置 */
-    left: 10px; /* 调整标题在伪元素内的水平位置 */
-    z-index: 1;
+  color: #d77474;
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 40px;
+  line-height: 30px;
+  position: absolute;
+  top: 8px; /* 调整标题在伪元素内的垂直位置 */
+  left: 10px; /* 调整标题在伪元素内的水平位置 */
+  z-index: 1;
 }
+
+.forum-container-time {
+  font-size: 13px;
+  margin-left: 40px;
+  line-height: 20px;
+  position: absolute;
+  top: 45px; /* 调整时间在伪元素内的垂直位置，确保在标题下方10px */
+  left: 10px; /* 调整时间在伪元素内的水平位置 */
+  z-index: 1;
+}
+
 .word-count::before {
     content: "\f304";
     font-family: "Font Awesome 5 Free";
