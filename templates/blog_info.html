@@ -116,13 +116,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.16.8/antd.min.js" integrity="sha512-L8pJr2FgwIhKwv9HGMzA3dbsAsECbl8oRtftJix/5Fuxw9LR+zmOcK1y6kRkDehplJK7cCkbZzUypKmXTrxJ3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   
   <script>
-    //bloggerAvatar
-    document.getElementById('bloggerAvatar').addEventListener('click', function() {
-        window.location.href = "/personal_web/" + username;
-    });
-    // 发起请求以获取用户信息
-    function updateUserInformation(username) {
-        fetch('/user_info/' + username)
+    function updateUserInformation(blogger) {
+        fetch('/user_info/' + blogger)
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -131,12 +126,11 @@
             })
             .then(function(userObj) {
                 var imageElement = document.getElementById('bloggerAvatar');
-                console.log(imageElement);
                 if (userObj && !userObj.error) {
                     imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
                 }
                 else {
-                    // 处理用户信息不存在的情况 也就是默认的值显示为啥
+                    // 处理用户信息不存在的情况，显示默认的头像
                     imageElement.src = '../static/user.jpg';
                 }
             })
@@ -144,12 +138,18 @@
                 console.error('Error:', error);
             });
     }
+
+    document.getElementById('bloggerAvatar').addEventListener('click', function() {
+        window.location.href = "/personal_web/" + blogger;
+    });
+
     // 渲染文章内容的函数
     const renderArticleContent = (blog) => {
       document.getElementById('bloggerName').innerText = blog.blogger; //发帖人
       document.getElementById('articleTitle').innerText = blog.title;  //blog标题
       document.getElementById('articleContent').innerText = blog.content;  //blog内容
       renderArticleImage(blog.image); // 文章图片
+      updateUserInformation(blog.blogger);  //获取用户信息
     };
 
     //显示文章图片
