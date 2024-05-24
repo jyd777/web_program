@@ -47,9 +47,9 @@
     </div>
         <input type="file" id="imagebgchange" style="display: none;">
         <img id="curbgimage" src="" alt="img" class="background-image">
-    <div class="post" id="post">
-        <!-- 帖子内容将由JavaScript动态加载 -->
-    </div>
+        <div class="forum-container" id="forum-container">
+            <!-- 这里将动态生成帖子 -->
+        </div>
 </div>
 </div>
 <script>
@@ -251,25 +251,25 @@
         fetch('/myblogs')
             .then(response => response.json())
             .then(data => {
-                const forumContainer = document.getElementById('post');
+                const forumContainer = document.getElementById('forum-container');
                 forumContainer.innerHTML = ''; // 清空当前内容
-                //data.myblogs(blogid,title,blogger,time)
-                data.myblogs.forEach(blog => {
+
+                data.myblogs.forEach(post => {
                     const postElement = document.createElement('div');
                     postElement.className = 'post';
                     postElement.innerHTML = `
-                        <h2>${blog[1]}</h2>
-                        <p>${blog[3]}</p>
+                        <h2 class="forum-container-title">${post[1]}</h2>
+                        <p>${post[3]}</p>
                     `;
-                    //点击跳转到blog_info页面并传送blogid
                     postElement.onclick = function() {
-                        window.location.href = `/blog_info?blog_id=${blog[0]}`;
+                        window.location.href = `/blog_info?blog_id=${post[0]}`;
                     };
                     forumContainer.appendChild(postElement);
                 });
             })
             .catch(error => console.error('Error loading forum posts:', error));
     }
+
     loadForumPosts();
 
 </script>
