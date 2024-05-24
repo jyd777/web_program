@@ -12,46 +12,47 @@
 
     <title>Here is Title</title>
 </head>
-<div class="container">
-    <div class="user-profile">
-        <input type="file" id="imagechange" style="display: none;">
-        <img id="curimage" src="" onclick="confirmChangeImage()" alt="img" class="avatar">
-        <h3><span id="name"></span></h3>
-    </div>
-    <div class="navigation">
-        <!-- 导航内容 -->
-    </div>
-    <div class="info-box">
-        <div class="personal-info">
-<div>
-    <i class="fa-solid fa-circle-user" style="color: white; margin-right: 5px;"></i>
-    <span class="mecarbottm-value" id="info1"><span id="sex"></span></span>
-</div>
-<div>
-    <i class="fa-solid fa-square-poll-horizontal" style="color: white; margin-right: 5px;margin-top:10px"></i>
-    <span class="mecarbottm-value" id="info3"><span id="signature"></span></span>
-</div>
+<body>
+    <div class="container">
+        <div class="user-profile">
+            <input type="file" id="imagechange" style="display: none;">
+            <img id="curimage" src="" onclick="confirmChangeImage()" alt="img" class="avatar">
+            <h3><span id="name"></span></h3>
         </div>
-        <div class="stats">
-            <div class="article-count">收藏文章：10</div>
-            <div class="word-count"style="margin-top:10px">已背单词：100</div>
+        <div class="navigation">
+            <!-- 导航内容 -->
         </div>
-        <div class="button-container" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-            <a class="btn" href="/home"><i class="fas fa-home"></i></a>
-            <div class="btn" onclick="confirmChangeBGImage()">
-                <i class="fas fa-image"></i>
+        <div class="info-box">
+            <div class="personal-info">
+                <div>
+                    <i class="fa-solid fa-circle-user" style="color: white; margin-right: 5px;"></i>
+                    <span class="mecarbottm-value" id="info1"><span id="sex"></span></span>
+                </div>
+                <div>
+                    <i class="fa-solid fa-square-poll-horizontal" style="color: white; margin-right: 5px;margin-top:10px"></i>
+                    <span class="mecarbottm-value" id="info3"><span id="signature"></span></span>
+                </div>
             </div>
-            <button class="btn" onclick="editAllInfo()">修改信息</button>
-            <button class="btn" style="display:none;" id="saveButton" onclick="saveAllInfo()">保存修改</button>
+            <div class="stats">
+                <div class="article-count">收藏文章：10</div>
+                <div class="word-count"style="margin-top:10px">已背单词：100</div>
+            </div>
+            <div class="button-container" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <a class="btn" href="/home"><i class="fas fa-home"></i></a>
+                <div class="btn" onclick="confirmChangeBGImage()">
+                    <i class="fas fa-image"></i>
+                </div>
+                <button class="btn" onclick="editAllInfo()">修改信息</button>
+                <button class="btn" style="display:none;" id="saveButton" onclick="saveAllInfo()">保存修改</button>
+            </div>
         </div>
-    </div>
         <input type="file" id="imagebgchange" style="display: none;">
         <img id="curbgimage" src="" alt="img" class="background-image">
         <div class="forum-container" id="forum-container">
             <!-- 这里将动态生成帖子 -->
         </div>
-</div>
-</div>
+    </div>
+</body>
 <script>
     // 询问用户是否确认更新头像
     function confirmChangeImage() {
@@ -259,7 +260,7 @@
                     postElement.className = 'post';
                     postElement.innerHTML = `
                         <h2 class="forum-container-title">${post[1]}</h2>
-                        <p>${post[3]}</p>
+                        <p class="forum-container-time">${post[3]}</p>
                     `;
                     postElement.onclick = function() {
                         window.location.href = `/blog_info?blog_id=${post[0]}`;
