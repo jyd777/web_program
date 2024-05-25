@@ -658,17 +658,17 @@ def blogcomments():
         connection.commit()
         query = "SELECT commenter,content FROM comments WHERE blogid = %s"
         cursor.execute(query, blog_id)
-        comments=cursor.fetchone()
+        comments=cursor.fetchall()
         query = "SELECT content FROM blogs WHERE blogid = %s"
         cursor.execute(query, blog_id)
-        blog_content=cursor.fetchall()
+        blog_content=cursor.fetchone()
         comment_id=cursor.lastrowid
         # 关闭数据库连接
         cursor.close()
         connection.close()
         # 记录上传操作
         print(blog_id)
-        hashed_blog=hashlib.sha256((str(blog_id)+blog_content).encode()).hexdigest()
+        hashed_blog=hashlib.sha256((str(blog_id)+"&"+blog_content[0]).encode()).hexdigest()
         hashed_comment = hashlib.sha256((str(comment_id)+"&"+content).encode()).hexdigest()
         #record_operation(session['username'], "upload", hashed_blog, hashed_comment)
         return jsonify({'comments':comments})
