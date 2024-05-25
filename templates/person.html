@@ -51,6 +51,10 @@
         <div class="forum-container" id="forum-container">
             <!-- 这里将动态生成帖子 -->
         </div>
+        <div class="pagination" id="pagination">
+            <button id="prev-page">&lt;</button> <!-- 左箭头图标 -->
+            <button id="next-page">&gt;</button> <!-- 右箭头图标 -->
+        </div>
     </div>
 </body>
 <script>
@@ -247,30 +251,71 @@
     }
     updateUserInformation(username);
 
-    // 加载论坛帖子
-    function loadForumPosts() {
-        fetch('/myblogs')
-            .then(response => response.json())
-            .then(data => {
-                const forumContainer = document.getElementById('forum-container');
-                forumContainer.innerHTML = ''; // 清空当前内容
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let currentPage = 1; // 当前页码
+        const postsPerPage = 3; // 每页显示的帖子数
+        let allPosts = []; // 存储所有帖子的数组
 
-                data.myblogs.forEach(post => {
-                    const postElement = document.createElement('div');
-                    postElement.className = 'post';
-                    postElement.innerHTML = `
-                        <h2 class="forum-container-title">${post[1]}</h2>
-                        <p class="forum-container-time">${post[3]}</p>
-                    `;
-                    postElement.onclick = function() {
-                        window.location.href = `/blog_info?blog_id=${post[0]}`;
-                    };
-                    forumContainer.appendChild(postElement);
-                });
+        // 加载所有帖子
+        const loadAllPosts = () => {
+            const endpoint = '/myblogs'; // 后端接口地址
+
+            // 发送请求到后端获取所有帖子数据
+            fetch(endpoint, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
-            .catch(error => console.error('Error loading forum posts:', error));
-    }
+            .then(response => response.json()) // 解析JSON响应
+            .then(data => {
+                allPosts = data.myblogs; // 将所有帖子数据存储到allPosts数组中
+                loadPosts(); // 加载当前页的帖子
+            })
+            .catch(error => console.error('Error:', error)); // 捕获并打印错误
+        };
 
-    loadForumPosts();
+        // 根据当前页码加载帖子
+        const loadPosts = () => {
+            const contentDiv = document.getElementById('forum-container'); // 获取内容容器
+            contentDiv.innerHTML = ''; // 清空现有内容
+
+            // 计算当前页显示的帖子范围
+            const startIndex = (currentPage - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            const postsToDisplay = allPosts.slice(startIndex, endIndex); // 获取当前页的帖子
+
+            // 遍历当前页的帖子，创建帖子元素并添加到内容容器中
+            postsToDisplay.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                postDiv.innerHTML = `<h2 class="forum-container-title>${post[1]}</h2><p class="forum-container-time>${post[3]}</p>`; //显示每条帖子的标题、发帖人和日期
+                postDiv.addEventListener('click', () => {
+                    window.location.href = `/blog_info?blog_id=${post[0]}`; // 跳转到帖子详情页，并传递blog_id
+                });
+                contentDiv.appendChild(postDiv);
+            });
+        };
+
+        // 处理上一页按钮点击事件
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--; // 页码减一
+                loadPosts(); // 加载上一页内容
+            }
+        });
+
+        // 处理下一页按钮点击事件
+        document.getElementById('next-page').addEventListener('click', () => {
+            if (currentPage * postsPerPage < allPosts.length) {
+                currentPage++; // 页码加一
+                loadPosts(); // 加载下一页内容
+            }
+        });
+
+
+        // 初次加载所有帖子
+        loadAllPosts();
+    });
 
 </script>
