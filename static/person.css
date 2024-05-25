@@ -165,19 +165,40 @@ body {
 }
 
 .word-count::before {
-    content: "\f304";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 5px;
-    color:white;
-    margin-top:10px;
-  }
-  .article-count::before {
-    content: "\f005";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 400;
-    margin-right: 5px;
-    color:white;
-  }
+  content: "\f304";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 5px;
+  color:white;
+  margin-top:10px;
+}
+.article-count::before {
+  content: "\f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  margin-right: 5px;
+  color:white;
+}
+
+.pagination {
+  position: fixed;
+  bottom: 0;
+  width: 97%;
+  background-color: transparent;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination button {
+  padding: 10px 15px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.15);
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
 
   
