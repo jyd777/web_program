@@ -58,11 +58,9 @@
     </div>  
   </div>
   <script>
-
     function goToHomePage() {
       window.location.href = '/base';
     }
-
     document.getElementById('uploadedImage').addEventListener('click', function() {
       var enlargedImage = document.createElement('img');
       enlargedImage.src = this.src;
@@ -117,7 +115,7 @@
         }
 
         // 发送POST请求到后端
-        fetch('/upload', {
+        fetch('/uploadblog', {
           method: 'POST',
           body: formData
         })
