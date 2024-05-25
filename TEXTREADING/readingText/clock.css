@@ -1,0 +1,142 @@
+.tikutaku {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+    /* 让父容器占满整个可视区域 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    margin-top: 30px;
+    margin-bottom: -80px;
+}
+
+.clock {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    z-index: -3;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    min-width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: rgba(250, 200, 200, .9);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, .5);
+}
+
+.clock::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    z-index: 5;
+    box-shadow: 8px 2px 60px rgba(0, 0, 0, .5);
+    background-color: rgba(248, 239, 247, 0.8);
+}
+
+.clock::after {
+    content: '';
+    display: block;
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, .5) inset;
+    background-color: rgba(250, 200, 200, .9);
+    z-index: -2;
+}
+
+.clock .hour,
+.clock .min,
+.clock .sec {
+    position: absolute;
+}
+
+.clock .hour,
+.hr {
+    width: 100px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+}
+
+.clock .min,
+.mn {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+}
+
+.clock .sec,
+.sc {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.hr::before,
+.mn::before,
+.sc::before {
+    box-shadow: 2px -0.6px 2px rgba(255, 255, 255, 0.1) inset,
+        2px 0.5px 2px rgba(0, 0, 0, 0.2) inset,
+        -3px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hr::before {
+    content: '';
+    width: 8px;
+    height: 80px;
+    background-color: crimson;
+    z-index: 10;
+    border-radius: 6px 6px 0 0;
+    border-radius: 0.5em;
+    width: 15px;
+    height: 45px;
+}
+
+.mn::before {
+    content: '';
+    width: 4px;
+    height: 90px;
+    background-color: slateblue;
+    z-index: 8;
+    border-radius: 6px 6px 0 0;
+    border-radius: 0.4em;
+    width: 13px;
+    height: 65px;
+}
+
+.sc::before {
+    content: '';
+    width: 4px;
+    height: 90px;
+    background-color: powderblue;
+    z-index: 9;
+    border-radius: 6px 6px 0 0;
+    border-radius: 0.3em;
+    width: 10px;
+    height: 85px;
+}
+
+.artfont {
+    position: relative;
+    z-index: -18;
+    margin-left: 40px;
+    /* 调整这个值以确保artfont和clock水平对齐 */
+    max-width: 250px;
+    max-height: 200px;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+    background-color: paleturquoise;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-70px);
+}

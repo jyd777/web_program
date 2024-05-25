@@ -18,8 +18,8 @@ loadSong(songs[songIndex])
 // 更新歌曲细节
 function loadSong(song) {
     title.innerHTML = song
-    audio.src = `/TEXTREADING/musicPlayer/MUSIC/${song}.mp3`;
-    musicCover.src = `/TEXTREADING/musicPlayer/IMG/${song}.jpg`;
+    audio.src = `../musicPlayer/MUSIC/${song}.mp3`;
+    musicCover.src = `../musicPlayer/IMG/${song}.jpg`;
 }
 
 // 播放歌曲

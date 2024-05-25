@@ -5,7 +5,7 @@
     --background-color: #f0f4f8;
     --container-bg-color: #ffffff;
     --text-color: #333;
-    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.4);
     --font-family: 'Roboto', sans-serif;
     --border-radius: 10px;
     --transition-duration: 0.3s;
@@ -21,6 +21,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     /* 水平居中 */
     align-items: center;
@@ -55,7 +56,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index: -2;
+    z-index: -20;
     animation: starAnimation 1.5s infinite ease-in-out alternate;
 }
 
@@ -88,6 +89,7 @@ body {
     /* 水平居中 */
     animation: fadeIn 1s ease-in-out;
     /* 淡入效果 */
+    margin-bottom: 40px;
 }
 
 /* 标题样式 */
@@ -106,7 +108,7 @@ body {
     transition: all 0.3s ease;
     margin-top: 20px;
     margin-bottom: 60px;
-    min-height: 100px;
+    min-height: 80px;
 }
 
 @keyframes glow {
@@ -182,6 +184,7 @@ body {
     max-width: 600px;
     display: flex;
     justify-content: center;
+    z-index: 10;
 }
 
 .search-bar input {
@@ -208,6 +211,7 @@ body {
     max-width: 200px;
     display: flex;
     justify-content: center;
+    z-index: 3;
 }
 
 .category-filter select {
@@ -247,6 +251,7 @@ body {
     animation: fadeIn 1s ease-in-out;
     /* 淡入效果 */
     margin-bottom: 20px;
+    z-index: 10;
 }
 
 /* 这里调整封面大小 */
@@ -301,6 +306,7 @@ body {
     justify-content: center;
     gap: 10px;
     margin-bottom: 10px;
+    z-index: 3;
 }
 
 .pagination button {

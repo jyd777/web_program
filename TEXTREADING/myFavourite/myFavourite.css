@@ -1,0 +1,661 @@
+* {
+    padding: 0px;
+    margin: 0px auto;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* 日夜交替 */
+.cont_principal {
+    width: 100%;
+    height: 100%;
+    left: 75%;
+    position: absolute;
+    max-width: 500px;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -100px;
+}
+
+.cont_text>p {
+    color: #7730ec;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.cont_text_dia>p {
+    font-size: 20px;
+    color: #fcce18;
+}
+
+.cont_text_noche>p {
+    font-size: 20px;
+    color: #7730ec;
+}
+
+
+body {
+    background-color: #f2edff;
+    transition-delay: 0.7s;
+    transition: background-color 0.5s;
+}
+
+.cont_centro {
+    position: relative;
+    width: 100%;
+    height: auto;
+    left: 30%;
+}
+
+.cont_circle {
+    width: 212px;
+    height: 212px;
+    position: relative;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0px 5px 30px 5px rgba(119, 48, 236, 0.4);
+    overflow: hidden;
+    transition: all 0.5s;
+    background-color: #7730ec;
+    cursor: pointer;
+}
+
+.cont_circle_noche {
+    box-shadow: 0px 5px 30px 5px rgba(119, 48, 236, 0.4);
+    transition-delay: 0.7s;
+}
+
+.cont_circle_noche>.sun {
+    animation-name: ocultar_sun;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.cont_circle_noche>.moon {
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    animation-name: salida_sun;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+
+
+}
+
+
+.cont_olas_top {
+    position: absolute;
+    bottom: 63px;
+    left: -210px;
+}
+
+.cont_olas_bottom {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 212px;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.cont_olas_bottom>svg {
+    margin-top: 100px;
+    transition: all 1.5s;
+    position: relative;
+    left: -212px;
+}
+
+.cont_circle_dia>.cont_olas_bottom>svg {
+
+    position: relative;
+    left: 0px;
+}
+
+.moon {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.cont_circle_dia {
+    background-color: #fcce18;
+    transition-delay: 0.7s;
+    box-shadow: 0px 5px 30px 5px rgba(252, 206, 24, 0.5);
+}
+
+.cont_circle_dia>.sun {
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    animation-name: salida_sun;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+
+
+}
+
+.cont_circle_dia>.moon {
+    animation-name: ocultar_sun;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.sun {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 23px;
+    height: 23px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px 6px rgba(255, 255, 255, 0.5);
+    transform: translate(-190px, 20px);
+}
+
+@-webkit-keyframes salida_sun {
+    from {
+        transform: translate(100px, 50px);
+    }
+
+    to {
+        transform: translate(0px, 0px);
+    }
+}
+
+@-o-keyframes salida_sun {
+    from {
+        transform: translate(100px, 50px);
+    }
+
+    to {
+        transform: translate(0px, 0px);
+    }
+
+}
+
+@-moz-keyframes salida_sun {
+    from {
+        transform: translate(100px, 50px);
+    }
+
+    to {
+        transform: translate(0px, 0px);
+    }
+}
+
+@keyframes salida_sun {
+    from {
+        transform: translate(100px, 50px);
+    }
+
+    to {
+        transform: translate(0px, 0px);
+    }
+}
+
+
+
+@-webkit-keyframes ocultar_sun {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    50% {
+        transform: translate(-50px, -20px);
+    }
+
+    60% {
+        transform: translate(-70px, -15px);
+    }
+
+    70% {
+        transform: translate(-90px, -10px);
+    }
+
+    85% {
+        transform: translate(-130px, 5px);
+    }
+
+    100% {
+        transform: translate(-190px, 20px);
+    }
+}
+
+@-o-keyframes ocultar_sun {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    50% {
+        transform: translate(-50px, -20px);
+    }
+
+    60% {
+        transform: translate(-70px, -15px);
+    }
+
+    70% {
+        transform: translate(-90px, -10px);
+    }
+
+    85% {
+        transform: translate(-130px, 5px);
+    }
+
+    100% {
+        transform: translate(-190px, 20px);
+    }
+}
+
+@-moz-keyframes ocultar_sun {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    50% {
+        transform: translate(-50px, -20px);
+    }
+
+    60% {
+        transform: translate(-70px, -15px);
+    }
+
+    70% {
+        transform: translate(-90px, -10px);
+    }
+
+    85% {
+        transform: translate(-130px, 5px);
+    }
+
+    100% {
+        transform: translate(-190px, 20px);
+    }
+}
+
+@keyframes ocultar_sun {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    50% {
+        transform: translate(-50px, -20px);
+    }
+
+    60% {
+        transform: translate(-70px, -15px);
+    }
+
+    70% {
+        transform: translate(-90px, -10px);
+    }
+
+    85% {
+        transform: translate(-130px, 5px);
+    }
+
+    100% {
+        transform: translate(-190px, 20px);
+    }
+}
+
+
+
+/* TITLE 字体 */
+@import url(https://fonts.googleapis.com/css?family=Signika:700,300,600);
+
+.BOXtitle {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    left: 50%;
+    font-size: 3rem;
+    font: bold 'Signika', sans-serif;
+    user-select: none;
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+h1 span {
+    display: inline-block;
+    animation: float .7s ease-in-out infinite;
+    /* 调整动画速度 */
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    33% {
+        transform: translateY(-1px) rotate(-2deg);
+    }
+
+    66% {
+        transform: translateY(1px) rotate(2deg);
+    }
+}
+
+.BOXtitle:hover span {
+    animation: bounce .6s;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: rotateX(20deg) translateY(2px) rotate(-3deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(3deg) scale(1.1);
+    }
+}
+
+.BOXtitle span:nth-child(4n) {
+    color: hsl(50, 75%, 55%);
+    text-shadow: 1px 1px hsl(50, 75%, 45%), 2px 2px hsl(50, 45%, 45%), 3px 3px hsl(50, 45%, 45%), 4px 4px hsl(50, 75%, 45%);
+}
+
+.BOXtitle span:nth-child(4n-1) {
+    color: hsl(135, 35%, 55%);
+    text-shadow: 1px 1px hsl(135, 35%, 45%), 2px 2px hsl(135, 35%, 45%), 3px 3px hsl(135, 35%, 45%), 4px 4px hsl(135, 35%, 45%);
+}
+
+.BOXtitle span:nth-child(4n-2) {
+    color: hsl(155, 35%, 60%);
+    text-shadow: 1px 1px hsl(155, 25%, 50%), 2px 2px hsl(155, 25%, 50%), 3px 3px hsl(155, 25%, 50%), 4px 4px hsl(140, 25%, 50%);
+}
+
+.BOXtitle span:nth-child(4n-3) {
+    color: hsl(30, 65%, 60%);
+    text-shadow: 1px 1px hsl(30, 45%, 50%), 2px 2px hsl(30, 45%, 50%), 3px 3px hsl(30, 45%, 50%), 4px 4px hsl(30, 45%, 50%);
+}
+
+.BOXtitle h1 span:nth-child(2) {
+    animation-delay: .05s;
+}
+
+.BOXtitle h1 span:nth-child(3) {
+    animation-delay: .1s;
+}
+
+.BOXtitle h1 span:nth-child(4) {
+    animation-delay: .15s;
+}
+
+.BOXtitle h1 span:nth-child(5) {
+    animation-delay: .2s;
+}
+
+.BOXtitle h1 span:nth-child(6) {
+    animation-delay: .25s;
+}
+
+.BOXtitle h1 span:nth-child(7) {
+    animation-delay: .3s;
+}
+
+.BOXtitle h1 span:nth-child(8) {
+    animation-delay: .35s;
+}
+
+.BOXtitle h1 span:nth-child(9) {
+    animation-delay: .4s;
+}
+
+.BOXtitle h1 span:nth-child(10) {
+    animation-delay: .45s;
+}
+
+.BOXtitle h1 span:nth-child(11) {
+    animation-delay: .5s;
+}
+
+.BOXtitle h1 span:nth-child(12) {
+    animation-delay: .55s;
+}
+
+.BOXtitle h1 span:nth-child(13) {
+    animation-delay: .6s;
+}
+
+/* -------  表格  ----------*/
+/* 表格容器 */
+main.table {
+    width: 57vw;
+    height: 80vh;
+    background-color: #fff5;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    transform: translateX(35%);
+    margin-top: 50px;
+    box-sizing: border-box;
+}
+
+/* 头部样式 */
+.header {
+    width: 100%;
+    height: 10%;
+    background-color: #fff4;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #388e3c;
+}
+
+.header .input-group {
+    width: 35%;
+    height: 50%;
+    background-color: #fff5;
+    padding: 0 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: width 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.header .input-group:hover {
+    width: 45%;
+    background-color: #fff8;
+    box-shadow: 0 5px 40px rgba(0, 0, 0, 0.1);
+}
+
+.header .input-group input {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+/* 表格内容容器 */
+.shell {
+    width: 95%;
+    max-height: calc(90% - 25px);
+    background-color: #fff;
+    margin: 8px auto;
+    border-radius: 10px;
+    overflow: auto;
+    overflow: overlay;
+}
+
+.shell::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+table {
+    width: 100%;
+}
+
+table,
+th,
+td {
+    border-collapse: collapse;
+    padding: 14px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+tbody td {
+    max-width: 450px;
+}
+
+thead th {
+    padding: 18px;
+    position: sticky;
+    top: 0px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    transform: translateY(-1px);
+    z-index: 5;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1 !important;
+}
+
+/* 链接按钮样式 */
+a.button {
+    color: #11396E;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+}
+
+a.button::before,
+a.button::after {
+    content: '';
+    width: 0%;
+    height: 2px;
+    display: block;
+    transition: 0.8s;
+    position: absolute;
+}
+
+a.button::before {
+    left: 0;
+}
+
+a.button::after {
+    right: 0;
+}
+
+a.button:hover::after,
+a.button:hover::before {
+    width: 100%;
+    background: #7D99BF;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400);
+
+
+
+
+.header h1:hover {
+    transform: translate(-5px, -5px);
+    text-shadow: 0 1px 0 hsl(174, 5%, 90%),
+        0 2px 0 hsl(174, 5%, 85%),
+        0 3px 0 hsl(174, 5%, 80%),
+        0 4px 0 hsl(174, 5%, 76%),
+        0 5px 0 hsl(174, 5%, 74%),
+        0 6px 0 hsl(174, 5%, 72%),
+
+        0 0 5px rgba(0, 0, 0, .05),
+        0 1px 3px rgba(0, 0, 0, .14),
+        0 3px 5px rgba(0, 0, 0, .16),
+        0 5px 10px rgba(0, 0, 0, .18),
+        0 7px 7px rgba(0, 0, 0, .2),
+        0 9px 9px rgba(0, 0, 0, .25);
+}
+
+.table {
+    margin-bottom: 50px;
+}
+
+/* 云 */
+.shell-cloud {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    /* 改为 fixed 以固定位置 */
+    right: 4%;
+    bottom: 30%;
+    background-color: transparent;
+    min-height: 200px;
+}
+
+.cloud {
+    position: relative;
+    top: 50px;
+    width: 180px;
+    height: 140px;
+    background-image: url(../TextImage/cloud.png);
+    background-size: cover;
+}
+
+.text {
+    position: absolute;
+    top: 145px;
+    max-width: 160px;
+    max-height: 100px;
+    line-height: 10px;
+    color: #845EC2;
+    text-shadow: 0 0 2px #B39CD0,
+        0 0 4px #FBEAFF,
+        0 0 6px #FFF;
+    animation: rain 1s linear forwards;
+}
+
+@keyframes rain {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    80% {
+        transform: translateY(130px) scale(1);
+    }
+
+    /* 让雨点落到最下面时回弹10px后变大一点三倍并使其透明度消失可以 
+    达到真实雨水落地后溅射消失的效果 */
+    100% {
+        transform: translateY(120px) scale(1.3);
+        opacity: 0;
+    }
+}

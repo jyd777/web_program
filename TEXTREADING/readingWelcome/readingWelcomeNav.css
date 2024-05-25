@@ -14,7 +14,7 @@
     height: 70vh;
     /* 设置高度的百分比 */
     background-color: #7D99BF;
-    z-index: 2;
+    z-index: 20;
     top: 0;
     bottom: 0;
     left: 10px;

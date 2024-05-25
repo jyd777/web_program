@@ -70,6 +70,17 @@
             </div>
         </div>
     </nav>
+
+    <div class="collection">
+        <div class="collection-content">
+            <div class="collection-btn"><span></span></div>
+        </div>
+        <div class="collection-box">
+            <i class="fa-regular fa-thumbs-up fontstyle"></i>
+            <i class="fa-regular fa-star fontstyle"></i>
+        </div>
+    </div>
+
     <div class="main">
         <header>
             <div><img src="https://assets.codepen.io/2002878/bilibili-autumn-1.png"></div>
@@ -768,6 +779,17 @@
 
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        // 当点击按钮时执行以下代码
+        $('.collection-btn').click(function () {
+            // 切换当前按钮的类名为active，如果已经有active类名则移除，如果没有则添加
+            $(this).toggleClass('active');
+            // 切换所有class为collection-box的元素的类名为open，如果已经有open类名则移除，如果没有则添加
+            $('.collection-box').toggleClass('open');
+        });
+    </script>
 
     <script src="readingTextHeader.js"></script>
     <script src="../readingWelcome/readingWelcomeNav.js"></script>

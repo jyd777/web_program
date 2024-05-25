@@ -13,8 +13,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="./moreArticles.css">
-    <link rel="stylesheet" href="../musicPlayer/musicPlayer.css">
+    <link rel="stylesheet" href="./musicPlayer.css">
     <link rel="stylesheet" href="../readingWelcome/readingWelcomeNav.css">
+    <link rel="stylesheet" href="./cursor.css">
+    <link rel="stylesheet" href="./clock.css">
+
 </head>
 
 <body>
@@ -79,6 +82,27 @@
         </div>
     </nav>
 
+    <div class="cursor"></div>
+    <canvas id="canvas"></canvas>
+
+    <div class="tikutaku">
+        <div class="clock">
+            <div class="hour">
+                <div class="hr" id="hr"></div>
+            </div>
+            <div class="min">
+                <div class="mn" id="mn"></div>
+            </div>
+            <div class="sec">
+                <div class="sc" id="sc"></div>
+            </div>
+        </div>
+        <div class="artfont">
+            <img src="../TextImage/jiyi.png" alt="">
+        </div>
+    </div>
+
+
     <!-- 主体 -->
     <div class="container">
         <h1 class="content-title">
@@ -142,9 +166,12 @@
         </div>
     </div>
 
+
     <script src="../readingWelcome/readingWelcomeNav.js"></script>
-    <script src="../musicPlayer/musicPlayer.js"></script>
+    <script src="./musicPlayer.js"></script>
     <script src="./moreArticles.js"></script>
+    <script src="./cursor.js"></script>
+    <script src="./clock.js"></script>
 
 </body>
 
