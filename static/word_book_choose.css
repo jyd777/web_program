@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    background-color: #11396E;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    margin-left:50px;
+    width: 95px; /* 设置logo宽度 */
+    height: 95px; /* 设置logo高度 */
+    background-image: url('logo.png'); /* 设置logo图片 */
+    background-size: contain; /* 图片大小适应容器 */
+    background-repeat: no-repeat; /* 防止重复 */
+}
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+ 
+  .search-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 450px;
+    border-radius: 40px;
+    font-size: 20px; 
+    background-image: linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%), linear-gradient(to right, transparent 15%, #ccc 15%, #ccc 85%, transparent 85%);
+    background-size: 10px 100%, 10px 100%; 
+    background-position: 5% center;
+  }
+   
+  .magnifying-glass {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l-4-4"/><circle cx="8" cy="8" r="5"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 9px center; 
+    padding-left: 50px; 
+    background-size: 10%; 
+  }
+
+  
+  .search-button {
+    background-color: #ffffff;
+    color: #11396E;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 150px;
+    height:50px;
+    font-size: 20px;
+  }
+  
+  .search-button:hover {
+    background-color:  #F4D690;
+    color:#fdfbe3;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+  }
+  .user-avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    margin-top: 45px;
+    margin-left: -50px;
+    box-shadow: 0 0 0 2px white;
+  }
+  .card {
+    border: 4px solid #11396E;
+    padding: 15px;
+    width: 390px;
+    height: 500px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 30px;
+    position: relative; /* 添加相对定位 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    background-size: cover;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.card:hover {
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.5);
+    transform: translateX(10px);
+}
+.card:hover::before {
+    opacity: 0; /* 鼠标移入时隐藏 */
+}
+.card-text {
+    position: absolute;
+    top: 35%;
+    left: calc(50% - 200px);
+    width: 400px;
+    height: 100px;
+    color: transparent;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    transition: opacity 0.3s; /* 添加过渡效果 */
+    opacity: 0; /* 初始状态为可见 */
+}
+
+
+.card-text::before {
+    content: attr(data-text);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.card-text::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+    opacity: 0; /* 初始状态为隐藏 */
+    transition: opacity 0.3s; /* 添加过渡效果 */
+}
+
+.card:hover .card-text::after {
+    opacity: 1; /* 鼠标移入时显示毛玻璃效果 */
+}
+
+.card:hover .card-text {
+    opacity: 1; /* 鼠标移入时显示文本内容 */
+}
+
+  .card.cet4 {
+    background-color: #e6f2ff;
+    background-image: url('cet4.jpg');
+    background-size: cover;
+  }
+  
+  .card.cet6 {
+    background-color: #fff2e6;
+    background-image: url('cet6.jpg');
+    background-size: cover;
+  }
+  
+  .card.toefl {
+    background-color: #fffde6;
+    background-image: url('toefl.jpg');
+    background-size: cover;
+  }

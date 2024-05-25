@@ -1,0 +1,481 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    background-color: #FDF9Ee;
+    overflow-x: hidden;
+}
+
+.main {
+    flex-direction: column;
+    transform: translateX(30px);
+    /* 不知道为啥往左偏移了一点，手动修正 哈哈 */
+}
+header {
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    min-width: 200%;
+    max-height: 100px;
+    transform: translateX(-20%);
+}
+
+header>div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    --offset: 0px;
+    --blur: 2px;
+}
+
+header>div>img {
+    display: block;
+    width: 110%;
+    height: 100%;
+    object-fit: cover;
+
+    transform: translatex(var(--offset));
+    filter: blur(var(--blur));
+}
+
+.welcome-photo {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    height: 12vh;
+    padding-top: 35px;
+    margin: 10px;
+    margin-bottom: 20px;
+    transform: scale(2);
+}
+
+.welcome-photo>img:hover {
+    transform: scale(1.1);
+    /* 悬停时缩放整个容器 */
+}
+
+.welcome-photo>img:hover img {
+    transform: scale(1.25);
+    /* 悬停时缩放图片 */
+}
+
+.welcome-photo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+
+
+.introduction {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-height: 80vh;
+    min-height: 60vh;
+    border: #fff 10px solid;
+    background-color: #11396E;
+    border-radius: 5px;
+    margin-top: 7vh;
+    margin-bottom: 8vh;
+    display: flex;
+    justify-content: flex-end; /* 将元素放置在右侧 */
+    position: relative;
+    display: flex;
+}
+.introduction-left {
+    flex: 1;
+    /* 左半部分样式 */
+}
+
+.introduction-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 120px;
+    /* 右半部分样式 */
+    position: relative;
+}
+.introduction-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60px; /* 调整虚线位置 */
+    width: 1px; /* 虚线宽度 */
+    background-color: white; /* 虚线颜色 */
+    border-left: 1px dashed white; /* 设置为虚线 */
+}
+.introduction-icon {
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    max-width: 400px; /* 设置最大宽度 */
+    max-height: 400px; /* 设置最大高度 */
+    min-width: 350px; /* 设置最大宽度 */
+    min-height: 350px;
+}
+.introduction-icon img {
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+    outline: 2px solid white;
+}
+
+.introduction-icon i {
+    content: "\f03e"; /* Unicode 图标代码 */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 400;
+    font-size: 100px;
+    color: #fff; /* 白色图标 */
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.textarea-container {
+    top:30%;
+    left:60%;
+}
+
+.depict {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    left: 12%;
+    top: 10%;
+    transition: 1s;
+}
+#uploadButton {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 20px;
+}
+
+#uploadButton:hover {
+    background-color: #0056b3;
+}
+
+.text-photo {
+    width: 45%;
+    height: 80%;
+    position: absolute;
+    background-size: cover;
+    margin: 0;
+    opacity: 0;
+    transition: 0.2s;
+    left: 0%;
+    top: 10%;
+    object-fit: cover;
+}
+.file-content-title {
+    width:400px;
+    height: 60px; /* 调整高度 */
+    resize: vertical; /* 允许垂直调整大小 */
+}
+.file-content-summary {
+    margin-top:10px;
+    width:400px;
+    height: 300px; /* 调整高度 */
+    resize: vertical; /* 允许垂直调整大小 */
+}
+.file-content-en {
+    width:600px;
+    height: 200px; /* 调整高度 */
+    resize: vertical; /* 允许垂直调整大小 */
+}
+.file-content-zh {
+    width:600px;
+    height: 200px; /* 调整高度 */
+    resize: vertical; /* 允许垂直调整大小 */
+}
+.file-content-word-en, .file-content-word-zh {
+    width: 100%;
+    height: 30px; /* 调整高度 */
+    resize: vertical; /* 允许垂直调整大小 */
+}
+.file-content-word-zh {
+    margin-top: 10px;
+}
+.file-content-word-sample-en, .file-content-word-sample-zh {
+    width: 100%;
+    height: 150px; /* 调整高度 */
+    resize: vertical; /* 允许垂直调整大小 */
+    margin-top: 10px;
+}
+
+.wrap {
+    width: 1100px;
+    position: relative;
+    margin-top: 100px;
+    height: fit-content;
+}
+
+/* 中线 */
+.wrap::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    bottom: 20px;
+    left: 60%;
+    width: 5px;
+    z-index: -999;
+    min-height: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.7);
+}
+
+.box {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.left {
+    flex-grow: 3;
+}
+
+.right {
+    flex-grow: 2;
+}
+
+.left,
+.right {
+    position: relative;
+    min-width: 33%;
+    border-radius: 15px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    /* 字体 */
+    line-height: 1.5;
+}
+
+.right {
+    position: relative;
+    min-width: 33%;
+    height: fit-content;
+    color: rgb(90, 90, 90);
+    border-radius: 15px;
+    text-align: left;
+    padding: 23px;
+    line-height: 1.5;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(220, 220, 220, 0.2));
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    background-size: 200% 200%;
+    animation: gradientBackground 15s ease infinite;
+}
+
+.right:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px);
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.left {
+    max-width: 52%;
+    /* background-color: rgba(255, 255, 255, .4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3); */
+}
+
+.right {
+    max-width: 33%;
+    background-color: rgba(255, 255, 255, .4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+}
+
+
+.text-english,
+.text-chinese {
+    position: relative;
+    padding-left: 20px;
+}
+
+.text-english {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.text-english::before,
+.text-chinese::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: #7D99BF;
+    border-radius: 3px;
+}
+
+.text-english::before {
+    background-color: #11396E;
+}
+
+
+.center {
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center>span {
+    width: 120px;
+    border-radius: 10px;
+    text-align: center;
+    font: 900 24px '';
+    line-height: 50px;
+    background-color: #fff;
+}
+
+.paragraphs-toolbar {
+    background-color: rgba(100, 148, 237, 0.396); /* 蓝灰色透明底色 */
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.paragraphs-toolbar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.paragraphs-toolbar button:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* 按钮悬停时的背景色 */
+}
+
+.save-box {
+    position: fixed;
+    bottom: 20px;
+    right: 320px;
+    background-color: rgba(100, 148, 237, 0.396); /* 蓝灰色透明底色 */
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.save-box button {
+    background: none;
+    border: none;
+    color: white;
+    width: 100px;
+    font-size: 18px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.save-box button:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* 按钮悬停时的背景色 */
+}
+
+.floating-toolbar {
+    position: fixed;
+    bottom: 20px;
+    right: 240px;
+    background-color: rgba(100, 148, 237, 0.396); /* 蓝灰色透明底色 */
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.floating-toolbar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.floating-toolbar button:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* 按钮悬停时的背景色 */
+}
+
+.imageContainer {
+    width: 620px;
+    min-height: 50px;
+    margin-top: 20px;
+    border-radius: 20px;
+    background-color: antiquewhite;
+    overflow: hidden; /* 超出部分隐藏 */
+}
+.imageContainer img {
+    width: 100%;
+    height: 200px;
+    display: none;
+}
+
+/* 类别过滤器样式 */
+.category-filter {
+    margin-bottom: 10px;
+    width: 400px;
+}
+
+.category-filter select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+}
+
+.category-filter select:focus {
+    outline: none;
+}
+
+.category-filter select:hover {
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 8px var(--shadow-color), 0 0 5px var(--secondary-color);
+}

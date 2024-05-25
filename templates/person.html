@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!--针对IE的兼容设置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--适配移动端-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="../static/person.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do List With Local Storage</title>
+
+    <title>Here is Title</title>
+</head>
+<body>
+    <div class="container">
+        <div class="user-profile">
+            <input type="file" id="imagechange" style="display: none;">
+            <img id="curimage" src="" onclick="confirmChangeImage()" alt="img" class="avatar">
+            <h3><span id="name"></span></h3>
+        </div>
+        <div class="navigation">
+            <!-- 导航内容 -->
+        </div>
+        <div class="info-box">
+            <div class="personal-info">
+                <div>
+                    <i class="fa-solid fa-circle-user" style="color: white; margin-right: 5px;"></i>
+                    <span class="mecarbottm-value" id="info1"><span id="sex"></span></span>
+                </div>
+                <div>
+                    <i class="fa-solid fa-square-poll-horizontal" style="color: white; margin-right: 5px;margin-top:10px"></i>
+                    <span class="mecarbottm-value" id="info3"><span id="signature"></span></span>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="article-count" id="favorite-link">收藏文章</div>
+                <div class="word-count"style="margin-top:10px">已背单词：100</div>
+            </div>
+            <div class="button-container" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <a class="btn" href="/home"><i class="fas fa-home"></i></a>
+                <div class="btn" onclick="confirmChangeBGImage()">
+                    <i class="fas fa-image"></i>
+                </div>
+                <button class="btn" onclick="editAllInfo()">修改信息</button>
+                <button class="btn" style="display:none;" id="saveButton" onclick="saveAllInfo()">保存修改</button>
+            </div>
+        </div>
+        <input type="file" id="imagebgchange" style="display: none;">
+        <img id="curbgimage" src="" alt="img" class="background-image">
+        <div class="forum-container" id="forum-container">
+            <!-- 这里将动态生成帖子 -->
+        </div>
+        <div class="pagination" id="pagination">
+            <button id="prev-page">&lt;</button> <!-- 左箭头图标 -->
+            <button id="next-page">&gt;</button> <!-- 右箭头图标 -->
+        </div>
+    </div>
+</body>
+<script>
+      document.getElementById('favorite-link').addEventListener('click', function() {
+    window.location.href = '/myFavourite';
+  });
+    // 询问用户是否确认更新头像
+    function confirmChangeImage() {
+        var confirmChange = confirm("确定要更换头像吗？");
+        if (confirmChange) {
+            var curImage = document.getElementById("curimage");//获得当前图片元素
+            var imageChangeInput = document.getElementById("imagechange");//获取文件选择框
+            imageChangeInput.value = ""; //清空文件选择框，这样用户可以选择同一张图片·
+            imageChangeInput.click();//模拟点击文件选择框，这样会弹出文件选择对话框，让用户选择
+            // change事件监听器，用户选择文件后，开始执行函数
+            imageChangeInput.addEventListener("change", function (event) {
+                var imagefile = event.target.files[0];//获得用户选择的第一个文件
+                if (imagefile.type.startsWith("image/")) {
+                    var readimage = new FileReader(); // 读取用户选择的图片内容（其实是文件内容）
+                    readimage.onload = function (e) { // 文件读取完了，开始执行
+                        curImage.src = e.target.result; // 更新数据
+                    };
+                    readimage.readAsDataURL(imagefile);
+                    uploadImage(imagefile);
+                } else {
+                    alert("上传文件格式错误，请选择图片文件！");
+                }
+            });
+        }
+    }
+    // 用户更新头像完后 实现头像保存 也就是数据回传到后端 保存到数据库中
+    function uploadImage(imageFile) {
+        var username = document.getElementById("name").innerText;
+        console.log(username);
+        console.log(imageFile);
+        var formData = new FormData(); // 创建一个FormData对象
+        formData.append("image", imageFile); // 将图片文件添加到FormData对象中，使用 "image" 作为键名
+        formData.append("username", username);
+        fetch('/uploadimage', {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                // 错误处理
+                console.error(error);
+            });
+    }
+   // 询问用户是否确认更新背景
+   function confirmChangeBGImage() {
+      var confirmChange = confirm("确定要更换背景吗？");
+      if (confirmChange){
+         var curImage = document.getElementById("curbgimage");//获得当前图片元素
+         var imageChangeInput = document.getElementById("imagebgchange");//获取文件选择框
+         imageChangeInput.value = ""; //清空文件选择框，这样用户可以选择同一张图片·
+         imageChangeInput.click();//模拟点击文件选择框，这样会弹出文件选择对话框，让用户选择
+         // change事件监听器，用户选择文件后，开始执行函数
+         imageChangeInput.addEventListener("change", function(event) {
+         var imagefile = event.target.files[0];//获得用户选择的第一个文件
+         if (imagefile.type.startsWith("image/")) {
+            var readimage = new FileReader(); // 读取用户选择的图片内容（其实是文件内容）
+            readimage.onload = function(e) { // 文件读取完了，开始执行
+              curImage.src = e.target.result; // 更新数据
+            };
+            readimage.readAsDataURL(imagefile);
+            uploadbgImage(imagefile);
+          } else {
+            alert("上传文件格式错误，请选择图片文件！");
+          }
+      });
+      }
+    }
+    // 用户更新背景完后 实现头像保存 也就是数据回传到后端 保存到数据库中
+    function uploadbgImage(imageFile) {
+      var username = document.getElementById("name").innerText;
+      console.log(username);
+      console.log(imageFile);
+      var formData = new FormData(); // 创建一个FormData对象
+      formData.append("image", imageFile); // 将图片文件添加到FormData对象中，使用 "image" 作为键名
+      formData.append("username", username);
+      fetch('/uploadbgimage', {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        // 错误处理
+        console.error(error);
+      });
+    }
+    // 用户修改个人信息
+    function editAllInfo() {
+        // 获取得到用户个人信息
+        const info1Element = document.getElementById("info1");
+        const info3Element = document.getElementById("info3");
+        // 所有的个人信息均可修改
+        enableEditing(info1Element);
+        enableEditing(info3Element);
+        //修改的时候 底下会出现保存修改的按钮
+        document.getElementById("saveButton").style.display = "block";
+    }
+
+    //修改一下原本显示用户个人信息的界面为用户修改个人信息的输入框
+    function enableEditing(element) {
+        const currentText = element.innerText;
+        // 创建可供用户修改的输入框
+        const inputElement = document.createElement("input");
+        inputElement.value = currentText;
+        element.innerHTML = "";
+        element.appendChild(inputElement);
+    }
+
+    // 用户修改完保存所有个人信息
+    function saveAllInfo() {
+        // 得到用户修改完的个人信息
+        const info1Element = document.getElementById("info1");
+        const info3Element = document.getElementById("info3");
+        //得到用户的id
+        var username = document.getElementById("name").innerText;
+        //保存
+        saveInfo(info1Element);
+        saveInfo(info3Element);
+        // 创建数据对象 保存用户修改完后的所有信息
+        const data = {
+            username: username,
+            sex: info1Element.innerText,
+            signature: info3Element.innerText
+        };
+        //发送请求到后端 在数据库中更新数据
+        fetch('/update_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // 输出更新成功的消息
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        console.log("hi");
+        document.getElementById("saveButton").style.display = "none";
+    }
+    // 保存单个信息数据
+    function saveInfo(element) {
+        const inputElement = element.querySelector("input");
+        element.innerHTML = inputElement.value;
+    }
+
+    // 从当前URL中提取用户名
+    var url = window.location.href;
+    var username = url.split('/').pop();
+
+    // 发起请求以获取用户信息
+    function updateUserInformation(username) {
+        fetch('/user_info/' + username)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function (userObj) {
+                var nameElement = document.getElementById('name');
+                var sexElement = document.getElementById('sex');
+                var signatureElement = document.getElementById('signature');
+                var imageElement = document.getElementById('curimage');
+                var bgimageElement = document.getElementById('curbgimage');
+                if (userObj && !userObj.error) {
+                    nameElement.textContent = userObj.username;
+                    sexElement.textContent = userObj.sex || 'N/A';
+                    signatureElement.textContent = userObj.signature || 'N/A';
+                    imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
+                    bgimageElement.src = 'data:image/jpeg;base64,' + userObj.background;
+                }
+                else {
+                    // 处理用户信息不存在的情况 也就是默认的值显示为啥
+                    nameElement.textContent = 'N/A';
+                    sexElement.textContent = 'N/A';
+                    signatureElement.textContent = 'N/A';
+                    imageElement.src = '../static/user.jpg';
+                    bgimageElement.src = '../static/bg.jpg';
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+    }
+    updateUserInformation(username);
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let currentPage = 1; // 当前页码
+        const postsPerPage = 3; // 每页显示的帖子数
+        let allPosts = []; // 存储所有帖子的数组
+
+        // 加载所有帖子
+        const loadAllPosts = () => {
+            const endpoint = '/myblogs'; // 后端接口地址
+
+            // 发送请求到后端获取所有帖子数据
+            fetch(endpoint, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json()) // 解析JSON响应
+            .then(data => {
+                allPosts = data.myblogs; // 将所有帖子数据存储到allPosts数组中
+                loadPosts(); // 加载当前页的帖子
+            })
+            .catch(error => console.error('Error:', error)); // 捕获并打印错误
+        };
+
+        // 根据当前页码加载帖子
+        const loadPosts = () => {
+            const contentDiv = document.getElementById('forum-container'); // 获取内容容器
+            contentDiv.innerHTML = ''; // 清空现有内容
+
+            // 计算当前页显示的帖子范围
+            const startIndex = (currentPage - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            const postsToDisplay = allPosts.slice(startIndex, endIndex); // 获取当前页的帖子
+
+            // 遍历当前页的帖子，创建帖子元素并添加到内容容器中
+            postsToDisplay.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                postDiv.innerHTML = `<h2 class="forum-container-title">${post[1]}</h2><p class="forum-container-time">${post[3]}</p>`; //显示每条帖子的标题、发帖人和日期
+                postDiv.addEventListener('click', () => {
+                    window.location.href = `/blog_info?blog_id=${post[0]}`; // 跳转到帖子详情页，并传递blog_id
+                });
+                contentDiv.appendChild(postDiv);
+            });
+        };
+
+        // 处理上一页按钮点击事件
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--; // 页码减一
+                loadPosts(); // 加载上一页内容
+            }
+        });
+
+        // 处理下一页按钮点击事件
+        document.getElementById('next-page').addEventListener('click', () => {
+            if (currentPage * postsPerPage < allPosts.length) {
+                currentPage++; // 页码加一
+                loadPosts(); // 加载下一页内容
+            }
+        });
+
+
+        // 初次加载所有帖子
+        loadAllPosts();
+    });
+
+</script>

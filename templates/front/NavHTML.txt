@@ -1,0 +1,64 @@
+    HEAD部分
+    
+    
+        <!-- 导入图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    
+    Body部分
+
+    <nav class="menu">
+        <div class="actionsBar">
+            <div>
+                <button id="menuBtn" type="button">
+                    <i class="fa-solid fa-list iconstyle"></i>
+                </button>
+                <h3 class="menuText">Hello!</h3>
+            </div>
+        </div>
+        <ul class="optionsBar">
+            <li class="menuItem">
+                <a href="#" class="menuOption">
+                    <i class="fa-solid fa-house iconstyle"></i>
+                    <h5 class="menuText">主页</h5>
+                </a>
+            </li>
+            <li class="menuBreak">
+                <hr>
+            </li>
+            <li class="menuItem">
+                <a href="#" class="menuOption" type="button">
+                    <i class="fa-regular fa-user iconstyle"></i>
+                    <h5 class="menuText">我的温馨小家</h5>
+                </a>
+            </li>
+
+            <li class="menuItem">
+                <a href="#" class="menuOption" type="button">
+                    <i class="fa-solid fa-arrow-up iconstyle"></i>
+                    <h5 class="menuText">回到顶部</h5>
+                </a>
+            </li>
+        </ul>
+        <div class="about" id="about"></div>
+        <div class="menuUser">
+            <a href="#">
+                <div>
+                    <img src="../TextImage/baciWelcome.jpg" alt="">
+                </div>
+                <h5 class="Username menuText">Casaruma</h5>
+                <p class="menuText">
+                    <i class="fa-solid fa-arrow-right iconstyle"></i>
+                </p>
+            </a>
+        </div>
+        <div class="themeBar">
+            <div>
+                <button type="button">
+                    <i class="fa-solid fa-share iconstyle"></i>
+                </button>
+            </div>
+        </div>
+    </nav>

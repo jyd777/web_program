@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <script src="https://kit.fontawesome.com/1a8c6dd550.js" crossorigin="anonymous"></script>
+    <title>@Syntax Station Dev Register</title>
+    <link rel="stylesheet" href="../static/word_book_choose.css">
+</head>
+<body>
+
+<div class="header">
+  <h2 class="logo"></h2>
+  <button class="search-button"onclick="window.location.href='/home'">首页</button>
+  <button class="search-button" onclick="window.location.href='/help'">帮助</button>
+  <div class="search-container">
+    <input type="text" class="search-box magnifying-glass" placeholder="  请输入搜索内容">
+  </div>
+  <div style="float: right; margin-top: -50px; margin-right: 20px;">
+    <img id="curimage"  src="" alt="img" class="user-avatar">
+</div>
+</div>
+<div class="card-container">
+    <div class="card cet4">
+        <p class="card-text" data-text="-----CET4-----"></p>
+    </div>
+    <div class="card cet6">
+        <p class="card-text" data-text="----CET6----"></p>
+    </div>
+    <div class="card toefl">
+        <p class="card-text" data-text="----TOEFL----"></p>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    // 获取要点击的<div>元素
+    var cet4Card = document.querySelector('.card.cet4');
+
+    // 添加点击事件处理程序
+    cet4Card.addEventListener('click', function() {
+        // 在点击事件中执行页面跳转操作
+        window.location.href = '/word_learning';
+    });
+ 
+    var username = "{{ session.get('username', '') }}";
+  document.getElementById('curimage').addEventListener('click', function() {
+      window.location.href = "/personal_web/" + username;
+  });
+// 发起请求以获取用户信息
+function updateUserInformation(username) {
+    fetch('/user_info/' + username)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(userObj) {
+            var imageElement = document.getElementById('curimage');
+            console.log(imageElement);
+            if (userObj && !userObj.error) {
+                imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
+            }
+            else {
+                // 处理用户信息不存在的情况 也就是默认的值显示为啥
+                imageElement.src = '../static/user.jpg';
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+}
+updateUserInformation(username);
+</script>

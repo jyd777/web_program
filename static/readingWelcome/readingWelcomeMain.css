@@ -1,0 +1,512 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    height: 2000px;
+    overflow-x: hidden;
+}
+
+.shell {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.transition-div {
+    background-color: #f8e8d5;
+    font-weight: bold;
+    padding: 15px;
+    padding-left: 8%;
+    padding-right: 8%;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    margin-top: 75px;
+    margin-bottom: 25px;
+    letter-spacing: 1.5px;
+    line-height: 1.6;
+    /* 行高 */
+    transition: all 0.3s ease;
+    /* 过渡效果 */
+    position: relative;
+    /* 相对定位 */
+    overflow: hidden;
+    /* 隐藏溢出 */
+}
+
+.transition-div::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    /* 不影响鼠标事件 */
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+
+}
+
+.transition-div:hover::before {
+    transform: rotate(0deg);
+}
+
+.transition-div:hover {
+    background: linear-gradient(135deg, #F8E8D5, #FFD3BF);
+    /* 悬停时的渐变背景 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    /* 悬停时的阴影 */
+    transform: scale(1.05);
+    /* 悬停时的缩放 */
+}
+
+/* 粒子效果 */
+.transition-div::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/particles.png') repeat;
+    opacity: 0.5;
+    pointer-events: none;
+    animation: moveParticles 30s linear infinite;
+}
+
+@keyframes moveParticles {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 1000px 1000px;
+    }
+}
+
+/* 渐变动画 */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.transition-div {
+    background: linear-gradient(135deg, #FFF8EA, #F8E8D5, #BFB09E);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
+
+/* 边框动画 */
+.transition-div {
+    border: 3px solid transparent;
+    border-image: linear-gradient(45deg, #7D99BF, #496689, #25CED6) 1;
+}
+
+.transition-div:hover {
+    border-image: linear-gradient(45deg, #25CED6, #496689, #7D99BF) 1;
+}
+
+
+
+
+.topmargin {
+    margin-top: 30px;
+}
+
+header {
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 100%);
+    transition: clip-path 0.5s ease;
+    position: relative;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: url(../TextImage/baciWelcome.jpg);
+    background-size: cover;
+    transform: scale(1);
+    transition: transform 0.5s ease;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.main h2 {
+    font-size: 50px;
+    margin-bottom: 40px;
+}
+
+.titlespecial {
+    font-style: italic;
+    text-indent: 0 !important;
+    font-weight: bolder;
+    text-align: justify;
+    margin-left: 18%;
+    color: #11396E;
+}
+
+.main span {
+    padding: 0 100px;
+    font-size: 30px;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Lato:700,900');
+
+@font-face {
+    font-family: Arno Pro;
+    src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/ArnoPro-Regular.otf);
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Arno Pro;
+    src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/ArnoPro-Italic.otf);
+    font-style: italic;
+}
+
+p {
+    font-family: Arno Pro, serif;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+p.credits {
+    font-style: italic;
+    text-indent: 0 !important;
+    margin: 1rem 0;
+}
+
+@supports (font-variant-caps: small-caps) {
+    .multicol:first-of-type p:first-of-type {
+        font-variant-caps: small-caps;
+    }
+}
+
+p:not(:first-of-type) {
+    text-indent: 1.4rem;
+}
+
+.multicol {
+    column-count: 4;
+    column-gap: 2rem;
+}
+
+.multicol+img {
+    margin: 2rem 0;
+}
+
+article {
+    width: 80%;
+    margin: 0 auto 4rem;
+}
+
+article img {
+    width: 100%;
+}
+
+article header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+article h1 {
+    margin-top: 0;
+    font-size: 3rem;
+}
+
+article h2 {
+    break-after: column;
+    font-size: 1.5rem;
+}
+
+h1,
+h2 {
+    font-family: Lato, sans-serif;
+}
+
+@media all and (max-width: 1600px) {
+    .multicol {
+        column-count: 3;
+    }
+}
+
+@media all and (max-width: 1000px) {
+    .multicol {
+        column-count: 2;
+    }
+}
+
+@media all and (max-width:800px) {
+    article h2 {
+        break-after: avoid;
+    }
+
+    .multicol {
+        column-count: 1;
+    }
+}
+
+@media all and (max-width:600px) {
+    body {
+        margin: 0;
+    }
+
+    article {
+        width: 100%;
+    }
+
+    .multicol {
+        padding: 0 1rem;
+    }
+
+    article header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    h1 {
+        margin-bottom: 0;
+    }
+}
+
+
+/* 按钮插件 */
+
+.continue-application{
+    left: 43.5%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.morebtn{
+    font-size: 20px;
+}
+
+.continue-application {
+    --color: #fff;
+    --background: #404660;
+    --background-hover: #3A4059;
+    --background-left: #2B3044;
+    --folder: #F3E9CB;
+    --folder-inner: #BEB393;
+    --paper: #FFFFFF;
+    --paper-lines: #BBC1E1;
+    --paper-behind: #E1E6F9;
+    --pencil-cap: #fff;
+    --pencil-top: #275EFE;
+    --pencil-middle: #fff;
+    --pencil-bottom: #5C86FF;
+    --shadow: rgba(13, 15, 25, .2);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 19px;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    padding: 17px 29px 17px 69px;
+    transition: background 0.3s;
+    color: var(--color);
+    background: var(--bg, var(--background));
+}
+
+.continue-application>div {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 53px;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 5px 0 0 5px;
+    background: var(--background-left);
+}
+
+.continue-application>div .folder {
+    width: 23px;
+    height: 27px;
+    position: absolute;
+    left: 15px;
+    top: 13px;
+}
+
+.continue-application>div .folder .top {
+    left: 0;
+    top: 0;
+    z-index: 2;
+    position: absolute;
+    transform: translateX(var(--fx, 0));
+    transition: transform 0.4s ease var(--fd, 0.3s);
+}
+
+.continue-application>div .folder .top svg {
+    width: 24px;
+    height: 27px;
+    display: block;
+    fill: var(--folder);
+    transform-origin: 0 50%;
+    transition: transform 0.3s ease var(--fds, 0.45s);
+    transform: perspective(120px) rotateY(var(--fr, 0deg));
+}
+
+.continue-application>div .folder:before,
+.continue-application>div .folder:after,
+.continue-application>div .folder .paper {
+    content: "";
+    position: absolute;
+    left: var(--l, 0);
+    top: var(--t, 0);
+    width: var(--w, 100%);
+    height: var(--h, 100%);
+    border-radius: 1px;
+    background: var(--b, var(--folder-inner));
+}
+
+.continue-application>div .folder:before {
+    box-shadow: 0 1.5px 3px var(--shadow), 0 2.5px 5px var(--shadow), 0 3.5px 7px var(--shadow);
+    transform: translateX(var(--fx, 0));
+    transition: transform 0.4s ease var(--fd, 0.3s);
+}
+
+.continue-application>div .folder:after,
+.continue-application>div .folder .paper {
+    --l: 1px;
+    --t: 1px;
+    --w: 21px;
+    --h: 25px;
+    --b: var(--paper-behind);
+}
+
+.continue-application>div .folder:after {
+    transform: translate(var(--pbx, 0), var(--pby, 0));
+    transition: transform 0.4s ease var(--pbd, 0s);
+}
+
+.continue-application>div .folder .paper {
+    z-index: 1;
+    --b: var(--paper);
+}
+
+.continue-application>div .folder .paper:before,
+.continue-application>div .folder .paper:after {
+    content: "";
+    width: var(--wp, 14px);
+    height: 2px;
+    border-radius: 1px;
+    transform: scaleY(0.5);
+    left: 3px;
+    top: var(--tp, 3px);
+    position: absolute;
+    background: var(--paper-lines);
+    box-shadow: 0 12px 0 0 var(--paper-lines), 0 24px 0 0 var(--paper-lines);
+}
+
+.continue-application>div .folder .paper:after {
+    --tp: 6px;
+    --wp: 10px;
+}
+
+.continue-application>div .pencil {
+    height: 2px;
+    width: 3px;
+    border-radius: 1px 1px 0 0;
+    top: 8px;
+    left: 105%;
+    position: absolute;
+    z-index: 3;
+    transform-origin: 50% 19px;
+    background: var(--pencil-cap);
+    transform: translateX(var(--pex, 0)) rotate(35deg);
+    transition: transform 0.4s ease var(--pbd, 0s);
+}
+
+.continue-application>div .pencil:before,
+.continue-application>div .pencil:after {
+    content: "";
+    position: absolute;
+    display: block;
+    background: var(--b, linear-gradient(var(--pencil-top) 55%, var(--pencil-middle) 55.1%, var(--pencil-middle) 60%, var(--pencil-bottom) 60.1%));
+    width: var(--w, 5px);
+    height: var(--h, 20px);
+    border-radius: var(--br, 2px 2px 0 0);
+    top: var(--t, 2px);
+    left: var(--l, -1px);
+}
+
+.continue-application>div .pencil:before {
+    -webkit-clip-path: polygon(0 5%, 5px 5%, 5px 17px, 50% 20px, 0 17px);
+    clip-path: polygon(0 5%, 5px 5%, 5px 17px, 50% 20px, 0 17px);
+}
+
+.continue-application>div .pencil:after {
+    --b: none;
+    --w: 3px;
+    --h: 6px;
+    --br: 0 2px 1px 0;
+    --t: 3px;
+    --l: 3px;
+    border-top: 1px solid var(--pencil-top);
+    border-right: 1px solid var(--pencil-top);
+}
+
+.continue-application:before,
+.continue-application:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--color);
+    transform-origin: 9px 1px;
+    transform: translateX(var(--cx, 0)) scale(0.5) rotate(var(--r, -45deg));
+    top: 26px;
+    right: 16px;
+    transition: transform 0.3s;
+}
+
+.continue-application:after {
+    --r: 45deg;
+}
+
+.continue-application:hover {
+    --cx: 2px;
+    --bg: var(--background-hover);
+    --fx: -40px;
+    --fr: -60deg;
+    --fd: .15s;
+    --fds: 0s;
+    --pbx: 3px;
+    --pby: -3px;
+    --pbd: .15s;
+    --pex: -24px;
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <!-- 导入图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../static/readingWelcome/readingWelcomeNav.css">
+    <link rel="stylesheet" href="../static/readingText/readingTextMain.css">
+    <link rel="stylesheet" href="../static/readingText/readingTextHeader.css">
+    <script src="../static/jquery1.8.3.min.js"></script>
+</head>
+
+<body>
+    <div class="collection">
+        <div class="collection-content">
+            <div class="collection-btn"><span></span></div>
+        </div>
+        <div class="collection-box">
+            <i class="fa-regular fa-thumbs-up fontstyle" id="thumbs-up" onclick="changethumb(this)"></i>
+            <i class="fa-regular fa-star fontstyle" id="star" onclick="changestar(this)"></i>
+        </div>
+    </div>
+    <nav class="menu">
+        <div class="actionsBar">
+            <div>
+                <button id="menuBtn" type="button">
+                    <i class="fa-solid fa-list iconstyle"></i>
+                </button>
+                <h3 class="menuText">Hello!</h3>
+            </div>
+        </div>
+        <ul class="optionsBar">
+            <li class="menuItem">
+                <a href="home" class="menuOption">
+                    <i class="fa-solid fa-house iconstyle"></i>
+                    <h5 class="menuText">主页</h5>
+                </a>
+            </li>
+            <li class="menuBreak">
+                <hr>
+            </li>
+            <li class="menuItem">
+                <a href="/personal_web/{{ session.get('username', '') }}" class="menuOption" class="menuOption" type="button">
+                    <i class="fa-regular fa-user iconstyle"></i>
+                    <h5 class="menuText">我的温馨小家</h5>
+                </a>
+            </li>
+
+            <li class="menuItem">
+                <a href="#" class="menuOption" type="button">
+                    <i class="fa-solid fa-arrow-up iconstyle"></i>
+                    <h5 class="menuText">回到顶部</h5>
+                </a>
+            </li>
+        </ul>
+        <div class="about" id="about"></div>
+        <div class="menuUser">
+            <a href="#">
+                <div>
+                    <img src="../static/TextImage/baciWelcome.jpg" alt="">
+                </div>
+                <h5 class="Username menuText">Casaruma</h5>
+                <p class="menuText">
+                    <i class="fa-solid fa-arrow-right iconstyle"></i>
+                </p>
+            </a>
+        </div>
+        <div class="themeBar">
+            <div>
+                <button type="button">
+                    <i class="fa-solid fa-share iconstyle"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="main">
+        <header>
+            <div><img src="https://assets.codepen.io/2002878/bilibili-autumn-1.png"></div>
+            <div><img src="https://assets.codepen.io/2002878/bilibili-autumn-2.png"></div>
+            <div><img src="https://assets.codepen.io/2002878/bilibili-autumn-3.png"></div>
+            <div><img src="https://assets.codepen.io/2002878/bilibili-autumn-4.png"></div>
+            <div><img src="https://assets.codepen.io/2002878/bilibili-autumn-6.png"></div>
+            <div><img src="https://assets.codepen.io/2002878/bilibili-autumn-5.png"></div>
+        </header>
+
+        <div class="welcome-photo">
+            <img src="../static/TextImage/welcomeArtFont.png" alt="">
+        </div>
+
+        <div class="introduction">
+            <div class="depict">
+                <h2 id="title"></h2>
+                <span id="intro"></span>
+            </div>
+            <div class="cylinder">
+                <!-- --i是用来计算平面圆柱的动效延迟和距离的
+                --w则是用来计算平面圆柱的宽度 -->
+                <div class="c1" style="--i:1;--w:1.5"></div>
+                <div class="c1" style="--i:2;--w:1.6"></div>
+                <div class="c1" style="--i:3;--w:1.4"></div>
+                <div class="c1" style="--i:4;--w:1.7"></div>
+                <div class="c2" style="--i:1"></div>
+            </div>
+            <!-- 设置photo -->
+            <img id="cover" class="text-photo" src="" alt="" />
+        </div>
+        <div class="wrap" id="paragraphs"></div>
+    </div>
+
+    <script src="../static/readingText/readingTextHeader.js"></script>
+    <script src="../static/readingWelcome/readingWelcomeNav.js"></script>
+    <script src="../static/readingText/articlesDetail.js"></script>
+    <script>
+        // 当点击按钮时执行以下代码
+        $('.collection-btn').click(function () {
+            // 切换当前按钮的类名为active，如果已经有active类名则移除，如果没有则添加
+            $(this).toggleClass('active');
+            // 切换所有class为collection-box的元素的类名为open，如果已经有open类名则移除，如果没有则添加
+            $('.collection-box').toggleClass('open');
+        });
+    function changethumb(element) {
+        element.classList.toggle('fa-solid');
+        element.classList.toggle('fa-regular');
+        // 更新star_article
+        if (element.classList.contains('fa-solid')) {
+            addThumbArticle();
+        } else {
+            deleteThumbArticle();
+        }
+    }
+
+    function changestar(element) {
+        element.classList.toggle('fa-solid');
+        element.classList.toggle('fa-regular');
+        // 更新star_article
+        if (element.classList.contains('fa-solid')) {
+        addStarArticle();
+        } else {
+            deleteStarArticle();
+        }
+    }
+    function addStarArticle() {
+    fetch('/addStarArticle', {
+        method: 'POST',
+        body: JSON.stringify(),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
+
+function deleteStarArticle() {
+    fetch('/deleteStarArticle', {
+        method: 'POST',
+        body: JSON.stringify(),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
+
+// 发送请求到后端检查用户是否已经收藏文章
+fetch('/checkUserStarred', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.starred) {
+            document.getElementById('star').classList.remove('fa-regular');
+            document.getElementById('star').classList.add('fa-solid');
+        }
+    })
+    .catch(error => {
+        console.error('Error checking if user starred article:', error);
+    });
+function addThumbArticle() {
+    fetch('/addThumbArticle', {
+        method: 'POST',
+        body: JSON.stringify(),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
+
+function deleteThumbArticle() {
+    fetch('/deleteThumbArticle', {
+        method: 'POST',
+        body: JSON.stringify(),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
+// 发送请求到后端检查用户是否已经点赞文章
+fetch('/checkUserThumbed', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.thumbed) {
+            document.getElementById('thumbs-up').classList.remove('fa-regular');
+            document.getElementById('thumbs-up').classList.add('fa-solid');
+        }
+    })
+    .catch(error => {
+        console.error('Error checking if user thumbed article:', error);
+    });
+    </script>
+</body>

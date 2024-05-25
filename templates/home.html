@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <script src="https://kit.fontawesome.com/1a8c6dd550.js" crossorigin="anonymous"></script>
+    <title>@Syntax Station Dev Register</title>
+    <link rel="stylesheet" href="../static/home.css">
+    <link rel="stylesheet" href="../static/clock_home.css">
+</head>
+<body>
+
+<div class="header">
+  <h2 class="logo"></h2>
+  <button class="search-button"onclick="window.location.href='/home'">首页</button>
+  <button class="search-button" onclick="logout()">退出登录</button>
+    <div class="clock" style="margin-left:75px">
+      <div class="clock__circle">
+         <div class="clock__rounder"></div>
+         <div class="clock__hour" id="clock-hour"></div>
+         <div class="clock__minutes" id="clock-minutes"></div>
+      </div>
+
+      <div>
+         <div class="clock__date">
+            <span class="clock__day-week" id="date-day-week"></span>
+
+            <div>
+               <span class="clock__month" id="date-month"></span>
+               <span class="clock__day" id="date-day"></span>
+               <span class="clock__year" id="date-year"></span>
+            </div>
+         </div>
+
+         <div class="clock__text">
+            <span class="clock__text-hour" id="text-hour"></span>
+            <span class="clock__text-minutes" id="text-minutes"></span>
+            <span class="clock__text-ampm" id="text-ampm"></span>
+         </div>
+      </div>
+</div>
+<div style="float: right; margin-top: -50px; margin-right: 20px;">
+  <img id="curimage"  src="" alt="img" class="user-avatar">
+</div>
+</div>
+
+<div class="card-container">
+  <div class="card word">
+    <div class="card-title">单词背诵</div>
+  </div>
+  <div class="card read">
+    <div class="card-title">外刊精读</div>
+  </div>
+  <div class="card forum">
+    <div class="card-title">博客论坛</div>
+  </div>
+</div>
+
+</body>
+</html>
+<script>
+ // 获取要点击的元素
+var card_word = document.querySelector('.card.word');
+var card_read = document.querySelector('.card.read');
+var card_forum = document.querySelector('.card.forum');
+// 添加点击事件监听器
+card_word.addEventListener('click', function() {
+    window.location.href = '/word_book_choose';
+});
+card_read.addEventListener('click', function() {
+    window.location.href = '/readingWelcome';
+});
+card_forum.addEventListener('click', function() {
+    window.location.href = '/base';
+});
+  var username = "{{ session.get('username', '') }}";
+  document.getElementById('curimage').addEventListener('click', function() {
+      window.location.href = "/personal_web/" + username;
+  });
+// 发起请求以获取用户信息
+function updateUserInformation(username) {
+    fetch('/user_info/' + username)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(userObj) {
+            var imageElement = document.getElementById('curimage');
+            console.log(imageElement);
+            if (userObj && !userObj.error) {
+                imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
+            }
+            else {
+                // 处理用户信息不存在的情况 也就是默认的值显示为啥
+                imageElement.src = '../static/user.jpg';
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+}
+updateUserInformation(username);
+function logout() {
+  fetch('/logout', {
+    method: 'POST',
+    credentials: 'same-origin'  // 保持与当前页面相同的会话
+  })
+  .then(response => {
+    if (response.ok) {
+      // 重定向到登录页面或执行其他操作
+      window.location.href = '/login';
+    } else {
+      // 处理请求失败的情况
+      console.error('退出登录失败');
+    }
+  })
+  .catch(error => {
+    console.error('请求出错:', error);
+  });
+}
+</script>
+<script src="../static/clock_home.js"></script>

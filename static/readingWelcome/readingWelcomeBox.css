@@ -1,0 +1,160 @@
+/* 新增外层容器样式 */
+.container {
+    width: 70%;
+    /* 或者根据需要设置具体像素值 */
+    height: 82vh;
+    /* 设定一个固定高度 */
+    margin: 0 auto;
+    /* 居中显示 */
+    overflow: hidden;
+}
+
+/* 加载图片 */
+.img1-1 {
+    background-image: url(../TextImage/globalwarming.png)
+}
+
+.img1-2 {
+    background-image: url(../TextImage/japanCD.png);
+}
+
+.img1-3 {
+    background-image: url(../TextImage/brand.png);
+}
+
+.img1-4 {
+    background-image: url(../TextImage/ALDImarket.png);
+}
+
+.img2-1 {
+    background-image: url(../TextImage/InternetSafety.png);
+}
+
+.img2-2 {
+    background-image: url(../TextImage/childAndScreen.png);
+}
+
+.img2-3 {
+    background-image: url(../TextImage/voiceDisorders.png);
+}
+
+.img2-4 {
+    background-image: url(../TextImage/AItennis.png);
+}
+
+.img3-1 {
+    background-image: url(../TextImage/busyOrHappy.png);
+}
+
+.img3-2 {
+    background-image: url(../TextImage/receiveMoreLove.png);
+}
+
+.img3-3 {
+    background-image: url(../TextImage/buildBetterLife.png);
+}
+
+.img3-4 {
+    background-image: url(../TextImage/manifesting.png);
+}
+
+.shell2 {
+    height: 100%;
+    max-width: 100%;
+    /* 限制最大宽度 */
+    max-height: 100%;
+    /* 限制最大高度 */
+    display: flex;
+    overflow: hidden;
+}
+
+.box {
+    flex: 1;
+    min-width: 0;
+    box-shadow: -20px 0 20px 5px rgba(255, 255, 255, 0.7);
+    transition: flex 0.8s;
+    background-size: cover;
+    background-position: center;
+    display: grid;
+    place-items: center;
+    border: 10px solid #fff;
+}
+
+.box:hover {
+    flex: 3;
+}
+
+.box:hover .boxtext {
+    animation: appear 0.8s forwards 0.3s;
+}
+
+
+
+.shell2 .boxtext {
+    opacity: 0;
+    color: rgb(255, 255, 255);
+    height: 50%;
+    width: 100%;
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.shell2 header {
+    font-family: sans-serif;
+    font-weight: bold;
+    /* border-bottom: 2px solid white; */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+
+.shell2 .boxtitle {
+    display: flex;
+    min-width: 100%;
+    line-height: 1.5;
+    justify-content: center;
+    text-align: center;
+    font-size: 30px;
+    text-decoration: underline;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 3px;
+    color: #fff;
+}
+
+.shell2 .boxcontent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    overflow: hidden;
+    writing-mode: horizontal-tb;
+    margin-top: -10%;
+    font-size: 20px;
+    margin-left: 60%;
+    white-space: nowrap;
+    list-style-position: inside;
+}
+
+.boxcontent li:hover {
+    font-weight: bold;
+}
+
+
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
