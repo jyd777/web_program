@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
 import pymysql,base64,os,hashlib,random,json,time
 from datetime import datetime
-from web3 import Web3
-
+import read
 app = Flask(__name__)
 app.secret_key = '123'
 
@@ -74,7 +73,7 @@ def login():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="Byj20040720",
+            password="Byj",
             database="web_program"
         )
         cursor = connection.cursor()
@@ -131,7 +130,7 @@ def register():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="Byj20040720",
+            password="Byj",
             database="web_program"
         )
         # 建立游标，用于后续的mysql操纵
@@ -176,7 +175,7 @@ def execute_user_info(username):
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",
+        password="Byj",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -228,7 +227,7 @@ def update_data():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",
+        password="Byj",
         database="web_program"
     )
     cursor = connection.cursor()
@@ -254,7 +253,7 @@ def uploadimage():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",
+        password="Byj",
         database="web_program"
     )
     username = request.form.get('username')
@@ -274,7 +273,7 @@ def upload_bg_image():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",
+        password="Byj",
         database="web_program"
     )
     username = request.form.get('username')
@@ -292,7 +291,7 @@ def connect_db():
     return pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",  
+        password="Byj",  
         database="web_program"
     )
 
@@ -595,7 +594,7 @@ def myblogs():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",
+        password="Byj",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -624,7 +623,7 @@ def blogcomments():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",
+        password="Byj",
         database="web_program"
     )
     if request.method=='GET':
@@ -659,15 +658,16 @@ def blogcomments():
         connection.commit()
         query = "SELECT commenter,content FROM comments WHERE blogid = %s"
         cursor.execute(query, blog_id)
-        comments=cursor.fetchall()
+        comments=cursor.fetchone()
         query = "SELECT content FROM blogs WHERE blogid = %s"
         cursor.execute(query, blog_id)
         blog_content=cursor.fetchall()
-        comment_id=cursor.lastrowid()
+        comment_id=cursor.lastrowid
         # 关闭数据库连接
         cursor.close()
         connection.close()
         # 记录上传操作
+        print(blog_id)
         hashed_blog=hashlib.sha256((str(blog_id)+blog_content).encode()).hexdigest()
         hashed_comment = hashlib.sha256((str(comment_id)+"&"+content).encode()).hexdigest()
         #record_operation(session['username'], "upload", hashed_blog, hashed_comment)
@@ -675,7 +675,7 @@ def blogcomments():
     return render_template('blog_info.html')
 
 #论坛的帖子发布页，上传帖子标题与内容还有时间
-@app.route('/upload')
+@app.route('/upload',methods=['GET','POST'])
 def uploadinit():
     if session.get('username') is None:
         return redirect(url_for('login'))
@@ -686,12 +686,13 @@ def upload():
     if request.method=='POST':
         title=request.form['title']
         content=request.form['content']
+        print(title)
         now=datetime.now()
         # 连接本地的数据库
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="Byj20040720",
+            password="Byj",
             database="web_program"
         )
         # 建立游标，用于后续的mysql操纵
@@ -707,7 +708,7 @@ def upload():
             cursor.execute(query, (title, content,session['username'],now))
         # 提交事务
         connection.commit()
-        blog_id=cursor.lastrowid()
+        blog_id=cursor.lastrowid
         # 关闭数据库连接
         cursor.close()
         connection.close()
@@ -731,7 +732,7 @@ def all_blogs():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="Byj20040720",
+        password="Byj",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
