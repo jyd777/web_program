@@ -213,3 +213,132 @@ body {
 #word-example_c {
   display: inline-block;
 }
+
+
+/* -------  表格  ----------*/
+/* 表格容器 */
+main.table {
+  width: 80vw;
+  height: 80vh;
+  background-color: #fff5;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  transform: translateX(10%);
+  margin-top: 50px;
+  box-sizing: border-box;
+}
+
+/* 头部样式 */
+.tableheader {
+  width: 100%;
+  height: 10%;
+  background-color: #fff4;
+  padding: 0 40px;
+  padding-right: 10px;  /* 增加右侧填充 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #388e3c;
+}
+
+.tableheader h1 {
+  margin: 0;
+}
+
+.tableheader .input-group {
+  width: 35%;
+  height: 50%;
+  background-color: #fff5;
+  padding: 0 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: width 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.tableheader .input-group:hover {
+  width: 45%;
+  background-color: #fff8;
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.1);
+}
+
+.tableheader .input-group input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+/* 按钮组样式 */
+.tableheader .button-group {
+  display: flex;
+  gap: 10px;
+  margin-right: 100px;  /* 增加右侧间距 */
+}
+
+.tableheader .button-group button {
+  background-color: #388e3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tableheader .button-group button:hover {
+  background-color: #2e7d32;
+}
+
+/* 表格内容容器 */
+.shell {
+  width: 95%;
+  max-height: calc(90% - 25px);
+  background-color: #fff;
+  margin: 8px auto;
+  border-radius: 10px;
+  overflow: auto;
+  overflow: overlay;
+}
+
+.shell::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+table,
+th,
+td {
+  border-collapse: collapse;
+  padding: 14px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+tbody td {
+  max-width: 450px;
+}
+
+thead th {
+  padding: 18px;
+  position: sticky;
+  top: 0px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  transform: translateY(-1px);
+  z-index: 5;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1 !important;
+}

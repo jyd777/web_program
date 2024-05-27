@@ -14,7 +14,7 @@ def get_user_starred_articles():
     connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="jyd",
+    password="123456",
     database="web_program"
     )
     user_id = session.get('user_id')
@@ -40,12 +40,95 @@ def get_user_starred_articles():
         return jsonify(articles)
     else:
         return jsonify({'error': 'User_id not found in session'})
+@app.route('/getWordBook')
+def get_Word_Book():
+    connection = pymysql.connect(
+    host="localhost",
+    user="root",
+    password="123456",
+    database="web_program"
+    )
+    word_book_id = session.get('word_book_id')
+    cursor = connection.cursor()
+    cursor.execute("SELECT ep.Wordname,w.PT,ep.Expression,ep.ES,ep.ES_c FROM Expressions ep JOIN words w ON ep.Wordname = w.Wordname WHERE w.book_id = %s", (word_book_id,))
+    result = cursor.fetchall()
+    cursor.close()
+    words = []
+    for row in result:
+        word = {
+            'Word': row[0],
+            'Phonetic_Alphabet': row[1],
+            'Expression': row[2],
+            'Example_Sentence': row[3],
+            'Example_Sentence_CH': row[4]
+        }
+        words.append(word)
+    return jsonify(words)
+@app.route('/searchwordbook', methods=['GET', 'POST'])
+def search_word_book():
+    connection = pymysql.connect(
+    host="localhost",
+    user="root",
+    password="123456",
+    database="web_program"
+    )
+    word_book_id = session.get('word_book_id')
+    data = request.get_json()
+    search_word = data.get('searchword')
+    cursor = connection.cursor()
+    cursor.execute("SELECT ep.Wordname,w.PT,ep.Expression,ep.ES,ep.ES_c FROM Expressions ep JOIN words w ON ep.Wordname = w.Wordname WHERE w.book_id = %s AND w.Wordname = %s", (word_book_id, search_word))
+    result = cursor.fetchall()
+    cursor.close()
+    words = []
+    if result:
+        for row in result:
+            word = {
+                'Word': row[0],
+                'Phonetic_Alphabet': row[1],
+                'Expression': row[2],
+                'Example_Sentence': row[3],
+                'Example_Sentence_CH': row[4]
+            }
+            words.append(word)
+        return jsonify(words)
+    else:
+        return jsonify({'Word': '单词不存在',
+                        'Phonetic_Alphabet': ' ',
+                        'Expression': ' ',
+                        'Example_Sentence': ' ',
+                        'Example_Sentence_CH': ' '}),404
+@app.route('/getWordBookWrong')
+def get_Word_Book_Wrong():
+    connection = pymysql.connect(
+    host="localhost",
+    user="root",
+    password="123456",
+    database="web_program"
+    )
+    user_id = session.get('user_id')
+    word_book_id = session.get('word_book_id')
+    cursor = connection.cursor()
+    cursor.execute("SELECT w.Wordname, w.PT, e.Expression, e.ES, e.ES_c FROM words w JOIN  wordprogress wp ON w.Wordname = wp.Wordname JOIN expressions e ON w.Wordname = e.Wordname WHERE  (wp.Familiarity = 0 OR wp.Familiarity = 1) AND w.book_id = %s AND wp.user_id = %s", (word_book_id,user_id))
+    result = cursor.fetchall()
+    cursor.close()
+    words = []
+    for row in result:
+        word = {
+            'Word': row[0],
+            'Phonetic_Alphabet': row[1],
+            'Expression': row[2],
+            'Example_Sentence': row[3],
+            'Example_Sentence_CH': row[4]
+        }
+        words.append(word)
+    return jsonify(words)
+
 @app.route('/checkUserStarred', methods=['POST','GET'])
 def check_user_starred():
     connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="jyd",
+    password="123456",
     database="web_program"
     )
     user_id = session.get('user_id')
@@ -65,7 +148,7 @@ def check_user_thumbed():
     connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="jyd",
+    password="123456",
     database="web_program"
     )
     user_id = session.get('user_id')
@@ -85,7 +168,7 @@ def add_thumb_article():
     connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="jyd",
+    password="123456",
     database="web_program"
 )
     user_id = session.get('user_id')
@@ -108,7 +191,7 @@ def delete_thumb_article():
     connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="jyd",
+    password="123456",
     database="web_program"
 )
     user_id = session.get('user_id')
@@ -130,7 +213,7 @@ def add_star_article():
     connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="jyd",
+    password="123456",
     database="web_program"
 )
     user_id = session.get('user_id')
@@ -153,7 +236,7 @@ def delete_star_article():
     connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="jyd",
+    password="123456",
     database="web_program"
 )
     user_id = session.get('user_id')
@@ -257,7 +340,7 @@ def login():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="jyd",
+            password="123456",
             database="web_program"
         )
         cursor = connection.cursor()
@@ -314,7 +397,7 @@ def register():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="jyd",
+            password="123456",
             database="web_program"
         )
         # 建立游标，用于后续的mysql操纵
@@ -359,7 +442,7 @@ def execute_user_info(username):
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",
+        password="123456",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -411,7 +494,7 @@ def update_data():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",
+        password="123456",
         database="web_program"
     )
     cursor = connection.cursor()
@@ -437,7 +520,7 @@ def uploadimage():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",
+        password="123456",
         database="web_program"
     )
     username = request.form.get('username')
@@ -457,7 +540,7 @@ def upload_bg_image():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",
+        password="123456",
         database="web_program"
     )
     username = request.form.get('username')
@@ -475,7 +558,7 @@ def connect_db():
     return pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",  
+        password="123456",  
         database="web_program"
     )
 
@@ -485,25 +568,52 @@ def close_db(connection):
         connection.close()
 
 # 主页路由
-@app.route('/word_learning')
-def index():
-    """
-    主页路由
-
-    当用户访问网站主页时，返回单词学习的 HTML 页面。
-    """
+@app.route('/word_learning_cet4')
+def word_learning_cet4():
+    session['word_book_id'] = 1
+    return render_template('word_learning.html')
+@app.route('/word_learning_cet6')
+def word_learning_cet6():
+    session['word_book_id'] = 2
+    return render_template('word_learning.html')
+@app.route('/word_learning_toefl')
+def word_learning_toefl():
+    session['word_book_id'] = 3
     return render_template('word_learning.html')
 @app.route('/help')
 def help_page():
     return render_template('Help.html')
-# 启动学习流程的路由
-@app.route('/start_learning', methods=['POST'])
-def start_learning():
+@app.route('/word_book_start')
+def word_book_start():
+    return render_template('word_book_view.html')
+@app.route('/get_word_book')
+def get_word_book():
+    word_book_id = request.json.get('word_book_id')
     db = connect_db()
     cursor = db.cursor()
     user_id = session.get('user_id')  # 用实际的用户标识替换
     print(user_id)
-    cursor.execute("SELECT Wordname FROM Words LIMIT 1")
+    cursor.execute("SELECT wp.Wordname FROM wordprogress wp JOIN words w ON wp.Wordname = w.Wordname WHERE (wp.Familiarity = 0 OR wp.Familiarity = 1) AND wp.user_id = %s AND w.book_id = %s", (user_id,word_book_id))
+    notword = cursor.fetchone()
+    cursor.execute("SELECT wp.Wordname FROM wordprogress wp JOIN words w ON wp.Wordname = w.Wordname WHERE (wp.Familiarity = 2) AND wp.user_id = %s AND w.book_id = %s", (user_id,word_book_id))
+    yesword = cursor.fetchone()
+    close_db(db)
+    if notword or yesword:
+        return jsonify({
+            'notword': notword,
+            'yesword': yesword
+        })
+    else:
+        return jsonify({'error': '未找到单词'}), 404
+# 启动学习流程的路由
+@app.route('/start_learning', methods=['POST'])
+def start_learning():
+    word_book_id = request.json.get('word_book_id')
+    db = connect_db()
+    cursor = db.cursor()
+    user_id = session.get('user_id')  # 用实际的用户标识替换
+    print(user_id)
+    cursor.execute("SELECT Wordname FROM Words  WHERE book_id = %s LIMIT 1",(word_book_id))
     word = cursor.fetchone()
     cursor.execute("SELECT Familiarity FROM WordProgress WHERE Wordname = %s AND user_id = %s", (word, user_id))
     Fa = cursor.fetchone()
@@ -527,10 +637,11 @@ def start_learning():
 
 @app.route('/wrongword_db', methods=['POST'])
 def wrongword_db():
+    word_book_id = request.json.get('word_book_id')
     db = connect_db()
     cursor = db.cursor()
     user_id = session.get('user_id')  # 用实际的用户标识替换
-    cursor.execute("SELECT Wordname FROM WordProgress WHERE (Familiarity = 0 OR Familiarity = 1) AND user_ID = %s LIMIT 1", (user_id,))
+    cursor.execute("SELECT wp.Wordname FROM wordprogress wp JOIN words w ON wp.Wordname = w.Wordname WHERE (wp.Familiarity = 0 OR wp.Familiarity = 1) AND wp.user_id = %s AND w.book_id = %s LIMIT 1", (user_id,word_book_id))
     word = cursor.fetchone()
     if not word:
         close_db(db)
@@ -559,13 +670,14 @@ def wrongword_db():
 @app.route('/next_word', methods=['POST'])
 def next_word():
     nowword = request.json.get('word')
+    word_book_id = request.json.get('word_book_id')
     db = connect_db()
     cursor = db.cursor()
     user_id = session.get('user_id')
     print(user_id)
     current_word=nowword
     print(current_word)
-    cursor.execute("SELECT Wordname FROM Words ORDER BY Wordname")
+    cursor.execute("SELECT Wordname FROM Words WHERE book_id = %s ORDER BY Wordname",(word_book_id))
     all_words = cursor.fetchall()
     all_words = [word[0] for word in all_words]
     print(all_words)
@@ -619,11 +731,12 @@ def next_word():
 @app.route('/nextwrongword', methods=['POST'])
 def nextwrongword():
     nowword = request.json.get('word')
+    word_book_id = request.json.get('word_book_id')
     db = connect_db()
     cursor = db.cursor()
     user_id = session.get('user_id')
     current_word=nowword
-    cursor.execute("SELECT Wordname FROM WordProgress WHERE (Familiarity = 0 OR Familiarity = 1) AND user_id = %s ORDER BY Wordname", (user_id,))
+    cursor.execute("SELECT wp.Wordname FROM wordprogress wp JOIN words w ON wp.Wordname = w.Wordname WHERE (wp.Familiarity = 0 OR wp.Familiarity = 1) AND wp.user_id = %s AND w.book_id = %s", (user_id,word_book_id))
     all_words = cursor.fetchall()
     all_words = [word[0] for word in all_words]
 
@@ -778,7 +891,7 @@ def myblogs():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",
+        password="123456",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -807,7 +920,7 @@ def blogcomments():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",
+        password="123456",
         database="web_program"
     )
     if request.method=='GET':
@@ -876,7 +989,7 @@ def upload():
         connection = pymysql.connect(
             host="localhost",
             user="root",
-            password="jyd",
+            password="123456",
             database="web_program"
         )
         # 建立游标，用于后续的mysql操纵
@@ -916,7 +1029,7 @@ def all_blogs():
     connection = pymysql.connect(
         host="localhost",
         user="root",
-        password="jyd",
+        password="123456",
         database="web_program"
     )
     # 建立游标，用于后续的mysql操纵
@@ -949,7 +1062,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # 配置数据库访问 URI
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://{username}:{password}@{hostname}:{port}/{database_name}'.format(
     username='root',
-    password='jyd',
+    password='123456',
     hostname='localhost',
     port=3306,
     database_name='web_program')

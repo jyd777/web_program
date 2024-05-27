@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <script src="https://kit.fontawesome.com/1a8c6dd550.js" crossorigin="anonymous"></script>
+    <title>@Syntax Station Dev Register</title>
+    <link rel="stylesheet" href="../static/word_correction_notebook.css">
+    <link rel="stylesheet" href="../static/word_learning.css">
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          background: url('../static/TJ.jpg') no-repeat center center fixed;
+          background-size: cover;
+          background-color: rgba(255, 255, 255, 0.8); /* 半透明背景色 */
+          background-blend-mode: lighten;
+      }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2 class="logo">WordTongji</h2>
+    <button class="search-button"onclick="window.location.href='/home'">首页</button>
+    <button class="search-button" onclick="window.location.href='/help'">帮助</button>
+    <div class="search-container">
+      <input type="text" class="search-box magnifying-glass" id="search-box" placeholder="  请输入搜索内容">
+      <button class="search-button" onclick="searchWord()">搜索</button>
+    </div>
+    <div style="float: right; margin-top: -50px; margin-right: 20px;">
+      <img id="curimage"  src="" alt="img" class="user-avatar">
+    </div>
+  </div>
+
+
+
+  <main class="table">
+    <section class="tableheader">
+        <h1>WORDS AND EXPRESSIONS</h1>
+        <div class="button-group">
+          <button id="all-words-button" onclick="getallwords()">全部单词</button>
+          <button id="unlearned-words-button"onclick="getwrongwords()">未背单词</button>
+      </div>
+    </section>
+    <section class="shell">
+        <table>
+            <thead>
+                <tr>
+                    <th>Word</th>
+                    <th>Phonetic Alphabet</th>
+                    <th>Expression</th>
+                    <th>Example Sentence</th>
+                    <th>例句</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+        </table>
+    </section>
+</main>
+<script>
+  var word_book_id = "{{ session.get('word_book_id', '') }}";
+  function loadBookData() {
+      const tableBody = document.getElementById('table-body');
+      tableBody.innerHTML = ''; // 清空现有内容
+
+      fetch('/getWordBook')
+      .then(response => response.json())
+      .then(data => {
+          data.forEach((item) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                  <td>${item.Word}</td>
+                  <td>${item.Phonetic_Alphabet}</td>
+                  <td>${item.Expression}</td>
+                  <td>${item.Example_Sentence}</td>
+                  <td>${item.Example_Sentence_CH}</td>
+              `;
+              tableBody.appendChild(row);
+          });
+      })
+      .catch(error => {
+          console.error('Error loading words:', error);
+      });
+  }
+  function getallwords(){
+    loadBookData();
+  }
+  function getwrongwords(){
+    const tableBody = document.getElementById('table-body');
+      tableBody.innerHTML = ''; // 清空现有内容
+
+      fetch('/getWordBookWrong')
+      .then(response => response.json())
+      .then(data => {
+          data.forEach((item) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                  <td>${item.Word}</td>
+                  <td>${item.Phonetic_Alphabet}</td>
+                  <td>${item.Expression}</td>
+                  <td>${item.Example_Sentence}</td>
+                  <td>${item.Example_Sentence_CH}</td>
+              `;
+              tableBody.appendChild(row);
+          });
+      })
+      .catch(error => {
+          console.error('Error loading words:', error);
+      });
+  }
+  loadBookData();
+  function updateUserInformation(username) {
+    fetch('/user_info/' + username)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(userObj) {
+            var imageElement = document.getElementById('curimage');
+            console.log(imageElement);
+            if (userObj && !userObj.error) {
+                imageElement.src = 'data:image/jpeg;base64,' + userObj.image;
+            }
+            else {
+                // 处理用户信息不存在的情况 也就是默认的值显示为啥
+                imageElement.src = '../static/user.jpg';
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+  }
+  function searchWord(){
+    const tableBody = document.getElementById('table-body');
+      tableBody.innerHTML = ''; // 清空现有内容
+      const searchBox = document.getElementById('search-box');
+      const searchWord = searchBox.value;
+      fetch('/searchwordbook', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({searchword: searchWord})
+        })
+      .then(response => response.json())
+      .then(data => {
+          data.forEach((item) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                  <td>${item.Word}</td>
+                  <td>${item.Phonetic_Alphabet}</td>
+                  <td>${item.Expression}</td>
+                  <td>${item.Example_Sentence}</td>
+                  <td>${item.Example_Sentence_CH}</td>
+              `;
+              tableBody.appendChild(row);
+          });
+      })
+      .catch(error => {
+          console.error('Error loading words:', error);
+      });
+  }
+  updateUserInformation(username);
+</script>
+
+
+</body>
+</html>

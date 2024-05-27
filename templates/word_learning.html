@@ -19,7 +19,7 @@
         #start-learning {
             position: absolute;
             top: 50%;
-            left: 35%;
+            left: 30%;
             transform: translate(-50%, -50%);
             display: flex;
             flex-direction: row;
@@ -31,13 +31,25 @@
         #wrongword {
             position: absolute;
             top: 50%;
-            left: 65%;
+            left: 50%;
             transform: translate(-50%, -50%);
             display: flex;
             flex-direction: row;
         }
 
         #wrongword .button {
+            margin: 0 10px;
+        }
+        #bookview {
+            position: absolute;
+            top: 50%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: row;
+        }
+
+        #bookview .button {
             margin: 0 10px;
         }
     </style>
@@ -63,6 +75,9 @@
 <div class="centered-container" id="wrongword">
     <button class="start-button" onclick="wrongword()">错题本</button>
 </div>
+<div class="centered-container" id="bookview">
+    <button class="start-button" onclick="window.location.href='/word_book_start'">词书展示</button>
+</div>
 <div class="left-rectangle" id="learning-content" style="display: none;">
     <div class="circle" id="circle1"></div>
     <div class="circle" id="circle2"></div>
@@ -85,7 +100,7 @@
 <a href="#" class="button button4" id="next-word-button" onclick="loadNextWord()" style="display: none;">下一个词</a>
 
 <script>
-
+    var word_book_id = "{{ session.get('word_book_id', '') }}";
     function showText() {
         var text = document.querySelector('.scrollable-text');
         if (text.style.display === 'none') {
@@ -98,6 +113,10 @@
         type=0;
         fetch('/start_learning', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({word_book_id: word_book_id})
             })
             .then(response => response.json())
             .then(data => {
@@ -114,6 +133,8 @@
                     document.getElementById('word-display').textContent = data.word;
                 }
                 document.getElementById('start-learning').style.display = 'none';
+                document.getElementById('wrongword').style.display = 'none';
+                document.getElementById('bookview').style.display = 'none';
                 document.getElementById('next-word-button').style.display = 'none';
                 document.getElementById('learning-content').style.display = 'inline-block';
                 document.getElementById('learning-details').style.display = 'inline-block';
@@ -131,7 +152,11 @@
     function wrongword() {
         type=1;
         fetch('/wrongword_db', {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({word_book_id: word_book_id})
             })
             .then(response => response.json())
             .then(data => {
@@ -170,7 +195,9 @@
             document.getElementsByClassName('button')[0].style.display = 'inline-block';
             document.getElementsByClassName('button')[1].style.display = 'inline-block';
             document.getElementsByClassName('button')[2].style.display = 'inline-block';
-            document.getElementById('start-learning').style.display = 'none'; 
+            document.getElementById('start-learning').style.display = 'none';
+            document.getElementById('wrongword').style.display = 'none';
+            document.getElementById('bookview').style.display = 'none';
     }
     const circle1 = document.getElementById('circle1');
     const circle2 = document.getElementById('circle2');
@@ -267,7 +294,9 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({word: nowword})
+                body: JSON.stringify({word: nowword,
+                    word_book_id: word_book_id
+                })
             })
             .then(response => response.json())
             .then(data => {
@@ -302,7 +331,9 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({word: nowword})
+                body: JSON.stringify({word: nowword,
+                    word_book_id: word_book_id
+                })
             })
             .then(response => response.json())
             .then(data => {

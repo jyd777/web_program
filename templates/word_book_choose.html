@@ -8,6 +8,15 @@
     <script src="https://kit.fontawesome.com/1a8c6dd550.js" crossorigin="anonymous"></script>
     <title>@Syntax Station Dev Register</title>
     <link rel="stylesheet" href="../static/word_book_choose.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('../static/TJ.jpg') no-repeat center center fixed;
+            background-size: cover;
+            background-color: rgba(255, 255, 255, 0.8); /* 半透明背景色 */
+            background-blend-mode: lighten;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,9 +24,6 @@
   <h2 class="logo"></h2>
   <button class="search-button"onclick="window.location.href='/home'">首页</button>
   <button class="search-button" onclick="window.location.href='/help'">帮助</button>
-  <div class="search-container">
-    <input type="text" class="search-box magnifying-glass" placeholder="  请输入搜索内容">
-  </div>
   <div style="float: right; margin-top: -50px; margin-right: 20px;">
     <img id="curimage"  src="" alt="img" class="user-avatar">
 </div>
@@ -38,13 +44,28 @@
 <script>
     // 获取要点击的<div>元素
     var cet4Card = document.querySelector('.card.cet4');
-
     // 添加点击事件处理程序
     cet4Card.addEventListener('click', function() {
         // 在点击事件中执行页面跳转操作
-        window.location.href = '/word_learning';
+        window.location.href = '/word_learning_cet4';
+
     });
- 
+
+    var cet6Card = document.querySelector('.card.cet6');
+    // 添加点击事件处理程序
+    cet6Card.addEventListener('click', function() {
+        // 在点击事件中执行页面跳转操作
+        window.location.href = '/word_learning_cet6';
+
+    });
+
+    var toeflCard = document.querySelector('.card.toefl');
+    // 添加点击事件处理程序
+    toeflCard.addEventListener('click', function() {
+        // 在点击事件中执行页面跳转操作
+        window.location.href = '/word_learning_toefl';
+    });
+    
     var username = "{{ session.get('username', '') }}";
   document.getElementById('curimage').addEventListener('click', function() {
       window.location.href = "/personal_web/" + username;
